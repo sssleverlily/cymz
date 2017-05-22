@@ -12,7 +12,7 @@ readme更新日期 2017/5/22
 
 <img src="https://github.com/Zzzia/Files/blob/master/gifs/cymz.gif"/>
 
-### v1.0
+### v1.0  [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz.apk)
 
 ```
 将之前的版本按mvp设计模式重新制作了一次
