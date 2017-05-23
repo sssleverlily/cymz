@@ -1,6 +1,11 @@
 package com.zia.gankcqupt_mvp.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +53,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(final Holder holder, int position) {
         final Student student = list.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(listener != null)
                 listener.onClick(student);
+                Intent intent = new Intent(context,DetailActivity.class);
+                intent.putExtra("student",student);
+                intent.putExtra("isfour",ISFOUR);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context,
+                        new Pair(holder.imageView, DetailActivity.ELEMENT)
+                );
+                ActivityCompat.startActivity(context, intent, options.toBundle());
             }
         });
         holder.tv_year.setText(student.getYear());

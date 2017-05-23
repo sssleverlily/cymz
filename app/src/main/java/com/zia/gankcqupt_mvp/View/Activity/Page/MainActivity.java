@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 import com.zia.gankcqupt_mvp.Adapter.PagerAdapter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         findWidgets();
         mainPresenter = new MainPresenter(this);

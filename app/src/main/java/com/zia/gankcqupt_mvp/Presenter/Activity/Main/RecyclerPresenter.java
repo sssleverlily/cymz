@@ -36,7 +36,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     private boolean ISFOUR = true;
 
     public RecyclerPresenter(RecyclerActivity recyclerActivity){
-        activity = recyclerActivity;
+        this.activity = recyclerActivity;
         context = recyclerActivity;
         newlist.clear();
     }
@@ -78,15 +78,6 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     public void setRecycler(RecyclerView recycler) {
         recycler.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         adapter = new RecyclerAdapter(context);
-        adapter.setListener(new RecyclerOnClickListener() {
-            @Override
-            public void onClick(Student student) {
-                Intent intent = new Intent(context,DetailActivity.class);
-                intent.putExtra("student",student);
-                intent.putExtra("isfour",ISFOUR);
-                context.startActivity(intent);
-            }
-        });
         recycler.setAdapter(adapter);
     }
 

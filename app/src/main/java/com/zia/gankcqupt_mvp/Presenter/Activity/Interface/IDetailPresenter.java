@@ -13,4 +13,5 @@ public interface IDetailPresenter {
     void downLoad();
     void setData();
     void setFavoriteColor(Button button);
+    void setTranslateToolbar();
 }

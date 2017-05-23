@@ -75,16 +75,7 @@ public class FirstPresenter implements IFirstPresenter {
     @Override
     public void setRecycler(RecyclerView recycler) {
         recycler.setLayoutManager(new GridLayoutManager(context,1));
-        adapter = new FirstAdapter();
-        adapter.setListener(new RecyclerOnClickListener() {
-            @Override
-            public void onClick(Student student) {
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("student", student);
-                intent.putExtra("isfour",true);
-                context.startActivity(intent);
-            }
-        });
+        adapter = new FirstAdapter(context);
         recycler.setAdapter(adapter);
     }
 
