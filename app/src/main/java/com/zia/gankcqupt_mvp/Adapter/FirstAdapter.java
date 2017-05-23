@@ -7,7 +7,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -29,6 +31,7 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.Holder>  {
     private List<Student> list = new ArrayList<>();
     private RecyclerOnClickListener listener;
     private Context context;
+    private static final String TAG = "FirstAdapterTest";
 
     public FirstAdapter(Context context){
         this.context = context;
@@ -60,10 +63,11 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.Holder>  {
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("student", student);
                 intent.putExtra("isfour",true);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context,
-                        new Pair(holder.layout, DetailActivity.ELEMENT)
+                /*ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context,
+                        new Pair(holder.itemView, DetailActivity.ELEMENT)
                 );
-                ActivityCompat.startActivity(context, intent, options.toBundle());
+                ActivityCompat.startActivity(context, intent, options.toBundle());*/
+                context.startActivity(intent);
             }
         });
         holder.number.setText(student.getStudentId());

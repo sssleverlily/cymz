@@ -65,6 +65,9 @@ public class MainPresenter implements IMainPresenter {
         Toolbar toolbar = mainActivity.getToolBar();
         toolbar.setTitle("重邮妹子");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setFocusable(true);//启动app时把焦点放在其他控件（不放在editext上）上防止弹出虚拟键盘
+        toolbar.setFocusableInTouchMode(true);
+        toolbar.requestFocus();
     }
 
     @Override
