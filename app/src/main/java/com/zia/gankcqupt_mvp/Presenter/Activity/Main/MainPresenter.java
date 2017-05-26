@@ -70,6 +70,9 @@ public class MainPresenter implements IMainPresenter {
         toolbar.requestFocus();
     }
 
+    /**
+     * 获取学生数据，储存到MainPresenter里
+     */
     @Override
     public void getData() {
         final ProgressDialog dialog = new ProgressDialog(context);
@@ -79,125 +82,10 @@ public class MainPresenter implements IMainPresenter {
         dialog.show();
         dialog.setProgress(0);
         dialog.setMessage("耐心等待..");
-        final GetStudent getStudent = new GetStudent(context);
-        getStudent.getFavorite(new OnAllStudentGet() {
-            @Override
-            public void onFinish(List<Student> studentList) {
-                favorites = studentList;
-            }
-
-            @Override
-            public void onError() {
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(TAG,"加载收藏列表失败");
-                        //Toast.makeText(context, "加载收藏列表失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-        getStudent.getFromDB(new OnAllStudentGet() {
-            @Override
-            public void onFinish(List<Student> studentList) {
-                students = studentList;
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.setProgress(100);
-                        dialog.hide();
-                    }
-                });
-                //如果数据库里没找到，则加载
-                if(studentList.size() == 0){
-                    ((Activity)context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "正在加载本地数据库", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    InputStream is = null;File file = null;
-                    try {
-                        dialog.show();
-                        dialog.setProgress(0);
-                        is = context.getApplicationContext().getAssets().open("cymz.db");
-                        file = new File(context.getApplicationContext().getDatabasePath("cymz.db").getAbsolutePath());
-                        Log.d("fileTest","targetFile: "+file.getPath());
-                        copyFile(is,file);
-                        getStudent.getFromDB(new OnAllStudentGet() {
-                            @Override
-                            public void onFinish(List<Student> studentList) {
-                                students = studentList;
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, "首次加载完毕，尽情使用！", Toast.LENGTH_SHORT).show();
-                                        dialog.setProgress(100);
-                                        dialog.hide();
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        }, new GetProgress() {
-                            @Override
-                            public void status(int percentage) {
-                                dialog.setProgress(percentage);
-                            }
-                        });
-                        Log.d(TAG,"复制文件成功！");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onError() {
-                //Toast.makeText(context, "本地数据库出错，试试更新数据库？", Toast.LENGTH_SHORT).show();
-            }
-        }, new GetProgress() {
-            @Override
-            public void status(final int percentage) {
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialog.setProgress(percentage);
-                    }
-                });
-            }
-        });
+        GetStudent getStudent = new GetStudent(context);
+        getStudent.getFromDB(dialog);
     }
 
-    /**
-     * 复制数据库的方法
-     * @param is
-     * @param targetFile
-     * @throws IOException
-     */
-    public void copyFile(InputStream is,File targetFile) throws IOException{
-        // 新建文件输入流并对它进行缓冲
-        BufferedInputStream inBuff=new BufferedInputStream(is);
-        // 新建文件输出流并对它进行缓冲
-        FileOutputStream output = new FileOutputStream(targetFile);
-        BufferedOutputStream outBuff=new BufferedOutputStream(output);
-        // 缓冲数组
-        byte[] b = new byte[1024 * 5];
-        int len;
-        while ((len =inBuff.read(b)) != -1) {
-            outBuff.write(b, 0, len);
-        }
-        // 刷新此缓冲的输出流
-        outBuff.flush();
-        //关闭流
-        inBuff.close();
-        outBuff.close();
-        output.close();
-        is.close();
-    }
 
     @Override
     public List<Student> getStudentList() {

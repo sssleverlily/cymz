@@ -14,7 +14,7 @@ import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private String[] mTitles = new String[]{"查询","随便看看","更多"};
+    private String[] mTitles = new String[]{"查询","分类","更多"};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);

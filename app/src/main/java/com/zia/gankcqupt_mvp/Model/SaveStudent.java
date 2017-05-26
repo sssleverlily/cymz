@@ -9,43 +9,94 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
+import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zia on 2017/5/19.
  */
 
 public class SaveStudent {
-    private final static String TAG = "SaveStudent";
-    private List<Student> studentList;
-    private Context context;
-    private SQLiteDatabase database;
-    private int p = 0,i = 0,count = 0;//进度条相关
 
-    public SaveStudent(List<Student> studentList, Context context){
-        this.studentList = studentList;
-        this.context = context;
+    private final static String TAG = "SaveStudentTest";
+    private static int p = 0,i = 0;//进度条相关
+
+    public static void saveInDB(final Context context, final ProgressDialog dialog){
+        p=0;i=0;
+        //清空数据库，恢复逻辑的一部分
         StudentDbHelper helper = new StudentDbHelper(context,"cymz.db",null,1);
-        database = helper.getWritableDatabase();
-    }
-
-    public void save(GetProgress progress,OnFinishCallBack finishCallBack){
-        i=0;p=0;
-        progress.status(p);
-        int size = studentList.size();
-        for (Student student : studentList) {
-            i++;
-            if(p != (int)((float) i /(float)size*100)){
-                p = (int)((float) i /(float)size*100);
-                progress.status(p);
-                Log.d(TAG,"存入数据库进度： " + p);
+        final SQLiteDatabase database = helper.getWritableDatabase();
+        database.delete("Student",null,null);
+        final int size = MainPresenter.students.size();
+        Observable.create(new ObservableOnSubscribe<Student>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Student> e) throws Exception {
+                for (Student s : MainPresenter.students) {
+                    e.onNext(s);
+                }
+                e.onComplete();
             }
-            count++;
-            Log.d(TAG,"正在保存第"+i+"个学生");
-            database.insert("Student",null,StudentUtil.student2values(student));
-        }
-        finishCallBack.OnFinish();
+        })
+                .map(new Function<Student, Student>() {
+                    @Override
+                    public Student apply(@NonNull Student student) throws Exception {
+                        database.insert("Student",null,StudentUtil.student2values(student));
+                        return student;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<Student>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Student student) {
+                        i++;
+                        dialog.setMessage("正在保存  "+student.getName());
+                        if(p != (int)((float) i /(float)size*100)){
+                            p = (int)((float) i /(float)size*100);
+                            dialog.setProgress(p);
+                            Log.d(TAG,"存入数据库进度： " + p);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "发生错误！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.hide();
+                                Toast.makeText(context, "完成！", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
     }
 }

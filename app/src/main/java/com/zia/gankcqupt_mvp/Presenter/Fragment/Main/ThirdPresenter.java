@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
@@ -13,9 +12,7 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
-import com.zia.gankcqupt_mvp.Model.OnFinishCallBack;
 import com.zia.gankcqupt_mvp.Model.SaveStudent;
-import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
@@ -49,27 +46,21 @@ public class ThirdPresenter implements IThirdPresenter {
         Toast.makeText(context, "暂不开放", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * 先刷新收藏集合，再执行逻辑
+     */
     @Override
     public void gotoFavoritePage() {
         GetStudent getStudent = new GetStudent(context);
-        getStudent.getFavorite(new OnAllStudentGet() {
-            @Override
-            public void onFinish(List<Student> studentList) {
-                Intent intent = new Intent(context, RecyclerActivity.class);
-                intent.putExtra("flag","favorite");
-                context.startActivity(intent);
-            }
-
-            @Override
-            public void onError() {
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "当前没有收藏...", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        getStudent.getFavorite();
+        if(MainPresenter.favorites.size() != 0){
+            Intent intent = new Intent(context, RecyclerActivity.class);
+            intent.putExtra("flag","favorite");
+            context.startActivity(intent);
+        }
+        else {
+            Toast.makeText(context, "还没有收藏哟..", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -91,10 +82,6 @@ public class ThirdPresenter implements IThirdPresenter {
      * 删除已有数据库内容，更换
      */
     private void getDataFromCQUPT(){
-        StudentDbHelper helper = new StudentDbHelper(context,"cymz.db",null,1);
-        SQLiteDatabase database = helper.getWritableDatabase();
-        //先清空Student表内容,防止只保存一部分数据导致保护逻辑无法判断，影响使用
-        database.delete("Student",null,null);
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setCancelable(false);
         dialog.setTitle("正在从教务在线获取数据...");
@@ -107,37 +94,16 @@ public class ThirdPresenter implements IThirdPresenter {
         getStudent.GetFromCQUPT(new OnAllStudentGet() {
             @Override
             public void onFinish(List<Student> studentList) {
+                //从网络中获取后保存到数据库里
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        dialog.setProgress(100);
+                        dialog.setProgress(0);
+                        dialog.setTitle("正在将数据存入数据库...");
                     }
                 });
                 //存入数据库
-                SaveStudent saveStudent = new SaveStudent(studentList,context);
-                saveStudent.save(new GetProgress() {
-                    @Override
-                    public void status(final int percentage) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.setTitle("正在存入数据库");
-                                dialog.setProgress(percentage);
-                            }
-                        });
-                    }
-                }, new OnFinishCallBack() {
-                    @Override
-                    public void OnFinish() {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dialog.hide();
-                                Toast.makeText(context, "更新数据库成功！", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
+                SaveStudent.saveInDB(context,dialog);
             }
             @Override
             public void onError() {

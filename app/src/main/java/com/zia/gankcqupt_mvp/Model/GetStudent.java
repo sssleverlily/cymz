@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.Model;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +11,11 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Util.HttpUtil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +26,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -43,8 +57,38 @@ public class GetStudent {
         database = helper.getWritableDatabase();
     }
 
-    public void getFavorite(final OnAllStudentGet onAllStudentGet){
-        new Thread(new Runnable() {
+    /**
+     * 获取数据库中收藏列表
+     */
+    public void getFavorite(){
+        MainPresenter.favorites.clear();
+        Observable.create(new ObservableOnSubscribe<Student>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Student> e) throws Exception {
+                Cursor cursor = database.query("Favorite",null,null,null,null,null,null);
+                if(cursor.moveToFirst()){
+                    do{
+                        Student student = new Student();
+                        student.setName(cursor.getString(cursor.getColumnIndex("name")));
+                        student.setClassId(cursor.getString(cursor.getColumnIndex("classid")));
+                        student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
+                        student.setAtSchool(cursor.getString(cursor.getColumnIndex("atschool")));
+                        student.setClassNum(cursor.getString(cursor.getColumnIndex("classnum")));
+                        student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
+                        student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
+                        student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+                        student.setStudentId(cursor.getString(cursor.getColumnIndex("studentid")));
+                        student.setYear(cursor.getString(cursor.getColumnIndex("year")));
+                        e.onNext(student);
+                        MainPresenter.favorites.add(student);
+                        Log.d(TAG,student.getName());
+                    }while (cursor.moveToNext());
+                }
+                cursor.close();
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.io());
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 List<Student> studentList = new ArrayList<Student>();
@@ -73,25 +117,21 @@ public class GetStudent {
                 onAllStudentGet.onFinish(studentList);
                 if(MainPresenter.favorites != null) MainPresenter.favorites = studentList;//更新presenter里的收藏列表
             }
-        }).start();
+        }).start();*/
     }
 
-    public void getFromDB(final OnAllStudentGet onAllStudentGet, final GetProgress setprogress){
-        new Thread(new Runnable() {
+    /**
+     * 从数据库中获取数据
+     * @param dialog 进度条
+     */
+    public void getFromDB(final ProgressDialog dialog){//final OnAllStudentGet onAllStudentGet, final GetProgress setprogress
+        i=0;p=0;MainPresenter.students.clear();
+        Observable.create(new ObservableOnSubscribe<Student>() {
             @Override
-            public void run() {
-                i=0;p=0;
-                List<Student> studentList = new ArrayList<Student>();
-                setprogress.status(0);
+            public void subscribe(@NonNull ObservableEmitter<Student> e) throws Exception {
                 Cursor cursor = database.query("Student",null,null,null,null,null,null);
                 if(cursor.moveToFirst()){
                     do{
-                        i++;
-                        if(p != (int)((float) i / 20000f * 100)){
-                            p = (int)((float) i / 20000f * 100);
-                            Log.d(TAG,"当前进度： " +p );
-                            setprogress.status(p);
-                        }
                         Student student = new Student();
                         student.setName(cursor.getString(cursor.getColumnIndex("name")));
                         student.setClassId(cursor.getString(cursor.getColumnIndex("classid")));
@@ -103,19 +143,59 @@ public class GetStudent {
                         student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
                         student.setStudentId(cursor.getString(cursor.getColumnIndex("studentid")));
                         student.setYear(cursor.getString(cursor.getColumnIndex("year")));
-                        studentList.add(student);
-                        //Log.d(TAG,student.getName());
+                        e.onNext(student);
+                        MainPresenter.students.add(student);
                     }while (cursor.moveToNext());
                 }
                 else {
-                    onAllStudentGet.onError();
+                    InputStream is;File file;
+                    is = context.getApplicationContext().getAssets().open("cymz.db");
+                    file = new File(context.getApplicationContext().getDatabasePath("cymz.db").getAbsolutePath());
+                    Log.d("fileTest","targetFile: "+file.getPath());
+                    copyFile(is,file);
+                    getFromDB(dialog);
                 }
                 cursor.close();
-                onAllStudentGet.onFinish(studentList);
+                e.onComplete();
             }
-        }).start();
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<Student>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Student student) {
+                        i++;
+                        if(p != (int)((float) i / 19000f * 100)){
+                            p = (int)((float) i / 19000f * 100);
+                            dialog.setProgress(p);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        dialog.hide();
+                        Toast.makeText(context, "有点小问题...", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dialog.hide();
+                        Toast.makeText(context, "加载完成！", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
+
+    /**
+     * 从内网外入中获取数据
+     * @param onAllStudentGet
+     * @param getProgress
+     */
     public void GetFromCQUPT(final OnAllStudentGet onAllStudentGet, final GetProgress getProgress){
         HttpUtil.sendOkHttpRequest("http://jwzx.cqupt.congm.in/jwzxtmp/pubBjsearch.php?action=bjStu", new Callback() {
             @Override
@@ -123,11 +203,9 @@ public class GetStudent {
                 e.printStackTrace();
                 Toast.makeText(context, "网络有问题？", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                List<String> classIdList = new ArrayList<String>();
-                List<String> classURL = new ArrayList<String>();
+                List<String> classList = new ArrayList<String>();
                 List<Student> studentList = new ArrayList<Student>();
                 i = 0;p = 0;int count = 0;
                 //开始解析班级
@@ -136,19 +214,16 @@ public class GetStudent {
                 Matcher matcher = pattern.matcher(response.body().string());
                 while (matcher.find()){
                     if(matcher.group() != null){
-                        classIdList.add(matcher.group());
+                        classList.add("http://jwzx.cqupt.congm.in/jwzxtmp/showBjStu.php?bj=" + matcher.group());
                         Log.d(TAG,matcher.group());
                     }
-                }
-                for (String id : classIdList) {
-                    classURL.add("http://jwzx.cqupt.congm.in/jwzxtmp/showBjStu.php?bj=" + id);
                 }
                 getProgress.status(0);
                 //解析完毕，获取所有班级地址
                 Log.d(TAG,"解析完毕，已获取所有班级地址，接下来解析每一个班级...");
-                int size = classURL.size();//乘3是为了这部分为整个进度条的1/3
+                int size = classList.size();//乘3是为了这部分为整个进度条的1/3
                 HttpURLConnection connection = null;
-                for (String u : classURL) {
+                for (String u : classList) {
                     i++;//当数字改变时才刷新进度，节省内存
                     if(p !=(int)((float) i /(float)size*100)){
                         p =(int)((float) i /(float)size*100);
@@ -168,9 +243,16 @@ public class GetStudent {
                     while ((line = reader.readLine()) != null) {
                         res.append(line);
                     }
-                    Log.d(TAG, "获取http: " + res.toString());
+                    //Log.d(TAG, "获取http: " + res.toString());
+                    Pattern patterntbody = Pattern.compile("<tbody>[\\s\\S]*?</tbody>");
+                    Matcher matcher1 = patterntbody.matcher(res.toString());
+                    String tbody = "";
+                    while (matcher1.find()){
+                        tbody += matcher1.group();
+                    }
+                    Log.d(TAG, "获取tbody: " + tbody);
                     Pattern pattern2 = Pattern.compile("<tr><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td></tr>");
-                    Matcher matcher2 = pattern2.matcher(res);
+                    Matcher matcher2 = pattern2.matcher(tbody);
                     while (matcher2.find()){
                         Student student = new Student();
                         student.setClassNum(matcher2.group(1));
@@ -189,9 +271,37 @@ public class GetStudent {
                     }
                     in.close();
                 }
+                MainPresenter.students = studentList;
                 onAllStudentGet.onFinish(studentList);
                 //以上将所有学生信息获取并保存到类里，需要存到数据库里
             }
         });
+    }
+
+    /**
+     * 复制数据库的方法
+     * @param is
+     * @param targetFile
+     * @throws IOException
+     */
+    private void copyFile(InputStream is,File targetFile) throws IOException{
+        // 新建文件输入流并对它进行缓冲
+        BufferedInputStream inBuff=new BufferedInputStream(is);
+        // 新建文件输出流并对它进行缓冲
+        FileOutputStream output = new FileOutputStream(targetFile);
+        BufferedOutputStream outBuff=new BufferedOutputStream(output);
+        // 缓冲数组
+        byte[] b = new byte[1024 * 5];
+        int len;
+        while ((len =inBuff.read(b)) != -1) {
+            outBuff.write(b, 0, len);
+        }
+        // 刷新此缓冲的输出流
+        outBuff.flush();
+        //关闭流
+        inBuff.close();
+        outBuff.close();
+        output.close();
+        is.close();
     }
 }
