@@ -6,5 +6,6 @@ package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 
 public interface IStartPresenter {
     void gotoMainPage();
-    void gotoCompletePage();
+    void gotoPage();
+    void gotoLoginPage();
 }

@@ -1,0 +1,138 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity"
+    android:orientation="vertical"
+    android:padding="40dp">
+
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:elevation="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:background="#99ccff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:text="成为我高贵一族吧"
+                android:textSize="25dp"
+                android:layout_marginBottom="15dp"
+                android:textColor="#195963"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/register_imageView"
+                android:src="@mipmap/icon300"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginBottom="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:text="账号"
+                    android:textSize="25dp"
+                    android:textColor="#195963"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/register_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:text="密码"
+                    android:textSize="25dp"
+                    android:textColor="#195963"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/register_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp">
+                <TextView
+                    android:text="昵称"
+                    android:textSize="25dp"
+                    android:textColor="#195963"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/register_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:text="性别"
+                    android:textSize="25dp"
+                    android:textColor="#195963"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:id="@+id/register_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp">
+                    <RadioButton
+                        android:id="@+id/register_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="♂"
+                        android:textColorHint="#195963"
+                        android:textSize="35dp"
+                        android:layout_marginRight="20dp"
+                        />
+                    <RadioButton
+                        android:id="@+id/register_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="♀"
+                        android:textColorHint="#195963"
+                        android:textSize="35dp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/register_register"
+                    android:text="注册"
+                    android:textSize="20dp"
+                    android:layout_gravity="end"
+                    android:textColor="#195963"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

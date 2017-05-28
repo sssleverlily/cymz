@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.ThirdPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by zia on 2017/5/18.
@@ -21,8 +24,9 @@ import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
 public class ThirdFragment extends Fragment implements IThirdFragment {
 
     private View view;
-    private Button upData,size,downLoad,favorite;
-    private TextView tv;
+    private Button upData,size,downLoad,favorite,out;
+    private TextView tv,nickname,sex;
+    private ImageView head;
     private IThirdPresenter thirdPresenter;
 
     @Override
@@ -31,6 +35,7 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
         findWidgets();
         thirdPresenter = new ThirdPresenter(this);
         setClick();
+        thirdPresenter.setUser(nickname,sex,head);
     }
 
     private void setClick(){
@@ -57,6 +62,12 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
             public void onClick(View view) {thirdPresenter.gotoFavoritePage();
             }
         });
+        out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thirdPresenter.loginOut();
+            }
+        });
     }
 
     private void findWidgets(){
@@ -64,7 +75,11 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
         size = (Button)view.findViewById(R.id.third_size);
         downLoad = (Button)view.findViewById(R.id.third_downLoad);
         favorite = (Button)view.findViewById(R.id.third_favorite);
+        out = (Button)view.findViewById(R.id.third_loginOut);
         tv = (TextView) view.findViewById(R.id.third_tv);
+        head = (CircleImageView)view.findViewById(R.id.third_image);
+        nickname = (TextView)view.findViewById(R.id.third_nickname);
+        sex = (TextView)view.findViewById(R.id.third_sex);
     }
 
     @Nullable

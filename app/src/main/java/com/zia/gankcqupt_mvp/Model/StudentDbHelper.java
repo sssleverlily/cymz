@@ -12,7 +12,7 @@ public class StudentDbHelper extends SQLiteOpenHelper {
 
     private Context context;
 
-    public static final String CREATE_STUDENT = "create table Student (" +
+    private static final String CREATE_STUDENT = "CREATE TABLE IF NOT EXISTS Student (" +
             "id integer primary key autoincrement," +
             "atschool text," +
             "classid text," +
@@ -25,7 +25,7 @@ public class StudentDbHelper extends SQLiteOpenHelper {
             "year text," +
             "zyh text)";
 
-    public static final String CREATE_FAVORITE = "create table Favorite (" +
+    private static final String CREATE_FAVORITE = "CREATE TABLE IF NOT EXISTS Favorite (" +
             "id integer primary key autoincrement," +
             "atschool text," +
             "classid text," +
@@ -37,6 +37,11 @@ public class StudentDbHelper extends SQLiteOpenHelper {
             "studentid text," +
             "year text," +
             "zyh text)";
+
+    private static final String CREATE_USER = "CREATE TABLE IF NOT EXISTS LocalData (" +
+            "nickname text," +
+            "head text," +
+            "sex text)";
 
 
     public StudentDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -46,8 +51,17 @@ public class StudentDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_STUDENT);
+        /*sqLiteDatabase.execSQL(CREATE_STUDENT);
         sqLiteDatabase.execSQL(CREATE_FAVORITE);
+        sqLiteDatabase.execSQL(CREATE_USER);*/
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.execSQL(CREATE_STUDENT);
+        db.execSQL(CREATE_FAVORITE);
+        db.execSQL(CREATE_USER);
     }
 
     @Override

@@ -88,36 +88,6 @@ public class GetStudent {
                 e.onComplete();
             }
         }).subscribeOn(Schedulers.io());
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Student> studentList = new ArrayList<Student>();
-                Cursor cursor = database.query("Favorite",null,null,null,null,null,null);
-                if(cursor.moveToFirst()){
-                    do{
-                        Student student = new Student();
-                        student.setName(cursor.getString(cursor.getColumnIndex("name")));
-                        student.setClassId(cursor.getString(cursor.getColumnIndex("classid")));
-                        student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
-                        student.setAtSchool(cursor.getString(cursor.getColumnIndex("atschool")));
-                        student.setClassNum(cursor.getString(cursor.getColumnIndex("classnum")));
-                        student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
-                        student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
-                        student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                        student.setStudentId(cursor.getString(cursor.getColumnIndex("studentid")));
-                        student.setYear(cursor.getString(cursor.getColumnIndex("year")));
-                        studentList.add(student);
-                        Log.d(TAG,student.getName());
-                    }while (cursor.moveToNext());
-                }
-                else {
-                    onAllStudentGet.onError();
-                }
-                cursor.close();
-                onAllStudentGet.onFinish(studentList);
-                if(MainPresenter.favorites != null) MainPresenter.favorites = studentList;//更新presenter里的收藏列表
-            }
-        }).start();*/
     }
 
     /**

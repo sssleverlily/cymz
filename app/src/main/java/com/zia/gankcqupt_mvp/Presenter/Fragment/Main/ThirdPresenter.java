@@ -5,21 +5,42 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
+import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
 import com.zia.gankcqupt_mvp.Model.SaveStudent;
+import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
+import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by zia on 2017/5/18.
@@ -29,6 +50,7 @@ public class ThirdPresenter implements IThirdPresenter {
 
     private Context context;
     private IThirdFragment thirdFragment;
+    private final static String TAG = "ThirdPresenterTest";
 
     public ThirdPresenter(ThirdFragment thirdFragment){
         this.thirdFragment = thirdFragment;
@@ -75,6 +97,53 @@ public class ThirdPresenter implements IThirdPresenter {
                     }
                 })
                 .setNegativeButton("再想想",null).show();
+    }
+
+    @Override
+    public void loginOut() {
+        new AlertDialog.Builder(context).setTitle("退出登录").setMessage("真的要退出登录吗？")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AVUser.logOut();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                        ((Activity)context).finish();
+                    }
+                })
+                .setNegativeButton("否",null).show();
+    }
+
+    @Override
+    public void setUser(TextView nick, TextView sex, final ImageView img) {
+        final AVUser avUser = AVUser.getCurrentUser();
+        if(avUser != null) {
+            String n = avUser.getString("nickname");
+            String s = avUser.getString("sex");
+            Observable.create(new ObservableOnSubscribe<AVFile>() {
+                @Override
+                public void subscribe(@NonNull ObservableEmitter<AVFile> e) throws Exception {
+                    e.onNext(AVFile.withObjectId(avUser.getAVFile("headImage").getObjectId()));
+                }
+            })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<AVFile>() {
+                        @Override
+                        public void accept(@NonNull AVFile avFile) throws Exception {
+                            if (avFile.getUrl() != null) {
+                                Glide.with(context).load(avFile.getThumbnailUrl(true, 150, 150)).into(img);
+                            }
+                        }
+                    });
+            nick.setText(n);
+            if (s.equals("male")) {
+                sex.setText("♂♂♂♂♂♂♂♂");
+            }
+            if (s.equals("female")) {
+                sex.setText("♀♀♀♀♀♀♀♀");
+            }
+        }
     }
 
     /**

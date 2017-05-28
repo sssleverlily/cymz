@@ -1,5 +1,8 @@
 package com.zia.gankcqupt_mvp.Presenter.Fragment.Interface;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
 /**
  * Created by zia on 2017/5/18.
  */
@@ -9,4 +12,6 @@ public interface IThirdPresenter {
     void downLoad();
     void gotoFavoritePage();
     void upData();
+    void loginOut();
+    void setUser(TextView nick, TextView sex, ImageView img);
 }

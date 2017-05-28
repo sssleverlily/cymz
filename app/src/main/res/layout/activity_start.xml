@@ -3,15 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.StartActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
-
+    <ImageView
+        android:background="@mipmap/icon300"
+        android:scaleType="centerCrop"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
     <TextView
+        android:layout_margin="5dp"
+        android:text="重邮妹子"
         android:textSize="30dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello！" />
-
+        android:gravity="center_horizontal"
+        android:textColor="#195963"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
