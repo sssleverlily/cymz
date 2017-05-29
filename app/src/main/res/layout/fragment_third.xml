@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:padding="20dp">
     <LinearLayout
+        android:id="@+id/third_userLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

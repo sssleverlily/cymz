@@ -13,5 +13,6 @@ public interface IThirdPresenter {
     void gotoFavoritePage();
     void upData();
     void loginOut();
+    void changeORlogin();
     void setUser(TextView nick, TextView sex, ImageView img);
 }

@@ -115,6 +115,14 @@ public class ThirdPresenter implements IThirdPresenter {
     }
 
     @Override
+    public void changeORlogin() {
+        if(AVUser.getCurrentUser() == null){
+            Intent intent = new Intent(context,LoginActivity.class);
+
+        }
+    }
+
+    @Override
     public void setUser(TextView nick, TextView sex, final ImageView img) {
         final AVUser avUser = AVUser.getCurrentUser();
         if(avUser != null) {
@@ -137,12 +145,13 @@ public class ThirdPresenter implements IThirdPresenter {
                         }
                     });
             nick.setText(n);
-            if (s.equals("male")) {
+            /*if (s.equals("male")) {
                 sex.setText("♂♂♂♂♂♂♂♂");
             }
             if (s.equals("female")) {
                 sex.setText("♀♀♀♀♀♀♀♀");
-            }
+            }*/
+            sex.setText("状态：已登录");
         }
     }
 

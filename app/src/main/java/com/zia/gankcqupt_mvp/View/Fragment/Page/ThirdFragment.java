@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
@@ -27,6 +28,7 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
     private Button upData,size,downLoad,favorite,out;
     private TextView tv,nickname,sex;
     private ImageView head;
+    private LinearLayout userLayout;
     private IThirdPresenter thirdPresenter;
 
     @Override
@@ -68,6 +70,11 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
                 thirdPresenter.loginOut();
             }
         });
+        userLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {thirdPresenter.changeORlogin();
+            }
+        });
     }
 
     private void findWidgets(){
@@ -80,6 +87,7 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
         head = (CircleImageView)view.findViewById(R.id.third_image);
         nickname = (TextView)view.findViewById(R.id.third_nickname);
         sex = (TextView)view.findViewById(R.id.third_sex);
+        userLayout = (LinearLayout)view.findViewById(R.id.third_userLayout);
     }
 
     @Nullable
