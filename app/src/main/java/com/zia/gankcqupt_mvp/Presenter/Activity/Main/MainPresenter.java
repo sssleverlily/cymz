@@ -3,11 +3,14 @@ package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
@@ -17,6 +20,7 @@ import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
+import com.zia.gankcqupt_mvp.View.Activity.Page.PublishActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -46,8 +50,32 @@ public class MainPresenter implements IMainPresenter {
     }
 
     @Override
-    public void setDialog() {
-
+    public void setFloatingBar() {
+        mainActivity.getFloatingBar().setVisibility(View.INVISIBLE);
+        mainActivity.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(position == 2){
+                    mainActivity.getFloatingBar().setVisibility(View.VISIBLE);
+                }
+                else{
+                    mainActivity.getFloatingBar().setVisibility(View.INVISIBLE);
+                }
+            }
+            @Override
+            public void onPageSelected(int position) {
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        mainActivity.getFloatingBar().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PublishActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -75,7 +103,7 @@ public class MainPresenter implements IMainPresenter {
      */
     @Override
     public void getData() {
-        final ProgressDialog dialog = new ProgressDialog(context);
+        ProgressDialog dialog = new ProgressDialog(context);
         dialog.setCancelable(false);
         dialog.setTitle("正在从数据库获取数据...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

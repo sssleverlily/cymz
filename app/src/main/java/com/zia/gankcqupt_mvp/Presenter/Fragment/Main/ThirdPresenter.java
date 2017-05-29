@@ -50,9 +50,10 @@ public class ThirdPresenter implements IThirdPresenter {
 
     private Context context;
     private IThirdFragment thirdFragment;
+    public static String nickname = null, headUrl = null;
     private final static String TAG = "ThirdPresenterTest";
 
-    public ThirdPresenter(ThirdFragment thirdFragment){
+    public ThirdPresenter(ThirdFragment thirdFragment) {
         this.thirdFragment = thirdFragment;
         context = thirdFragment.getContext();
     }
@@ -60,7 +61,7 @@ public class ThirdPresenter implements IThirdPresenter {
 
     @Override
     public void showDataCount() {
-        thirdFragment.getTextView().setText("当前数据库有"+ MainPresenter.students.size()+"条数据");
+        thirdFragment.getTextView().setText("当前数据库有" + MainPresenter.students.size() + "条数据");
     }
 
     @Override
@@ -75,12 +76,11 @@ public class ThirdPresenter implements IThirdPresenter {
     public void gotoFavoritePage() {
         GetStudent getStudent = new GetStudent(context);
         getStudent.getFavorite();
-        if(MainPresenter.favorites.size() != 0){
+        if (MainPresenter.favorites.size() != 0) {
             Intent intent = new Intent(context, RecyclerActivity.class);
-            intent.putExtra("flag","favorite");
+            intent.putExtra("flag", "favorite");
             context.startActivity(intent);
-        }
-        else {
+        } else {
             Toast.makeText(context, "还没有收藏哟..", Toast.LENGTH_SHORT).show();
         }
     }
@@ -96,7 +96,7 @@ public class ThirdPresenter implements IThirdPresenter {
                         getDataFromCQUPT();
                     }
                 })
-                .setNegativeButton("再想想",null).show();
+                .setNegativeButton("再想想", null).show();
     }
 
     @Override
@@ -108,16 +108,16 @@ public class ThirdPresenter implements IThirdPresenter {
                         AVUser.logOut();
                         Intent intent = new Intent(context, LoginActivity.class);
                         context.startActivity(intent);
-                        ((Activity)context).finish();
+                        ((Activity) context).finish();
                     }
                 })
-                .setNegativeButton("否",null).show();
+                .setNegativeButton("否", null).show();
     }
 
     @Override
     public void changeORlogin() {
-        if(AVUser.getCurrentUser() == null){
-            Intent intent = new Intent(context,LoginActivity.class);
+        if (AVUser.getCurrentUser() == null) {
+            Intent intent = new Intent(context, LoginActivity.class);
 
         }
     }
@@ -125,12 +125,16 @@ public class ThirdPresenter implements IThirdPresenter {
     @Override
     public void setUser(TextView nick, TextView sex, final ImageView img) {
         final AVUser avUser = AVUser.getCurrentUser();
-        if(avUser != null) {
-            String n = avUser.getString("nickname");
+        if (avUser != null) {
             String s = avUser.getString("sex");
+            nickname = avUser.getString("nickname");
+            nick.setText(nickname);
+            sex.setText("状态：已登录");
+
             Observable.create(new ObservableOnSubscribe<AVFile>() {
                 @Override
                 public void subscribe(@NonNull ObservableEmitter<AVFile> e) throws Exception {
+                    if(avUser.getAVFile("headImage") != null)
                     e.onNext(AVFile.withObjectId(avUser.getAVFile("headImage").getObjectId()));
                 }
             })
@@ -140,18 +144,20 @@ public class ThirdPresenter implements IThirdPresenter {
                         @Override
                         public void accept(@NonNull AVFile avFile) throws Exception {
                             if (avFile.getUrl() != null) {
-                                Glide.with(context).load(avFile.getThumbnailUrl(true, 150, 150)).into(img);
+                                headUrl = avFile.getThumbnailUrl(true, 150, 150);
+                                Glide.with(context).load(headUrl).into(img);
                             }
                         }
                     });
-            nick.setText(n);
+
+
             /*if (s.equals("male")) {
                 sex.setText("♂♂♂♂♂♂♂♂");
             }
             if (s.equals("female")) {
                 sex.setText("♀♀♀♀♀♀♀♀");
             }*/
-            sex.setText("状态：已登录");
+
         }
     }
 
@@ -159,7 +165,7 @@ public class ThirdPresenter implements IThirdPresenter {
      * 从教务在线更新数据到本地数据库
      * 删除已有数据库内容，更换
      */
-    private void getDataFromCQUPT(){
+    private void getDataFromCQUPT() {
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setCancelable(false);
         dialog.setTitle("正在从教务在线获取数据...");
@@ -173,7 +179,7 @@ public class ThirdPresenter implements IThirdPresenter {
             @Override
             public void onFinish(List<Student> studentList) {
                 //从网络中获取后保存到数据库里
-                ((Activity)context).runOnUiThread(new Runnable() {
+                ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         dialog.setProgress(0);
@@ -181,8 +187,9 @@ public class ThirdPresenter implements IThirdPresenter {
                     }
                 });
                 //存入数据库
-                SaveStudent.saveInDB(context,dialog);
+                SaveStudent.saveInDB(context, dialog);
             }
+
             @Override
             public void onError() {
                 Toast.makeText(context, "失败了...", Toast.LENGTH_SHORT).show();
@@ -191,7 +198,7 @@ public class ThirdPresenter implements IThirdPresenter {
         }, new GetProgress() {
             @Override
             public void status(final int percentage) {
-                ((Activity)context).runOnUiThread(new Runnable() {
+                ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         dialog.setProgress(percentage);

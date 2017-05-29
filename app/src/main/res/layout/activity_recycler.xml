@@ -6,6 +6,7 @@
     android:id="@+id/activity_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -15,8 +16,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/recycler_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_scrollFlags="scroll|enterAlways"/>

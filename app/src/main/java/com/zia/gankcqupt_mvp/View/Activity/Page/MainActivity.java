@@ -1,11 +1,13 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
 import android.app.ProgressDialog;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.Window;
 
 import com.zia.gankcqupt_mvp.Adapter.PagerAdapter;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
-    private ProgressDialog dialog;
+    private FloatingActionButton floatingActionButton;
     private IMainPresenter mainPresenter;
 
     @Override
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         findWidgets();
         mainPresenter = new MainPresenter(this);
         mainPresenter.setToolbar();
+        mainPresenter.setFloatingBar();
         mainPresenter.setPager();
         if(mainPresenter.getStudentList().size() == 0)
         mainPresenter.getData();
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         toolbar = (Toolbar)findViewById(R.id.mToolbar);
-
+        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingBar);
     }
 
     @Override
@@ -60,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public PagerAdapter getPagerAdapter() {
         return new PagerAdapter(getSupportFragmentManager());
+    }
+
+    @Override
+    public FloatingActionButton getFloatingBar() {
+        return floatingActionButton;
     }
 
 

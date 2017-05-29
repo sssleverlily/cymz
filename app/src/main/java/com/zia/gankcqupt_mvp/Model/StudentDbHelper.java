@@ -38,11 +38,6 @@ public class StudentDbHelper extends SQLiteOpenHelper {
             "year text," +
             "zyh text)";
 
-    private static final String CREATE_USER = "CREATE TABLE IF NOT EXISTS LocalData (" +
-            "nickname text," +
-            "head text," +
-            "sex text)";
-
 
     public StudentDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -51,17 +46,16 @@ public class StudentDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        /*sqLiteDatabase.execSQL(CREATE_STUDENT);
+        sqLiteDatabase.execSQL(CREATE_STUDENT);
         sqLiteDatabase.execSQL(CREATE_FAVORITE);
-        sqLiteDatabase.execSQL(CREATE_USER);*/
+        //sqLiteDatabase.execSQL(CREATE_USER);
     }
 
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        db.execSQL(CREATE_STUDENT);
-        db.execSQL(CREATE_FAVORITE);
-        db.execSQL(CREATE_USER);
+        /*db.execSQL(CREATE_STUDENT);
+        db.execSQL(CREATE_FAVORITE);*/
     }
 
     @Override

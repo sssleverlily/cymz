@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="取消"
+        android:id="@+id/publish_toolbar_cancel"
+        app:showAsAction="always" />
+    <item android:title="发布"
+        android:id="@+id/publish_toolbar_publish"
+        app:showAsAction="always"/>
+</menu>

@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.ISocialPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SocialPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.View.Fragment.Interface.ISocialFragment;
 
 /**
  * Created by zia on 2017/5/28.
  */
 
-public class SocialFragment extends Fragment {
+public class SocialFragment extends Fragment implements ISocialFragment {
 
     private View view;
     private RecyclerView recyclerView;
@@ -27,8 +28,11 @@ public class SocialFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new SocialPresenter(getContext());
+        presenter = new SocialPresenter(this);
         findWidgets();
+        presenter.setRecycler(recyclerView);
+        presenter.setSwipeLayout(swipeRefreshLayout);
+        presenter.getData();
     }
 
     private void findWidgets() {

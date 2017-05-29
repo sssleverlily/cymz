@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface IMainPresenter {
-    void setDialog();
+    void setFloatingBar();
     void setPager();
     void setToolbar();
     void getData();

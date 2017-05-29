@@ -80,10 +80,16 @@ public class DetailPresenter implements IDetailPresenter {
             }
         }
         Log.d(TAG,"未在收藏数据库中找到该学生，添加");
-        database.insert("Favorite",null, StudentUtil.student2values(student));
-        MainPresenter.favorites.add(student);
-        button.setTextColor(Color.RED);
-        Toast.makeText(context, "收藏成功!", Toast.LENGTH_SHORT).show();
+        long f = database.insert("Favorite",null, StudentUtil.student2values(student));
+        if(f != (long)-1){
+            MainPresenter.favorites.add(student);
+            button.setTextColor(Color.RED);
+            Toast.makeText(context, "收藏成功!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(context, "收藏失败...", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override

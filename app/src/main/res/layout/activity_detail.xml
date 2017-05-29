@@ -7,9 +7,10 @@
     android:orientation="vertical"
     android:paddingBottom="6dp"
     android:paddingLeft="6dp"
+    android:background="#f2f2f2"
     android:paddingRight="6dp"
     android:paddingTop="6dp"
-    tools:context="com.zia.gankcqupt.Activities.DetailActivity">
+    tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity">
     <ImageView
         android:id="@+id/detail_image"
         android:layout_width="match_parent"

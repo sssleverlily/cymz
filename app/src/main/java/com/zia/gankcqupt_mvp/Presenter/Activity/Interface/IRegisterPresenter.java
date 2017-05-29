@@ -1,6 +1,7 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
@@ -11,4 +12,5 @@ public interface IRegisterPresenter {
     void setSex(String sex);
     void register();
     void setImage(ImageView image,Intent data);
+    Bitmap changeImage(ImageView image, Intent data);
 }

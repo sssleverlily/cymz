@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity"
     android:orientation="vertical"
+    android:background="#f2f2f2"
     android:padding="40dp">
 
     <android.support.v7.widget.CardView
@@ -48,6 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:hint="(不超过16位)"
+                    android:maxLength="16"
                     android:id="@+id/register_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

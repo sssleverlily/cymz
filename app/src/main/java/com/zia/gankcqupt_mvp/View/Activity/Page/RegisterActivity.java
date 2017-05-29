@@ -94,6 +94,9 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
             case GET_PHOTO_DISK:
                 presenter.setImage(header,data);
                 break;
+            case 200:
+                presenter.changeImage(header,data);
+                break;
         }
     }
 }
