@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_margin="3dp"
+                    android:textColor="#728ea3"
                     android:text="昵称"
                     android:textSize="15dp" />
 

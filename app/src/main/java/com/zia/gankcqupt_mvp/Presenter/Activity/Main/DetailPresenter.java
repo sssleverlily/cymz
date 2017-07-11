@@ -119,18 +119,24 @@ public class DetailPresenter implements IDetailPresenter {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTranslateToolbar() {
         Window window = ((Activity)context).getWindow();
         //设置透明状态栏,这样才能让 ContentView 向上
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
         //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        }
         //设置状态栏颜色
-        window.setStatusBarColor(Color.parseColor("#00000000"));
-        window.getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(Color.parseColor("#00000000"));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
 
         ViewGroup mContentView = (ViewGroup) ((Activity)context).findViewById(Window.ID_ANDROID_CONTENT);
         View mChildView = mContentView.getChildAt(0);

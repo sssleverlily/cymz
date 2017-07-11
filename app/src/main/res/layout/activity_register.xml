@@ -1,141 +1,156 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity"
-    android:orientation="vertical"
     android:background="#f2f2f2"
-    android:padding="40dp">
+    android:orientation="vertical"
+    android:padding="40dp"
+    tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity">
 
     <android.support.v7.widget.CardView
-        app:cardCornerRadius="8dp"
-        android:elevation="1dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:elevation="1dp"
+        app:cardCornerRadius="8dp">
+
         <LinearLayout
-            android:background="#99ccff"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#6fd2e1"
             android:orientation="vertical"
             android:padding="20dp">
 
             <TextView
-                android:text="成为我高贵一族吧"
-                android:textSize="25dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="#195963"
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:gravity="center_horizontal"
+                android:text="重邮妹子心悦会员"
+                android:textColor="#195963"
+                android:textSize="25dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/register_imageView"
-                android:src="@mipmap/icon300"
-                android:layout_gravity="center_horizontal"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                android:layout_marginBottom="15dp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:src="@mipmap/icon1_camara" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="账号"
-                    android:textSize="25dp"
-                    android:textColor="#195963"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="账号"
+                    android:textColor="#195963"
+                    android:textSize="25dp" />
+
                 <EditText
-                    android:hint="(不超过16位)"
-                    android:maxLength="16"
                     android:id="@+id/register_username"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:hint="(不超过16位)"
+                    android:maxLength="16" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="密码"
-                    android:textSize="25dp"
-                    android:textColor="#195963"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="密码"
+                    android:textColor="#195963"
+                    android:textSize="25dp" />
+
                 <EditText
                     android:id="@+id/register_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="昵称"
-                    android:textSize="25dp"
-                    android:textColor="#195963"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="昵称"
+                    android:textColor="#195963"
+                    android:textSize="25dp" />
+
                 <EditText
                     android:id="@+id/register_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="15dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:text="性别"
-                    android:textSize="25dp"
-                    android:textColor="#195963"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="性别"
+                    android:textColor="#195963"
+                    android:textSize="25dp" />
+
                 <RadioGroup
                     android:id="@+id/register_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="10dp">
+                    android:gravity="center_vertical">
+
                     <RadioButton
                         android:id="@+id/register_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
                         android:hint="♂"
                         android:textColorHint="#195963"
-                        android:textSize="35dp"
-                        android:layout_marginRight="20dp"
-                        />
+                        android:textSize="35dp" />
+
                     <RadioButton
                         android:id="@+id/register_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="♀"
                         android:textColorHint="#195963"
-                        android:textSize="35dp"/>
+                        android:textSize="35dp" />
                 </RadioGroup>
             </LinearLayout>
 
 
-                <TextView
-                    android:id="@+id/register_register"
-                    android:text="注册"
-                    android:textSize="20dp"
-                    android:layout_gravity="end"
-                    android:textColor="#195963"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/register_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="注册"
+                android:textColor="#195963"
+                android:textSize="20dp" />
 
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
 
-
-</RelativeLayout>
+</FrameLayout>

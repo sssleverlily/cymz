@@ -30,7 +30,8 @@
         <activity android:name=".View.Activity.Page.RecyclerActivity" />
         <activity android:name=".View.Activity.Page.LoginActivity" />
         <activity android:name=".View.Activity.Page.RegisterActivity" />
-        <activity android:name=".View.Activity.Page.PublishActivity"></activity>
+        <activity android:name=".View.Activity.Page.PublishActivity" />
+        <activity android:name=".View.Activity.Page.ReplyActivity"></activity>
     </application>
 
 </manifest>

@@ -1,16 +1,20 @@
 package com.zia.gankcqupt_mvp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.View.Activity.Page.ReplyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.Holder> {
 
     private List<Title> titles = new ArrayList<>();
     private Context context;
+    private final static String TAG = "SocialAdapterTest";
 
     public SocialAdapter(Context context){
         this.context = context;
@@ -41,13 +46,22 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.Holder> {
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
-        Title title = titles.get(position);
+    public void onBindViewHolder(final Holder holder, int position) {
+        final Title title = titles.get(position);
         holder.title.setText(title.getTitle());
         holder.nickname.setText(title.getAuthor());
         holder.count.setText(title.getCount());
         holder.time.setText(title.getTime());
         holder.content.setText(title.getContent());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,title.getObjectId());
+                Intent intent = new Intent(context, ReplyActivity.class);
+                intent.putExtra("objectId",title.getObjectId());
+                context.startActivity(intent);
+            }
+        });
         Glide.with(context).load(title.getHeadUrl()).into(holder.headImage);
     }
 

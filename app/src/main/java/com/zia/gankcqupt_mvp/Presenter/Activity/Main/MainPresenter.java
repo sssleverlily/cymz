@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVUser;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
@@ -72,6 +73,10 @@ public class MainPresenter implements IMainPresenter {
         mainActivity.getFloatingBar().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(AVUser.getCurrentUser() == null){
+                    Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(context, PublishActivity.class);
                 context.startActivity(intent);
             }
