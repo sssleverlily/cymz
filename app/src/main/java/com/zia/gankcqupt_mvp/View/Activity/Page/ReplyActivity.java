@@ -30,6 +30,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         presenter = new ReplyPresenter(this);
         presenter.setButton(send);
         presenter.setRecycler(recyclerView);
+        presenter.showData();
     }
 
     private void findWidgets(){

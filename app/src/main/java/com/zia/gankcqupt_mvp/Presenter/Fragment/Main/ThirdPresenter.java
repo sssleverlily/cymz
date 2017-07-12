@@ -150,7 +150,6 @@ public class ThirdPresenter implements IThirdPresenter {
                         }
                     });
 
-
             /*if (s.equals("male")) {
                 sex.setText("♂♂♂♂♂♂♂♂");
             }

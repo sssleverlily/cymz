@@ -62,8 +62,8 @@ public class GetTitle {
                             title.setAuthor(o.getString("author"));
                             title.setContent(o.getString("content"));
                             title.setHeadUrl(o.getString("headImage"));
-                            SimpleDateFormat format = new SimpleDateFormat("MM/dd  hh:mm");
-                            title.setTime(format.format(o.getUpdatedAt()));
+                            /*SimpleDateFormat format = new SimpleDateFormat("MM/dd  hh:mm");
+                            title.setTime(format.format(o.getUpdatedAt()));*/
                             DateFormat dateFormat = new SimpleDateFormat("MM/dd  hh:mm");
                             title.setTime(dateFormat.format(o.getUpdatedAt()));
                             title.setTitle(o.getString("title"));

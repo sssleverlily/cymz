@@ -1,6 +1,7 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -9,10 +10,15 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
+import com.zia.gankcqupt_mvp.Adapter.ReplyAdapter;
+import com.zia.gankcqupt_mvp.Bean.Comment;
 import com.zia.gankcqupt_mvp.Model.ReplyModel;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IReplyPresenter;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IReplyActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.ReplyActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zia on 17-7-11.
@@ -21,10 +27,16 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.ReplyActivity;
 public class ReplyPresenter implements IReplyPresenter {
 
     private final static String TAG = "ReplyPresenterTest";
-    private IReplyActivity activity = null;
+    public IReplyActivity activity = null;
+    public ReplyAdapter adapter = null;
+    private Context context = null;
+    public List<Comment> commentList = new ArrayList<>();
+    private ReplyModel model = null;
 
     public ReplyPresenter(ReplyActivity activity){
         this.activity = activity;
+        context = activity;
+        model = new ReplyModel(activity);
     }
 
     @Override
@@ -42,7 +54,6 @@ public class ReplyPresenter implements IReplyPresenter {
                     Log.d(TAG, "回复不能为空");
                     return;
                 }
-                ReplyModel model = new ReplyModel((Context)activity);
                 model.sendReply(activity);
             }
         });
@@ -50,6 +61,14 @@ public class ReplyPresenter implements IReplyPresenter {
 
     @Override
     public void setRecycler(RecyclerView recycler) {
+        recycler.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new ReplyAdapter(context);
+        recycler.setAdapter(adapter);
+    }
 
+    @Override
+    public void showData() {
+        commentList.clear();
+        model.getDataAndShow(this);
     }
 }

@@ -35,6 +35,7 @@ public class SocialPresenter implements ISocialPresenter {
 
     @Override
     public void getData() {
+        titles.clear();
         GetTitle getTitle = new GetTitle(context);
         if(swipeRefreshLayout != null)
         getTitle.setRefreshLayout(swipeRefreshLayout);
