@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.Presenter.Fragment.Interface;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,6 @@ public interface IThirdPresenter {
     void gotoFavoritePage();
     void upData();
     void loginOut();
-    void changeORlogin();
+    void showUserPop(View view);
     void setUser(TextView nick, TextView sex, ImageView img);
 }

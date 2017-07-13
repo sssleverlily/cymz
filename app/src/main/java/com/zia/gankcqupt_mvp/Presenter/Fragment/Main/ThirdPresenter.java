@@ -8,7 +8,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +31,11 @@ import com.zia.gankcqupt_mvp.Model.SaveStudent;
 import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
+import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.UpdataActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
+import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 
@@ -46,12 +54,13 @@ import io.reactivex.schedulers.Schedulers;
  * Created by zia on 2017/5/18.
  */
 
-public class ThirdPresenter implements IThirdPresenter {
+public class ThirdPresenter implements IThirdPresenter,PopupMenu.OnMenuItemClickListener {
 
     private Context context;
     private IThirdFragment thirdFragment;
     public static String nickname = null, headUrl = null;
     private final static String TAG = "ThirdPresenterTest";
+    private TextView nick;
 
     public ThirdPresenter(ThirdFragment thirdFragment) {
         this.thirdFragment = thirdFragment;
@@ -115,22 +124,23 @@ public class ThirdPresenter implements IThirdPresenter {
     }
 
     @Override
-    public void changeORlogin() {
-        if (AVUser.getCurrentUser() == null) {
-            Intent intent = new Intent(context, LoginActivity.class);
-
-        }
+    public void showUserPop(View view) {
+        PopupMenu popupMenu = new PopupMenu(context,view);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.user_pop, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.show();
     }
 
     @Override
     public void setUser(TextView nick, TextView sex, final ImageView img) {
+        this.nick = nick;
         final AVUser avUser = AVUser.getCurrentUser();
         if (avUser != null) {
             String s = avUser.getString("sex");
             nickname = avUser.getString("nickname");
             nick.setText(nickname);
             sex.setText("状态：已登录");
-
             Observable.create(new ObservableOnSubscribe<AVFile>() {
                 @Override
                 public void subscribe(@NonNull ObservableEmitter<AVFile> e) throws Exception {
@@ -149,14 +159,6 @@ public class ThirdPresenter implements IThirdPresenter {
                             }
                         }
                     });
-
-            /*if (s.equals("male")) {
-                sex.setText("♂♂♂♂♂♂♂♂");
-            }
-            if (s.equals("female")) {
-                sex.setText("♀♀♀♀♀♀♀♀");
-            }*/
-
         }
     }
 
@@ -205,5 +207,62 @@ public class ThirdPresenter implements IThirdPresenter {
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.user_pop_changeImage:
+                Intent intent = new Intent(context,UpdataActivity.class);
+                context.startActivity(intent);
+
+                break;
+
+            case R.id.user_pop_changeName:
+                final EditText et = new EditText(context);
+                new AlertDialog.Builder(context).setTitle("修改昵称")
+                        .setView(et)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String input = et.getText().toString();
+                                if (input.isEmpty()) {
+                                    Toast.makeText(context, "昵称不能为空！" + input, Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    AVUser user = AVUser.getCurrentUser();
+                                    user.put("nickname",input);
+                                    user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if(e != null){
+                                                e.printStackTrace();
+                                            }
+                                            else{
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context, "修改成功！", Toast.LENGTH_SHORT).show();
+                                                        nick.setText(AVUser.getCurrentUser().getString("nickname"));
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                break;
+
+            case R.id.user_pop_changePassword:
+
+                break;
+
+            case R.id.user_pop_loginOut:
+                loginOut();
+                break;
+        }
+        return false;
     }
 }

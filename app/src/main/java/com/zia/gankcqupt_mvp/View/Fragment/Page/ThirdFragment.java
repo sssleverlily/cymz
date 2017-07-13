@@ -72,8 +72,7 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
         });
         userLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {thirdPresenter.changeORlogin();
-            }
+            public void onClick(View view) {thirdPresenter.showUserPop(view);}
         });
     }
 
