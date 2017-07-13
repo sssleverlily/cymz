@@ -87,9 +87,12 @@ public class ReplyModel {
                     comment.setContent(o.getString("content"));
                     comment.setObjectId(o.getObjectId());
                     comment.setUserId(o.getString("userId"));
+                    if(presenter.activity.getUserId().equals(comment.getUserId())){
+                        comment.setIslz(true);
+                    }
+                    else comment.setIslz(false);
                     DateFormat dateFormat = new SimpleDateFormat("MM/dd  hh:mm");
                     comment.setTime(dateFormat.format(o.getUpdatedAt()));
-                    comment.setIslz(false);
                     e.onNext(comment);
                     Log.d(TAG,comment.toString());
                 }
@@ -116,7 +119,7 @@ public class ReplyModel {
 
                     @Override
                     public void onComplete() {
-                        presenter.commentList = resort(presenter.commentList);
+                        //presenter.commentList = resort(presenter.commentList);
                         presenter.adapter.refreshData(presenter.commentList);
                     }
                 });

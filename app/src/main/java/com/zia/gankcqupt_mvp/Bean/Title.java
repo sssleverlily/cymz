@@ -12,10 +12,19 @@ public class Title {
     private String count;
     private String headUrl;
     private String objectId;
+    private String userId;
 
     @Override
     public String toString() {
-        return "author:"+author+"\ntime:"+time+"\ntitle:"+title+"\ncontent:"+content+"\ncount:"+count+"\nurl:"+headUrl+"\nobjectId:"+objectId;
+        return "author:"+author+"\ntime:"+time+"\ntitle:"+title+"\ncontent:"+content+"\ncount:"+count+"\nurl:"+headUrl+"\nobjectId:"+objectId+"\nuserId:"+userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getObjectId() {

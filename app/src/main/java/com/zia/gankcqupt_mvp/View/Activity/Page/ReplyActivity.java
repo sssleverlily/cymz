@@ -19,7 +19,6 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
     private RecyclerView recyclerView;
     private Button send;
     private EditText editText;
-    private String objectId = null;
     private IReplyPresenter presenter = null;
 
     @Override
@@ -48,12 +47,23 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
     public String getObjectId() {
         Intent intent = getIntent();
         if (intent != null){
-            objectId = intent.getStringExtra("objectId");
-            Log.d(TAG,"get objID: "+objectId);
-            if(objectId != null){
-                return objectId;
+            Log.d(TAG,"get objID: "+intent.getStringExtra("objectId"));
+            if(intent.getStringExtra("objectId") != null){
+                return intent.getStringExtra("objectId");
             }
         }
         return "get objectId error!";
+    }
+
+    @Override
+    public String getUserId() {
+        Intent intent = getIntent();
+        if (intent != null){
+            Log.d(TAG,"get userID: "+intent.getStringExtra("userId"));
+            if(intent.getStringExtra("userId") != null){
+                return intent.getStringExtra("userId");
+            }
+        }
+        return "get userId error!";
     }
 }

@@ -55,6 +55,7 @@ public class ReplyPresenter implements IReplyPresenter {
                     return;
                 }
                 model.sendReply(activity);
+                showData();
             }
         });
     }

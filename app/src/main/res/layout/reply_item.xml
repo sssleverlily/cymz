@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:minHeight="40dp"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -27,8 +28,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="top"
-                android:layout_marginLeft="8dp"
-                android:src="@mipmap/icon300" />
+                android:layout_marginLeft="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,7 +41,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="昵称"
                     android:textColor="#728ea3"
                     android:textSize="18dp" />
 
@@ -50,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="楼主"
-                    android:padding="8dp"
+                    android:padding="3dp"
                     android:background="@drawable/back_edit_focused"
                     android:layout_gravity="top"
                     android:layout_margin="8dp"
@@ -67,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="内容。。。。\n测试\nfajlejflangl;jaefinaslkfvna;lseijfasf"
             android:textSize="20dp" />
 
         <TextView
@@ -75,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="2017.5.29"
             android:textSize="15dp" />
     </LinearLayout>
 

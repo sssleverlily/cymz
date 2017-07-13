@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.ISocialPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SocialPresenter;
@@ -23,6 +24,7 @@ public class SocialFragment extends Fragment implements ISocialFragment {
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView textView;
     private ISocialPresenter presenter;
 
     @Override
@@ -32,12 +34,13 @@ public class SocialFragment extends Fragment implements ISocialFragment {
         findWidgets();
         presenter.setRecycler(recyclerView);
         presenter.setSwipeLayout(swipeRefreshLayout);
-        presenter.getData();
+        //presenter.getData();
     }
 
     private void findWidgets() {
         recyclerView = (RecyclerView)view.findViewById(R.id.social_recycler);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.social_swipe);
+        textView = (TextView)view.findViewById(R.id.social_wait);
     }
 
     @Nullable
@@ -45,5 +48,10 @@ public class SocialFragment extends Fragment implements ISocialFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_social,container,false);
         return view;
+    }
+
+    @Override
+    public TextView getWaitText() {
+        return textView;
     }
 }

@@ -10,4 +10,5 @@ import android.widget.Button;
 public interface IReplyActivity {
     String getEdit();
     String getObjectId();
+    String getUserId();
 }

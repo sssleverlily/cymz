@@ -59,6 +59,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.Holder> {
                 Log.d(TAG,title.getObjectId());
                 Intent intent = new Intent(context, ReplyActivity.class);
                 intent.putExtra("objectId",title.getObjectId());
+                intent.putExtra("userId",title.getUserId());
                 context.startActivity(intent);
             }
         });

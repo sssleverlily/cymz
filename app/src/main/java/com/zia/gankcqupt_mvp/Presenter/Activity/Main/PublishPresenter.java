@@ -45,6 +45,10 @@ public class PublishPresenter implements IPublishPresenter {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.publish_toolbar_publish:
+                        if(AVUser.getCurrentUser() == null){
+                            Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
                         if(activity.getTitle1() != null) {
                             PublishModel model = new PublishModel(context);
                             model.PublishTitle(activity);

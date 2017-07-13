@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.ThirdPresenter;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IPublishActivity;
@@ -38,6 +39,7 @@ public class PublishModel {
         title.put("content", activity.getContent());
         title.put("author", ThirdPresenter.nickname);
         title.put("headImage", ThirdPresenter.headUrl);
+        title.put("userId", AVUser.getCurrentUser().getObjectId());
         title.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {

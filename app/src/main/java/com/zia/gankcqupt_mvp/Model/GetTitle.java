@@ -8,9 +8,11 @@ import android.util.Log;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SocialPresenter;
+import com.zia.gankcqupt_mvp.Util.UserUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -59,11 +61,12 @@ public class GetTitle {
                         List<AVObject> titleList = titleQuery.find();
                         for (AVObject o: titleList) {
                             final Title title = new Title();
-                            title.setAuthor(o.getString("author"));
+                            title.setUserId(o.getString("userId"));
+                            UserUtil userUtil = new UserUtil(title.getUserId());
+                            Log.d(TAG,userUtil.getNickname());
+                            title.setAuthor(userUtil.getNickname());
+                            title.setHeadUrl(userUtil.getThumbnailUrl(100,100));
                             title.setContent(o.getString("content"));
-                            title.setHeadUrl(o.getString("headImage"));
-                            /*SimpleDateFormat format = new SimpleDateFormat("MM/dd  hh:mm");
-                            title.setTime(format.format(o.getUpdatedAt()));*/
                             DateFormat dateFormat = new SimpleDateFormat("MM/dd  hh:mm");
                             title.setTime(dateFormat.format(o.getUpdatedAt()));
                             title.setTitle(o.getString("title"));

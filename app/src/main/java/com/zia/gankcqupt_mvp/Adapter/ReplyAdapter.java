@@ -2,6 +2,7 @@ package com.zia.gankcqupt_mvp.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.Holder>  {
                         holder.time.setText(comment.getTime());
                         holder.content.setText(comment.getContent());
                         if(comment.islz()){
+                            Log.d(TAG,"comment.islz()");
                             holder.lz.setVisibility(View.VISIBLE);
                         }
                     }

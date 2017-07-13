@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.zia.gankcqupt_mvp.Adapter.SocialAdapter;
 import com.zia.gankcqupt_mvp.Bean.Title;
@@ -36,6 +37,7 @@ public class SocialPresenter implements ISocialPresenter {
     @Override
     public void getData() {
         titles.clear();
+        fragment.getWaitText().setVisibility(View.GONE);
         GetTitle getTitle = new GetTitle(context);
         if(swipeRefreshLayout != null)
         getTitle.setRefreshLayout(swipeRefreshLayout);
