@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -17,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
@@ -28,14 +25,11 @@ import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
 import com.zia.gankcqupt_mvp.Model.SaveStudent;
-import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
 import com.zia.gankcqupt_mvp.R;
-import com.zia.gankcqupt_mvp.Util.UpdataActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 
@@ -213,9 +207,8 @@ public class ThirdPresenter implements IThirdPresenter,PopupMenu.OnMenuItemClick
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
             case R.id.user_pop_changeImage:
-                Intent intent = new Intent(context,UpdataActivity.class);
-                context.startActivity(intent);
-
+                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                ((Activity)context).startActivityForResult(intent,1);
                 break;
 
             case R.id.user_pop_changeName:

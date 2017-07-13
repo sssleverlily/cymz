@@ -1,12 +1,19 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -16,6 +23,11 @@ import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     private TabLayout tabLayout;
@@ -23,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private Toolbar toolbar;
     private FloatingActionButton floatingActionButton;
     private IMainPresenter mainPresenter;
+    private final static String TAG = "MainActivityTest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +82,19 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     public FloatingActionButton getFloatingBar() {
         return floatingActionButton;
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (data != null) {
+                    mainPresenter.getRawImage(data);
+                }
+                break;
+            case 2:
+                    mainPresenter.updataImage(data);
+                break;
+        }
+    }
 
 }

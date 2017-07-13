@@ -1,5 +1,7 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 
+import android.content.Intent;
+
 import com.zia.gankcqupt_mvp.Bean.Student;
 
 import java.util.List;
@@ -13,5 +15,7 @@ public interface IMainPresenter {
     void setPager();
     void setToolbar();
     void getData();
+    void getRawImage(Intent data);
+    void updataImage(Intent data);
     List<Student> getStudentList();
 }
