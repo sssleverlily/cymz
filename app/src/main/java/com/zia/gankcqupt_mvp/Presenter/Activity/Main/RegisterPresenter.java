@@ -59,9 +59,14 @@ public class RegisterPresenter implements IRegisterPresenter {
 
     @Override
     public void register() {
-        if (activity.getUsername() == null || activity.getPassword() == null || activity.getNickname() == null) {
+        String username = activity.getUsername();
+        String password = activity.getPassword();
+        String nickname = activity.getNickname();
+        if (username.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
             Toast.makeText(context, "把信息填完整哟..", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else
+        {
             final ProgressDialog dialog = new ProgressDialog(context);
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
             dialog.setCancelable(true);// 设置是否可以通过点击Back键取消

@@ -206,6 +206,18 @@ public class ThirdPresenter implements IThirdPresenter,PopupMenu.OnMenuItemClick
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
+
+            case R.id.use_pop_login:
+                if(AVUser.getCurrentUser() != null){
+                    Toast.makeText(context, "您已经登录啦..", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent1 = new Intent(context,LoginActivity.class);
+                    ((Activity)context).startActivity(intent1);
+                    ((Activity)context).finish();
+                }
+                break;
+
             case R.id.user_pop_changeImage:
                 Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 ((Activity)context).startActivityForResult(intent,1);
@@ -249,7 +261,40 @@ public class ThirdPresenter implements IThirdPresenter,PopupMenu.OnMenuItemClick
                 break;
 
             case R.id.user_pop_changePassword:
-
+                final EditText et1 = new EditText(context);
+                et1.setHint("密码长度大于等于6");
+                new AlertDialog.Builder(context).setTitle("修改密码")
+                        .setView(et1)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String input = et1.getText().toString();
+                                if (input.isEmpty() || input.length() < 6) {
+                                    Toast.makeText(context, "密码类型不符合要求！" + input, Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    AVUser user = AVUser.getCurrentUser();
+                                    user.setPassword(input);
+                                    user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(AVException e) {
+                                            if(e != null){
+                                                e.printStackTrace();
+                                            }
+                                            else{
+                                                ((Activity)context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(context, "修改成功！", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
                 break;
 
             case R.id.user_pop_loginOut:
