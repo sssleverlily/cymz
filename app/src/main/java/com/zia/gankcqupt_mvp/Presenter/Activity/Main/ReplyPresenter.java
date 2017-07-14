@@ -1,8 +1,10 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +56,7 @@ public class ReplyPresenter implements IReplyPresenter {
                     Log.d(TAG, "回复不能为空");
                     return;
                 }
-                model.sendReply(activity);
+                model.sendReply(activity,ReplyPresenter.this);
                 showData();
             }
         });
@@ -71,5 +73,11 @@ public class ReplyPresenter implements IReplyPresenter {
     public void showData() {
         commentList.clear();
         model.getDataAndShow(this);
+    }
+
+    @Override
+    public void setToolBar(Toolbar toolBar) {
+        toolBar.setTitle("回复列表");
+        toolBar.setTitleTextColor(Color.parseColor("#ffffff"));
     }
 }

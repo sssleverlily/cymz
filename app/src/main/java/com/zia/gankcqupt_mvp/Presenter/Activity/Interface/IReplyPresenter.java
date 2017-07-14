@@ -1,6 +1,7 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
 /**
@@ -11,4 +12,5 @@ public interface IReplyPresenter {
     void setButton(Button button);
     void setRecycler(RecyclerView recycler);
     void showData();
+    void setToolBar(Toolbar toolBar);
 }

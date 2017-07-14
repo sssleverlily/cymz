@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IReplyPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.ReplyPresenter;
 import com.zia.gankcqupt_mvp.R;
@@ -19,6 +21,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
     private RecyclerView recyclerView;
     private Button send;
     private EditText editText;
+    private Toolbar toolbar;
     private IReplyPresenter presenter = null;
 
     @Override
@@ -28,6 +31,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         findWidgets();
         presenter = new ReplyPresenter(this);
         presenter.setButton(send);
+        presenter.setToolBar(toolbar);
         presenter.setRecycler(recyclerView);
         presenter.showData();
     }
@@ -36,6 +40,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         recyclerView = (RecyclerView) findViewById(R.id.reply_recycler);
         send = (Button) findViewById(R.id.reply_send);
         editText = (EditText) findViewById(R.id.reply_edit);
+        toolbar = (Toolbar)findViewById(R.id.reply_toolbar);
     }
 
     @Override
@@ -66,4 +71,16 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         }
         return "get userId error!";
     }
+
+    @Override
+    public Title getFirstTitle() {
+        Intent intent = getIntent();
+        if(intent != null){
+            Title title = (Title)intent.getSerializableExtra("title");
+            Log.d(TAG,"get Title:"+title.toString());
+            return title;
+        }
+        return null;
+    }
+
 }

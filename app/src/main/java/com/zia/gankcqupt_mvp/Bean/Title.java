@@ -1,12 +1,17 @@
 package com.zia.gankcqupt_mvp.Bean;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Created by zia on 2017/5/29.
  */
 
-public class Title {
+public class Title implements Serializable {
     private String author;
     private String time;
+    private Date updatedAt;
+    private Date createdAt;
     private String title;
     private String content;
     private String count;
@@ -17,6 +22,22 @@ public class Title {
     @Override
     public String toString() {
         return "author:"+author+"\ntime:"+time+"\ntitle:"+title+"\ncontent:"+content+"\ncount:"+count+"\nurl:"+headUrl+"\nobjectId:"+objectId+"\nuserId:"+userId;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getUserId() {

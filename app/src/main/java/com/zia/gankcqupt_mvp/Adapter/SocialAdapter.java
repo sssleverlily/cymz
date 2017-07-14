@@ -60,6 +60,7 @@ public class SocialAdapter extends RecyclerView.Adapter<SocialAdapter.Holder> {
                 Intent intent = new Intent(context, ReplyActivity.class);
                 intent.putExtra("objectId",title.getObjectId());
                 intent.putExtra("userId",title.getUserId());
+                intent.putExtra("title",title);
                 context.startActivity(intent);
             }
         });

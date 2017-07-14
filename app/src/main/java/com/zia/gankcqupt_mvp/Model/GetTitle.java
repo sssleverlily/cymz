@@ -17,6 +17,8 @@ import com.zia.gankcqupt_mvp.Util.UserUtil;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -69,12 +71,11 @@ public class GetTitle {
                             title.setContent(o.getString("content"));
                             DateFormat dateFormat = new SimpleDateFormat("MM/dd  hh:mm");
                             title.setTime(dateFormat.format(o.getUpdatedAt()));
+                            title.setUpdatedAt(o.getUpdatedAt());
+                            title.setCreatedAt(o.getCreatedAt());
                             title.setTitle(o.getString("title"));
                             title.setObjectId(o.getObjectId());
-                            AVQuery<AVObject> commentQuery = new AVQuery<AVObject>("Comment");
-                            commentQuery.whereEqualTo("targetId", o.getObjectId());
-                            List<AVObject> commentList = commentQuery.find();
-                            title.setCount(String.valueOf(commentList.size())+"条评论");
+                            title.setCount(String.valueOf((int)o.get("count"))+"条评论");
                             e.onNext(title);
                         }
                         e.onComplete();
@@ -100,20 +101,16 @@ public class GetTitle {
 
                     @Override
                     public void onComplete() {
-                        SocialPresenter.titles = resort(SocialPresenter.titles);
+                        Collections.sort(SocialPresenter.titles, new Comparator<Title>() {
+                            @Override
+                            public int compare(Title title, Title t1) {
+                                return t1.getTime().compareTo(title.getTime());
+                            }
+                        });
                         Log.d(TAG,SocialPresenter.titles.toString());
                         if(refreshLayout != null) refreshLayout.setRefreshing(false);
                         SocialPresenter.adapter.refreshData(SocialPresenter.titles);
                     }
                 });
-    }
-
-    private List<Title> resort(List<Title> list) {
-        int i;
-        List<Title> l = new ArrayList<>();
-        for (i = list.size() - 1; i >= 0; i--) {
-            l.add(list.get(i));
-        }
-        return l;
     }
 }

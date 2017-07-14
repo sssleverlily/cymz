@@ -59,9 +59,14 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.Holder>  {
         Observable.create(new ObservableOnSubscribe<AVUser>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<AVUser> e) throws Exception {
-                AVQuery<AVObject> avQuery = new AVQuery<>("_User");
-                e.onNext((AVUser)avQuery.get(comment.getUserId()));
-                e.onComplete();
+                try {
+                    AVQuery<AVObject> avQuery = new AVQuery<>("_User");
+                    e.onNext((AVUser)avQuery.get(comment.getUserId()));
+                    e.onComplete();
+                }catch (Exception e1){
+                    e1.printStackTrace();
+                }
+
             }
         })
                 .observeOn(AndroidSchedulers.mainThread())
