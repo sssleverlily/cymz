@@ -70,6 +70,10 @@ public class ReplyModel {
                     titleObj.increment("count");
                     titleObj.setFetchWhenSave(true);
                     titleObj.saveInBackground();
+                    AVObject avUser = AVUser.getCurrentUser();
+                    avUser.increment("exp");
+                    avUser.setFetchWhenSave(true);
+                    avUser.saveInBackground();
                     Log.d(TAG,"count++");
                     presenter.showData();
                     ((Activity) context).runOnUiThread(new Runnable() {
@@ -86,6 +90,7 @@ public class ReplyModel {
     }
 
     public void getDataAndShow(final ReplyPresenter presenter) {
+        presenter.commentList.clear();
         Observable.create(new ObservableOnSubscribe<Comment>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Comment> e) throws Exception {
@@ -101,8 +106,8 @@ public class ReplyModel {
                     if (presenter.activity.getUserId().equals(comment.getUserId())) {
                         comment.setIslz(true);
                     } else comment.setIslz(false);
-                    DateFormat dateFormat = new SimpleDateFormat("mm/dd  HH:mm");
-                    comment.setTime(dateFormat.format(o.getCreatedAt()));
+                    DateFormat dateFormat = new SimpleDateFormat("MM/dd  HH:mm");
+                    comment.setTime(dateFormat.format(comment.getCreatedAt()));
                     e.onNext(comment);
                     Log.d(TAG, comment.toString());
                 }
