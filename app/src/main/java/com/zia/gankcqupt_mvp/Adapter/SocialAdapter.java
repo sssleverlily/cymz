@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.GetCallback;
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.R;

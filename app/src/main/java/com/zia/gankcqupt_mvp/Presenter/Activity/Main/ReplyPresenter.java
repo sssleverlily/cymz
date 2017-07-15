@@ -57,7 +57,6 @@ public class ReplyPresenter implements IReplyPresenter {
                     return;
                 }
                 model.sendReply(activity,ReplyPresenter.this);
-                showData();
             }
         });
     }
@@ -70,14 +69,19 @@ public class ReplyPresenter implements IReplyPresenter {
     }
 
     @Override
-    public void showData() {
+    public void showData(boolean isTop) {
         commentList.clear();
-        model.getDataAndShow(this);
+        model.getDataAndShow(this,isTop);
     }
 
     @Override
     public void setToolBar(Toolbar toolBar) {
         toolBar.setTitle("回复列表");
         toolBar.setTitleTextColor(Color.parseColor("#ffffff"));
+    }
+
+    @Override
+    public RecyclerView getRecycler() {
+        return activity.getRecycler();
     }
 }

@@ -34,10 +34,12 @@ public class DetailModel {
 
     public void setPic(ImageView imageView,boolean isFour,String studentId){
         if(isFour) {
-            url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+studentId+".jpg";
+            //url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+studentId+".jpg";
+            url = "http://139.199.176.72/cet/"+studentId+".jpg";
         }
         else{
-            url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + studentId;
+            //url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + studentId;
+            url = "http://139.199.176.72/ykt/"+studentId+".jpg";
         }
         Glide.with(context).load(url).into(imageView);
     }

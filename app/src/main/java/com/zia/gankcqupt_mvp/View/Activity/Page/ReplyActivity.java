@@ -33,7 +33,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         presenter.setButton(send);
         presenter.setToolBar(toolbar);
         presenter.setRecycler(recyclerView);
-        presenter.showData();
+        presenter.showData(true);
     }
 
     private void findWidgets(){
@@ -81,6 +81,16 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
             return title;
         }
         return null;
+    }
+
+    @Override
+    public void clearEdit() {
+        editText.setText("");
+    }
+
+    @Override
+    public RecyclerView getRecycler() {
+        return recyclerView;
     }
 
 }

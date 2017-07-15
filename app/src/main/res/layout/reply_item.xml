@@ -55,7 +55,12 @@
                     android:layout_margin="8dp"
                     android:textColor="#dc3d10"
                     android:textSize="15dp"
-                    android:visibility="invisible"/>
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/reply_item_range"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
 
             </LinearLayout>
 

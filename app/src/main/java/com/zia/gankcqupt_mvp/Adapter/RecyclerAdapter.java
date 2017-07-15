@@ -75,8 +75,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         String url;
         if(ISFOUR){
             url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+student.getStudentId()+".jpg";
+            //url = "http://139.199.176.72/cet/"+student.getStudentId()+".jpg";
         }else{
             url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + student.getStudentId();
+            //url = "http://139.199.176.72/ykt/"+student.getStudentId()+".jpg";
         }
         Glide.with(context).load(url).error(R.mipmap.error_icon).into(holder.imageView);
     }

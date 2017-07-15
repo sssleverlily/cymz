@@ -14,4 +14,6 @@ public interface IReplyActivity {
     String getObjectId();
     String getUserId();
     Title getFirstTitle();
+    void clearEdit();
+    RecyclerView getRecycler();
 }

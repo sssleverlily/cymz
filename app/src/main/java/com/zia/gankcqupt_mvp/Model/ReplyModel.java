@@ -75,7 +75,7 @@ public class ReplyModel {
                     avUser.setFetchWhenSave(true);
                     avUser.saveInBackground();
                     Log.d(TAG,"count++");
-                    presenter.showData();
+                    presenter.showData(false);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -89,7 +89,7 @@ public class ReplyModel {
         });
     }
 
-    public void getDataAndShow(final ReplyPresenter presenter) {
+    public void getDataAndShow(final ReplyPresenter presenter, final boolean isTop) {
         presenter.commentList.clear();
         Observable.create(new ObservableOnSubscribe<Comment>() {
             @Override
@@ -151,6 +151,10 @@ public class ReplyModel {
                             }
                         });
                         presenter.adapter.refreshData(presenter.commentList);
+                        if(!isTop) {
+                            presenter.getRecycler().smoothScrollToPosition(presenter.adapter.getListSize() + 1);
+                        }
+                        presenter.activity.clearEdit();
                     }
                 });
 

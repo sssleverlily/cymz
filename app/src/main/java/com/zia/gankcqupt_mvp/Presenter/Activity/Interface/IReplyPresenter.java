@@ -11,6 +11,7 @@ import android.widget.Button;
 public interface IReplyPresenter {
     void setButton(Button button);
     void setRecycler(RecyclerView recycler);
-    void showData();
+    void showData(boolean isTop);
     void setToolBar(Toolbar toolBar);
+    RecyclerView getRecycler();
 }
