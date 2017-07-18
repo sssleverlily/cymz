@@ -29,50 +29,43 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 
 public class LoginPresenter implements ILoginPresenter {
 
-    private Context context;
-    private ILoginActivity activity;
+
     private static final String TAG = "LoginPresenterTest";
+    private LoginActivity activity;
 
     public LoginPresenter(LoginActivity activity){
-        context = activity;
         this.activity = activity;
     }
 
     @Override
     public void gotoRegisterPage() {
         Log.d(TAG,"gotoRegisterPage");
-        Intent intent = new Intent(context, RegisterActivity.class);
-        context.startActivity(intent);
+        Intent intent = new Intent(activity, RegisterActivity.class);
+        activity.startActivity(intent);
     }
 
     @Override
     public void gotoMainPage() {
         Log.d(TAG,"gotoMainPage");
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-        ((Activity)context).finish();
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     @Override
-    public void login() {
-        final ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setTitle("正在登录");
-        dialog.setMessage("稍等");
-        dialog.show();
-        AVUser.logInInBackground(activity.getUsername(), activity.getPassword(), new LogInCallback<AVUser>() {
+    public void login(String username,String password) {
+        activity.showDialog();
+        AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
             @Override
             public void done(AVUser avUser, AVException e) {
                 if(e != null){
                     e.printStackTrace();
                     Log.d(TAG,"登录有问题");
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog.hide();
-                            Toast.makeText(context, "用户或密码错误", Toast.LENGTH_SHORT).show();
+                            activity.hideDialog();
+                            activity.toast("用户或密码错误");
                         }
                     });
                 }
@@ -93,14 +86,14 @@ public class LoginPresenter implements ILoginPresenter {
                     }
                     Log.d(TAG,"nickname:"+avUser.getString("nickname"));
                     Log.d(TAG,"sex:"+avUser.getString("sex"));
-                    StudentDbHelper helper = new StudentDbHelper(context,"cymz.db",null,1);
+                    StudentDbHelper helper = new StudentDbHelper(activity,"cymz.db",null,1);
                     SQLiteDatabase database = helper.getWritableDatabase();
                     Log.d(TAG,values.toString());
                     database.insert("LocalData",null,values);
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog.hide();
+                            activity.hideDialog();
                             gotoMainPage();
                         }
                     });

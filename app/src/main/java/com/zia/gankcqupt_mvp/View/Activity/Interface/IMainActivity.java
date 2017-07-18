@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.View.Activity.Interface;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -18,4 +19,10 @@ public interface IMainActivity {
     TabLayout getTablayout();
     PagerAdapter getPagerAdapter();
     FloatingActionButton getFloatingBar();
+    void toast(String msg);
+    void setToolBar();
+    void showDialog();
+    void hideDialog();
+    Activity getActivity();
+    ProgressDialog getDialog();
 }

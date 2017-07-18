@@ -47,17 +47,11 @@ public class ReplyModel {
         this.context = context;
     }
 
-    public void sendReply(final IReplyActivity activity, final ReplyPresenter presenter) {
-        final ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
-        dialog.setTitle("正在发布");
-        dialog.setMessage("稍等");
-        dialog.show();
+    public void sendReply(final ReplyPresenter presenter) {
+        presenter.showDialog();
         AVObject comment = new AVObject("Comment");
-        comment.put("targetId", activity.getObjectId());
-        comment.put("content", activity.getEdit());
+        comment.put("targetId", presenter.getObjectId());
+        comment.put("content", presenter.getEdit());
         comment.put("userId", AVUser.getCurrentUser().getObjectId());
         comment.saveInBackground(new SaveCallback() {
             @Override
@@ -66,7 +60,7 @@ public class ReplyModel {
                     Log.d(TAG, "comment保存失败");
                     e.printStackTrace();
                 } else {
-                    AVObject titleObj = AVObject.createWithoutData("Title",activity.getObjectId());
+                    AVObject titleObj = AVObject.createWithoutData("Title",presenter.getObjectId());
                     titleObj.increment("count");
                     titleObj.setFetchWhenSave(true);
                     titleObj.saveInBackground();
@@ -80,7 +74,7 @@ public class ReplyModel {
                         @Override
                         public void run() {
                             Log.d(TAG, "comment保存成功");
-                            dialog.hide();
+                            presenter.hideDialog();
                             Toast.makeText(context, "发布成功！", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -90,12 +84,12 @@ public class ReplyModel {
     }
 
     public void getDataAndShow(final ReplyPresenter presenter, final boolean isTop) {
-        presenter.commentList.clear();
+        presenter.getComments().clear();
         Observable.create(new ObservableOnSubscribe<Comment>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Comment> e) throws Exception {
                 AVQuery<AVObject> avQuery = new AVQuery<>("Comment");
-                avQuery.whereEqualTo("targetId", presenter.activity.getObjectId());
+                avQuery.whereEqualTo("targetId", presenter.getObjectId());
                 List<AVObject> list = avQuery.find();
                 for (AVObject o : list) {
                     Comment comment = new Comment();
@@ -103,7 +97,7 @@ public class ReplyModel {
                     comment.setCreatedAt(o.getCreatedAt());
                     comment.setObjectId(o.getObjectId());
                     comment.setUserId(o.getString("userId"));
-                    if (presenter.activity.getUserId().equals(comment.getUserId())) {
+                    if (presenter.getUserId().equals(comment.getUserId())) {
                         comment.setIslz(true);
                     } else comment.setIslz(false);
                     DateFormat dateFormat = new SimpleDateFormat("MM/dd  HH:mm");
@@ -124,7 +118,7 @@ public class ReplyModel {
 
                     @Override
                     public void onNext(@NonNull Comment comment) {
-                        presenter.commentList.add(comment);
+                        presenter.getComments().add(comment);
                     }
 
                     @Override
@@ -135,26 +129,26 @@ public class ReplyModel {
                     @Override
                     public void onComplete() {
                         Comment comment = new Comment();
-                        Title title = presenter.activity.getFirstTitle();
+                        Title title = presenter.getFirstTitle();
                         comment.setIslz(true);
                         comment.setUserId(title.getUserId());
                         comment.setTime(title.getTime());
                         comment.setCreatedAt(title.getCreatedAt());
                         comment.setObjectId(title.getObjectId());
                         comment.setContent(title.getContent());
-                        presenter.commentList.add(comment);
+                        presenter.getComments().add(comment);
                         //按时间顺序排序
-                        Collections.sort(presenter.commentList, new Comparator<Comment>() {
+                        Collections.sort(presenter.getComments(), new Comparator<Comment>() {
                             @Override
                             public int compare(Comment comment, Comment t1) {
                                 return comment.getCreatedAt().compareTo(t1.getCreatedAt());
                             }
                         });
-                        presenter.adapter.refreshData(presenter.commentList);
+                        presenter.getAdapter().refreshData(presenter.getComments());
                         if(!isTop) {
-                            presenter.getRecycler().smoothScrollToPosition(presenter.adapter.getListSize() + 1);
+                            presenter.getRecycler().smoothScrollToPosition(presenter.getAdapter().getListSize() + 1);
                         }
-                        presenter.activity.clearEdit();
+                        presenter.clearEdit();
                     }
                 });
 

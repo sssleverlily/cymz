@@ -3,12 +3,8 @@ package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Environment;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
@@ -26,14 +22,6 @@ import com.zia.gankcqupt_mvp.Util.StudentUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 /**
  * Created by zia on 2017/5/19.
  */
@@ -41,15 +29,14 @@ import java.net.URL;
 public class DetailPresenter implements IDetailPresenter {
 
     private Context context;
-    private IDetailActivity detailActivity;
+    private IDetailActivity activity;
     private static final String TAG = "DetailPresenterTest";
     private static boolean isFour = true;
     private DetailModel model;
     private Student student;
-    private Button button;
 
     public DetailPresenter(DetailActivity detailActivity){
-        this.detailActivity = detailActivity;
+        this.activity = detailActivity;
         context = detailActivity;
         isFour = detailActivity.getIsFour();
         model = new DetailModel(detailActivity);
@@ -59,7 +46,7 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void showPic() {
-        model.setPic(detailActivity.getImageView(),isFour,student.studentId);
+        model.setPic(activity.getImageView(),isFour,student.studentId);
     }
 
     /**
@@ -74,8 +61,8 @@ public class DetailPresenter implements IDetailPresenter {
                 Log.d(TAG,"在收藏数据库中找到该学生，删除");
                 database.delete("Favorite","studentid = ?",new String[]{student.getStudentId()});
                 MainPresenter.favorites.remove(student);
-                button.setTextColor(Color.BLACK);
-                Toast.makeText(context, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                activity.setButtonColor(Color.BLACK);
+                toast("取消收藏成功");
                 return;
             }
         }
@@ -83,11 +70,11 @@ public class DetailPresenter implements IDetailPresenter {
         long f = database.insert("Favorite",null, StudentUtil.student2values(student));
         if(f != (long)-1){
             MainPresenter.favorites.add(student);
-            button.setTextColor(Color.RED);
-            Toast.makeText(context, "收藏成功!", Toast.LENGTH_SHORT).show();
+            activity.setButtonColor(Color.RED);
+            toast("收藏成功!");
         }
         else{
-            Toast.makeText(context, "收藏失败...", Toast.LENGTH_SHORT).show();
+            toast("收藏失败...");
         }
 
     }
@@ -105,15 +92,14 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void setData() {
-        detailActivity.setData(student.getName(),student.getStudentId(),student.getMajor(),student.getClassId(),student.getYear());
+        activity.setData(student.getName(),student.getStudentId(),student.getMajor(),student.getClassId(),student.getYear());
     }
 
     @Override
-    public void setFavoriteColor(Button button) {
-        this.button = button;
+    public void setFavoriteColor() {
         for (Student temp : MainPresenter.favorites) {
             if (temp.getStudentId().equals(student.getStudentId())) {
-                button.setTextColor(Color.RED);
+                activity.setButtonColor(Color.RED);
                 return;
             }
         }
@@ -144,5 +130,10 @@ public class DetailPresenter implements IDetailPresenter {
             //注意不是设置 ContentView 的 FitsSystemWindows, 而是设置 ContentView 的第一个子 View . 使其不为系统 View 预留空间.
             ViewCompat.setFitsSystemWindows(mChildView, false);
         }
+    }
+
+    @Override
+    public void toast(String msg) {
+        if(activity != null) activity.toast(msg);
     }
 }

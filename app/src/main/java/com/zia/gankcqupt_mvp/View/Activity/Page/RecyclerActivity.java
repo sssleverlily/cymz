@@ -1,5 +1,7 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RecyclerPresenter;
@@ -20,6 +23,7 @@ public class RecyclerActivity extends AppCompatActivity implements IRecyclerActi
     private SwipeRefreshLayout swipeRefreshLayout;
     private static String TAG = "RecyclerActivityTest";
     private IRecyclerPresenter presenter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,4 +68,15 @@ public class RecyclerActivity extends AppCompatActivity implements IRecyclerActi
     public String getFlag() {
         return getIntent().getStringExtra("flag");
     }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
 }

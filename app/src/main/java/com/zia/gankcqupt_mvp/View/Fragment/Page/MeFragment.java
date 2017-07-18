@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.View.Fragment.Page;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IThirdPresenter;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.ThirdPresenter;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IMePresenter;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.MePresenter;
 import com.zia.gankcqupt_mvp.R;
-import com.zia.gankcqupt_mvp.View.Fragment.Interface.IThirdFragment;
+import com.zia.gankcqupt_mvp.View.Fragment.Interface.IMeFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -22,57 +24,59 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by zia on 2017/5/18.
  */
 
-public class ThirdFragment extends Fragment implements IThirdFragment {
+public class MeFragment extends Fragment implements IMeFragment {
 
     private View view;
     private Button upData,size,downLoad,favorite,out;
     private TextView tv,nickname,sex;
     private ImageView head;
     private LinearLayout userLayout;
-    private IThirdPresenter thirdPresenter;
+    private IMePresenter presenter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findWidgets();
-        thirdPresenter = new ThirdPresenter(this);
+        presenter = new MePresenter(this);
         setClick();
-        thirdPresenter.setUser(nickname,sex,head);
+        presenter.setUser(nickname,sex,head);
     }
 
     private void setClick(){
         upData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thirdPresenter.upData();
+                presenter.upData();
             }
         });
         size.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thirdPresenter.showDataCount();
+                presenter.showDataCount();
             }
         });
         downLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thirdPresenter.downLoad();
+                presenter.downLoad();
             }
         });
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {thirdPresenter.gotoFavoritePage();
+            public void onClick(View view) {
+                presenter.gotoFavoritePage();
             }
         });
         out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                thirdPresenter.loginOut();
+                presenter.loginOut();
             }
         });
         userLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {thirdPresenter.showUserPop(view);}
+            public void onClick(View view) {
+                presenter.showUserPop(view);}
         });
     }
 
@@ -99,5 +103,15 @@ public class ThirdFragment extends Fragment implements IThirdFragment {
     @Override
     public TextView getTextView() {
         return tv;
+    }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Activity activity() {
+        return getActivity();
     }
 }

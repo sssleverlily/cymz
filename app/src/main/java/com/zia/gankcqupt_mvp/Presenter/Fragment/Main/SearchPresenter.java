@@ -1,26 +1,19 @@
 package com.zia.gankcqupt_mvp.Presenter.Fragment.Main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Adapter.FirstAdapter;
-import com.zia.gankcqupt_mvp.Adapter.RecyclerOnClickListener;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IFirstPresenter;
-import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.ISearchPresenter;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IFirstFragment;
-import com.zia.gankcqupt_mvp.View.Fragment.Page.FirstFragment;
+import com.zia.gankcqupt_mvp.View.Fragment.Page.SearchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by zia on 2017/5/18.
  */
 
-public class FirstPresenter implements IFirstPresenter {
+public class SearchPresenter implements ISearchPresenter {
 
     private static final String TAG = "FirstPresenterTest";
     private Context context;
@@ -39,9 +32,9 @@ public class FirstPresenter implements IFirstPresenter {
     private FirstAdapter adapter;
     private List<Student> list = new ArrayList<>();
 
-    public FirstPresenter(FirstFragment firstFragment){
-        this.firstFragment = firstFragment;
-        context = firstFragment.getContext();
+    public SearchPresenter(SearchFragment searchFragment){
+        this.firstFragment = searchFragment;
+        context = searchFragment.getContext();
     }
 
 

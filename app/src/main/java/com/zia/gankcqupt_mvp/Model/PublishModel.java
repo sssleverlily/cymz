@@ -10,8 +10,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.ThirdPresenter;
-import com.zia.gankcqupt_mvp.View.Activity.Interface.IPublishActivity;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.MePresenter;
 
 /**
  * Created by zia on 2017/5/29.
@@ -26,7 +25,7 @@ public class PublishModel {
         this.context = context;
     }
 
-    public void PublishTitle(IPublishActivity activity){
+    public void PublishTitle(String title,String content){
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
         dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
@@ -34,13 +33,13 @@ public class PublishModel {
         dialog.setTitle("正在发布");
         dialog.setMessage("稍等");
         dialog.show();
-        AVObject title = new AVObject("Title");
-        title.put("title", activity.getTitle1());
-        title.put("content", activity.getContent());
-        title.put("author", ThirdPresenter.nickname);
-        title.put("headImage", ThirdPresenter.headUrl);
-        title.put("userId", AVUser.getCurrentUser().getObjectId());
-        title.saveInBackground(new SaveCallback() {
+        AVObject t = new AVObject("Title");
+        t.put("title", title);
+        t.put("content", content);
+        t.put("author", MePresenter.nickname);
+        t.put("headImage", MePresenter.headUrl);
+        t.put("userId", AVUser.getCurrentUser().getObjectId());
+        t.saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
                 if (e != null) {

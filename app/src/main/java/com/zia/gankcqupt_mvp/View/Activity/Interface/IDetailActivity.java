@@ -13,4 +13,6 @@ public interface IDetailActivity {
     boolean getIsFour();
     void setData(String name,String id,String major,String classId,String year);
     ImageView getImageView();
+    void toast(String msg);
+    void setButtonColor(int color);
 }

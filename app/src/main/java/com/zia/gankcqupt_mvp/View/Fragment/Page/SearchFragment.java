@@ -7,36 +7,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
-import com.zia.gankcqupt_mvp.Bean.Student;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IFirstPresenter;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.FirstPresenter;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.ISearchPresenter;
+import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SearchPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IFirstFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zia on 2017/5/18.
  */
 
-public class FirstFragment extends Fragment implements IFirstFragment {
+public class SearchFragment extends Fragment implements IFirstFragment {
 
     private View view;
     private EditText editText = null;
     private RecyclerView recyclerView = null;
-    private IFirstPresenter firstPresenter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         findWidgets();
-        firstPresenter = new FirstPresenter(this);
-        firstPresenter.setRecycler(recyclerView);
-        firstPresenter.setEdit();
+        ISearchPresenter presenter = new SearchPresenter(this);
+        presenter.setRecycler(recyclerView);
+        presenter.setEdit();
     }
 
     private void findWidgets(){

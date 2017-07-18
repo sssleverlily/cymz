@@ -9,5 +9,7 @@ import android.widget.TextView;
 public interface ILoginActivity {
     String getUsername();
     String getPassword();
-    TextView getTv();
+    void showDialog();
+    void hideDialog();
+    void toast(String msg);
 }

@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
@@ -26,12 +28,14 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
         setContentView(R.layout.activity_detail);
         findWidgets();
-        ViewCompat.setTransitionName(imageView, ELEMENT);
+        ViewCompat.setTransitionName(imageView, ELEMENT);//切入动画效果
         detailPresenter = new DetailPresenter(this);
-        detailPresenter.setFavoriteColor(favorite);
+        detailPresenter.setFavoriteColor();//是否收藏,显示红色或黑色
         detailPresenter.setTranslateToolbar();
         detailPresenter.setData();
         detailPresenter.showPic();
@@ -94,5 +98,15 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     @Override
     public ImageView getImageView() {
         return imageView;
+    }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setButtonColor(int color) {
+        favorite.setTextColor(color);
     }
 }

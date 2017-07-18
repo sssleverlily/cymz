@@ -12,6 +12,7 @@ public interface IDetailPresenter {
     void changeCard();
     void downLoad();
     void setData();
-    void setFavoriteColor(Button button);
+    void setFavoriteColor();
     void setTranslateToolbar();
+    void toast(String msg);
 }

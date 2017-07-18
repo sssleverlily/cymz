@@ -1,5 +1,7 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.view.ViewCompat;
@@ -10,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRegisterPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RegisterPresenter;
@@ -23,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     private ImageView header;
     private RadioGroup group;
     private IRegisterPresenter presenter;
+    private ProgressDialog dialog;
     private static final int GET_PHOTO_DISK = 1;
 
     @Override
@@ -58,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.register();
+                presenter.register(getUsername(),getPassword(),getNickname());
             }
         });
     }
@@ -85,6 +89,33 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     @Override
     public String getNickname() {
         return nickname.getText().toString();
+    }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public void showDialog() {
+        if(dialog == null) dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setTitle("正在登录");
+        dialog.setMessage("稍等");
+        dialog.show();
+    }
+
+    @Override
+    public void hideDialog() {
+        if(dialog == null) return;
+        dialog.hide();
     }
 
     @Override

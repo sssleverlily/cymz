@@ -7,5 +7,5 @@ package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 public interface ILoginPresenter {
     void gotoRegisterPage();
     void gotoMainPage();
-    void login();
+    void login(String username,String password);
 }

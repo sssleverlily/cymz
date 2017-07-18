@@ -40,14 +40,13 @@ import io.reactivex.functions.Consumer;
 
 public class RegisterPresenter implements IRegisterPresenter {
 
-    private Context context;
+
     private IRegisterActivity activity;
     private String sex;
     private String imagePath;
     private static final String TAG = "RegisterPresenterTest";
 
     public RegisterPresenter(RegisterActivity activity) {
-        context = activity;
         this.activity = activity;
     }
 
@@ -58,22 +57,13 @@ public class RegisterPresenter implements IRegisterPresenter {
     }
 
     @Override
-    public void register() {
-        String username = activity.getUsername();
-        String password = activity.getPassword();
-        String nickname = activity.getNickname();
+    public void register(String username,String password,String nickname) {
         if (username.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
-            Toast.makeText(context, "把信息填完整哟..", Toast.LENGTH_SHORT).show();
+            activity.toast("把信息填完整哟..");
         }
         else
         {
-            final ProgressDialog dialog = new ProgressDialog(context);
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-            dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
-            dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
-            dialog.setTitle("正在登录");
-            dialog.setMessage("稍等");
-            dialog.show();
+            activity.showDialog();
             final AVUser user = new AVUser();
             user.setUsername(activity.getUsername());
             user.setPassword(activity.getPassword());
@@ -84,11 +74,11 @@ public class RegisterPresenter implements IRegisterPresenter {
                     if (e != null) {
                         Log.d(TAG, "注册有问题");
                         e.printStackTrace();
-                        ((Activity) context).runOnUiThread(new Runnable() {
+                        activity.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "用户名被占用", Toast.LENGTH_SHORT).show();
-                                dialog.hide();
+                                activity.toast("用户名被占用");
+                                activity.hideDialog();
                             }
                         });
                     } else {
@@ -108,16 +98,16 @@ public class RegisterPresenter implements IRegisterPresenter {
                                     Log.d(TAG, "注册有问题");
                                     e.printStackTrace();
                                 } else {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                    activity.getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(context, "注册成功！", Toast.LENGTH_SHORT).show();
+                                            activity.toast("注册成功！");
                                             AVUser.logOut();
-                                            dialog.hide();
+                                            activity.hideDialog();
                                         }
                                     });
                                 }
-                                ((Activity) context).finish();
+                                activity.getActivity().finish();
                             }
                         });
                     }
@@ -132,7 +122,7 @@ public class RegisterPresenter implements IRegisterPresenter {
         if (data != null) {
             final Uri originalUri = data.getData();
             String[] proj = {MediaStore.Images.Media.DATA};
-            Cursor cursor = ((Activity) context).managedQuery(originalUri, proj, null, null, null);
+            Cursor cursor = activity.getActivity().managedQuery(originalUri, proj, null, null, null);
             //int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             //imagePath = cursor.getString(column_index);
@@ -145,7 +135,7 @@ public class RegisterPresenter implements IRegisterPresenter {
             intent.putExtra("outputX", 200);// 输出图片大小
             intent.putExtra("outputY", 200);
             intent.putExtra("return-data", true);
-            ((Activity) context).startActivityForResult(intent, 200);
+            activity.getActivity().startActivityForResult(intent, 200);
             //Toast.makeText(context, imagePath, Toast.LENGTH_SHORT).show();
         }
     }
@@ -168,7 +158,7 @@ public class RegisterPresenter implements IRegisterPresenter {
             bmap.compress(Bitmap.CompressFormat.PNG, 100, foutput);
             imagePath = file.getAbsolutePath();
             Log.d(TAG,"changed image path:"+imagePath);
-            ((Activity) context).runOnUiThread(new Runnable() {
+            activity.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     image.setImageBitmap(bmap);

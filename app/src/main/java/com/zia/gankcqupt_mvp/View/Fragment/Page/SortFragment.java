@@ -17,7 +17,7 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
  * Created by zia on 2017/5/18.
  */
 
-public class SecondFragment extends Fragment {
+public class SortFragment extends Fragment {
 
     private View view;
     Button button_allGirl;//全部妹子

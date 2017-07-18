@@ -30,15 +30,12 @@ import java.util.List;
 public class RecyclerPresenter implements IRecyclerPresenter {
 
     private IRecyclerActivity activity;
-    private Context context;
     private RecyclerAdapter adapter;
     private List<Student> newlist = new ArrayList<Student>();
     private boolean ISFOUR = true;
 
     public RecyclerPresenter(RecyclerActivity recyclerActivity){
         this.activity = recyclerActivity;
-        context = recyclerActivity;
-        newlist.clear();
     }
 
     //倒序排列方法
@@ -63,7 +60,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
 
     @Override
     public void setSwipeLayout(final SwipeRefreshLayout swipeLayout) {
-        swipeLayout.setColorSchemeColors(context.getResources().getColor(R.color.colorPrimary));
+        swipeLayout.setColorSchemeColors(activity.getActivity().getResources().getColor(R.color.colorPrimary));
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,7 +74,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     @Override
     public void setRecycler(RecyclerView recycler) {
         recycler.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-        adapter = new RecyclerAdapter(context);
+        adapter = new RecyclerAdapter(activity.getActivity());
         recycler.setAdapter(adapter);
     }
 
@@ -129,11 +126,11 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                 }
                 //倒序排列
                 newlist = reSort(newlist);
-                ((Activity)context).runOnUiThread(new Runnable() {
+                activity.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         adapter.reFresh(newlist,ISFOUR);
-                        Toast.makeText(context, "捕获妹子： " + newlist.size() + "个", Toast.LENGTH_LONG).show();
+                        activity.toast("捕获妹子： " + newlist.size() + "个");
                     }
                 });
             }

@@ -1,11 +1,13 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IPublishPresenter;
@@ -49,13 +51,23 @@ public class PublishActivity extends AppCompatActivity implements IPublishActivi
     }
 
     @Override
-    public String getTitle1() {
+    public String getTitleString() {
         return title.getText().toString();
     }
 
     @Override
     public String getContent() {
         return content.getText().toString();
+    }
+
+    @Override
+    public void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
     }
 
 }

@@ -1,26 +1,16 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.SaveCallback;
 import com.zia.gankcqupt_mvp.Model.PublishModel;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IPublishPresenter;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.ThirdPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IPublishActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.PublishActivity;
-import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 
 /**
  * Created by zia on 2017/5/29.
@@ -29,12 +19,10 @@ import com.zia.gankcqupt_mvp.View.Fragment.Page.ThirdFragment;
 public class PublishPresenter implements IPublishPresenter {
 
     private static final String TAG = "PublishPresenterTest";
-    private Context context;
     private IPublishActivity activity;
     private String u1,u2,u3,u4,u5;
 
     public PublishPresenter(PublishActivity activity){
-        this.context = activity;
         this.activity = activity;
     }
 
@@ -46,19 +34,18 @@ public class PublishPresenter implements IPublishPresenter {
                 switch (item.getItemId()){
                     case R.id.publish_toolbar_publish:
                         if(AVUser.getCurrentUser() == null){
-                            Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                            activity.toast("请先登录");
                             break;
                         }
-                        if(activity.getTitle1() != null) {
-                            PublishModel model = new PublishModel(context);
-                            model.PublishTitle(activity);
+                        if(activity.getTitleString() == null) {
+                            activity.toast("把标题写上..");
+                            break;
                         }
-                        else {
-                            Toast.makeText(context, "把标题写上..", Toast.LENGTH_SHORT).show();
-                        }
+                        PublishModel model = new PublishModel(activity.getActivity());
+                        model.PublishTitle(activity.getTitleString(),activity.getContent());
                         break;
                     case R.id.publish_toolbar_cancel:
-                        ((Activity)context).finish();
+                        activity.getActivity().finish();
                         break;
                 }
                 return true;
