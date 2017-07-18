@@ -8,12 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IReplyPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.ReplyPresenter;
 import com.zia.gankcqupt_mvp.R;
@@ -37,7 +35,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         setToolbar("回复列表",Color.parseColor("#ffffff"));
         presenter = new ReplyPresenter(this);
         presenter.setButton(send);
-        presenter.setRecycler(recyclerView);
+        presenter.setRecycler();
         presenter.showData(true);
     }
 
@@ -46,21 +44,12 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         send = (Button) findViewById(R.id.reply_send);
         editText = (EditText) findViewById(R.id.reply_edit);
         toolbar = (Toolbar)findViewById(R.id.reply_toolbar);
+        dialog = new ProgressDialog(this);
     }
 
     @Override
     public String getEdit() {
         return editText.getText().toString();
-    }
-
-    @Override
-    public void clearEdit() {
-        editText.setText("");
-    }
-
-    @Override
-    public RecyclerView getRecycler() {
-        return recyclerView;
     }
 
     @Override
@@ -85,20 +74,23 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
     }
 
     @Override
-    public void showDialog() {
-        if(dialog == null) dialog = new ProgressDialog(this);
+    public ProgressDialog getDialog() {
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
         dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
         dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
         dialog.setTitle("正在发布");
         dialog.setMessage("稍等");
-        dialog.show();
+        return dialog;
     }
 
     @Override
-    public void hideDialog() {
-        if(dialog == null) return;
-        dialog.hide();
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    @Override
+    public EditText getEditText() {
+        return editText;
     }
 
 }

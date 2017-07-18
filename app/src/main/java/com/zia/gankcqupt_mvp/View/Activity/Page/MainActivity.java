@@ -31,6 +31,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
+
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     private TabLayout tabLayout;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BGASwipeBackManager.getInstance().init(getApplication());
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         findWidgets();

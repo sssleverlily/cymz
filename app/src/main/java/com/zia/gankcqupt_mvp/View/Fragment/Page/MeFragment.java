@@ -96,7 +96,7 @@ public class MeFragment extends Fragment implements IMeFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_third,container,false);
+        view = inflater.inflate(R.layout.fragment_me,container,false);
         return view;
     }
 

@@ -56,28 +56,23 @@ public class ReplyPresenter implements IReplyPresenter {
                     Log.d(TAG, "回复不能为空");
                     return;
                 }
-                model.sendReply(ReplyPresenter.this);
+                model.sendReply(commentList,getObjectId(),getUserId(),getAdapter(),
+                        activity.getRecyclerView(),getFirstTitle(),activity.getEditText(),false,activity.getDialog(),activity.getEdit());
             }
         });
     }
 
     @Override
-    public void setRecycler(RecyclerView recycler) {
-        recycler.setLayoutManager(new LinearLayoutManager(activity.getActivity()));
+    public void setRecycler() {
+        activity.getRecyclerView().setLayoutManager(new LinearLayoutManager(activity.getActivity()));
         adapter = new ReplyAdapter(activity.getActivity());
-        recycler.setAdapter(adapter);
+        activity.getRecyclerView().setAdapter(adapter);
     }
 
     @Override
     public void showData(boolean isTop) {
-        commentList.clear();
-        model.getDataAndShow(this,isTop);
-    }
-
-
-    @Override
-    public RecyclerView getRecycler() {
-        return activity.getRecycler();
+        model.getDataAndShow(commentList,getObjectId(),getUserId(),getAdapter(),
+                activity.getRecyclerView(),getFirstTitle(),activity.getEditText(),isTop);
     }
 
     @Override
@@ -115,16 +110,6 @@ public class ReplyPresenter implements IReplyPresenter {
     }
 
     @Override
-    public List<Comment> getComments() {
-        return commentList;
-    }
-
-    @Override
-    public void clearEdit() {
-        activity.clearEdit();
-    }
-
-    @Override
     public Title getFirstTitle() {
         Intent intent = activity.intent();
         if(intent != null){
@@ -135,13 +120,4 @@ public class ReplyPresenter implements IReplyPresenter {
         return null;
     }
 
-    @Override
-    public void showDialog() {
-        activity.showDialog();
-    }
-
-    @Override
-    public void hideDialog() {
-        activity.hideDialog();
-    }
 }

@@ -3,7 +3,9 @@ package com.zia.gankcqupt_mvp.Model;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
@@ -13,6 +15,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.RefreshCallback;
 import com.avos.avoscloud.SaveCallback;
+import com.zia.gankcqupt_mvp.Adapter.ReplyAdapter;
 import com.zia.gankcqupt_mvp.Bean.Comment;
 import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.ReplyPresenter;
@@ -47,11 +50,12 @@ public class ReplyModel {
         this.context = context;
     }
 
-    public void sendReply(final ReplyPresenter presenter) {
-        presenter.showDialog();
+    public void sendReply(final List<Comment> comments, final String targetId, final String userId,
+                          final ReplyAdapter adapter, final RecyclerView recyclerView, final Title title, final EditText editText, final boolean isTopfinal, final ProgressDialog dialog, String content) {
+        dialog.show();
         AVObject comment = new AVObject("Comment");
-        comment.put("targetId", presenter.getObjectId());
-        comment.put("content", presenter.getEdit());
+        comment.put("targetId", targetId);
+        comment.put("content", content);
         comment.put("userId", AVUser.getCurrentUser().getObjectId());
         comment.saveInBackground(new SaveCallback() {
             @Override
@@ -60,7 +64,7 @@ public class ReplyModel {
                     Log.d(TAG, "comment保存失败");
                     e.printStackTrace();
                 } else {
-                    AVObject titleObj = AVObject.createWithoutData("Title",presenter.getObjectId());
+                    AVObject titleObj = AVObject.createWithoutData("Title",targetId);
                     titleObj.increment("count");
                     titleObj.setFetchWhenSave(true);
                     titleObj.saveInBackground();
@@ -69,12 +73,12 @@ public class ReplyModel {
                     avUser.setFetchWhenSave(true);
                     avUser.saveInBackground();
                     Log.d(TAG,"count++");
-                    presenter.showData(false);
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Log.d(TAG, "comment保存成功");
-                            presenter.hideDialog();
+                            dialog.hide();
+                            getDataAndShow(comments,targetId,userId,adapter,recyclerView,title,editText,true);
                             Toast.makeText(context, "发布成功！", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -83,13 +87,15 @@ public class ReplyModel {
         });
     }
 
-    public void getDataAndShow(final ReplyPresenter presenter, final boolean isTop) {
-        presenter.getComments().clear();
+    //从服务器获取数据并刷新加载到recycler上
+    public void getDataAndShow(final List<Comment> comments, final String targetId, final String userId,
+                               final ReplyAdapter adapter, final RecyclerView recyclerView, final Title title, final EditText editText, final boolean isTop) {
+        comments.clear();
         Observable.create(new ObservableOnSubscribe<Comment>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Comment> e) throws Exception {
                 AVQuery<AVObject> avQuery = new AVQuery<>("Comment");
-                avQuery.whereEqualTo("targetId", presenter.getObjectId());
+                avQuery.whereEqualTo("targetId", targetId);
                 List<AVObject> list = avQuery.find();
                 for (AVObject o : list) {
                     Comment comment = new Comment();
@@ -97,7 +103,7 @@ public class ReplyModel {
                     comment.setCreatedAt(o.getCreatedAt());
                     comment.setObjectId(o.getObjectId());
                     comment.setUserId(o.getString("userId"));
-                    if (presenter.getUserId().equals(comment.getUserId())) {
+                    if (userId.equals(comment.getUserId())) {
                         comment.setIslz(true);
                     } else comment.setIslz(false);
                     DateFormat dateFormat = new SimpleDateFormat("MM/dd  HH:mm");
@@ -118,7 +124,7 @@ public class ReplyModel {
 
                     @Override
                     public void onNext(@NonNull Comment comment) {
-                        presenter.getComments().add(comment);
+                        comments.add(comment);
                     }
 
                     @Override
@@ -129,26 +135,25 @@ public class ReplyModel {
                     @Override
                     public void onComplete() {
                         Comment comment = new Comment();
-                        Title title = presenter.getFirstTitle();
                         comment.setIslz(true);
                         comment.setUserId(title.getUserId());
                         comment.setTime(title.getTime());
                         comment.setCreatedAt(title.getCreatedAt());
                         comment.setObjectId(title.getObjectId());
                         comment.setContent(title.getContent());
-                        presenter.getComments().add(comment);
+                        comments.add(comment);
                         //按时间顺序排序
-                        Collections.sort(presenter.getComments(), new Comparator<Comment>() {
+                        Collections.sort(comments, new Comparator<Comment>() {
                             @Override
                             public int compare(Comment comment, Comment t1) {
                                 return comment.getCreatedAt().compareTo(t1.getCreatedAt());
                             }
                         });
-                        presenter.getAdapter().refreshData(presenter.getComments());
+                        adapter.refreshData(comments);
                         if(!isTop) {
-                            presenter.getRecycler().smoothScrollToPosition(presenter.getAdapter().getListSize() + 1);
+                           recyclerView.smoothScrollToPosition(adapter.getListSize() + 1);
                         }
-                        presenter.clearEdit();
+                        editText.setText("");
                     }
                 });
 

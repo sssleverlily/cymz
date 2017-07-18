@@ -41,7 +41,7 @@ public class SearchFragment extends Fragment implements IFirstFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_first, container, false);
+        view = inflater.inflate(R.layout.fragment_search, container, false);
         return view;
     }
 

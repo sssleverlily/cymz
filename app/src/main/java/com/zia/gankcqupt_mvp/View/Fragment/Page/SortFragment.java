@@ -167,7 +167,7 @@ public class SortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_second,container,false);
+        view = inflater.inflate(R.layout.fragment_sort,container,false);
         return view;
     }
 }

@@ -16,16 +16,11 @@ import java.util.List;
 
 public interface IReplyPresenter {
     void setButton(Button button);
-    void setRecycler(RecyclerView recycler);
+    void setRecycler();
     void showData(boolean isTop);
-    RecyclerView getRecycler();
     ReplyAdapter getAdapter();
     String getEdit();
     String getObjectId();
     String getUserId();
-    List<Comment> getComments();
-    void clearEdit();
     Title getFirstTitle();
-    void showDialog();
-    void hideDialog();
 }
