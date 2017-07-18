@@ -14,9 +14,10 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RecyclerPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.SlidingActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRecyclerActivity;
 
-public class RecyclerActivity extends AppCompatActivity implements IRecyclerActivity {
+public class RecyclerActivity extends SlidingActivity implements IRecyclerActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;

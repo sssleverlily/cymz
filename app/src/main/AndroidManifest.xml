@@ -25,13 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Activity.Page.MainActivity" />
-        <activity android:name=".View.Activity.Page.DetailActivity" />
-        <activity android:name=".View.Activity.Page.RecyclerActivity" />
+        <activity android:name=".View.Activity.Page.MainActivity"/>
+        <activity android:name=".View.Activity.Page.DetailActivity"/>
+        <activity android:name=".View.Activity.Page.RecyclerActivity" android:theme="@style/AppTheme.Slide"/>
         <activity android:name=".View.Activity.Page.LoginActivity" />
         <activity android:name=".View.Activity.Page.RegisterActivity" />
         <activity android:name=".View.Activity.Page.PublishActivity" />
-        <activity android:name=".View.Activity.Page.ReplyActivity"></activity>
+        <activity android:name=".View.Activity.Page.ReplyActivity"  android:theme="@style/AppTheme.Slide"></activity>
     </application>
 
 </manifest>

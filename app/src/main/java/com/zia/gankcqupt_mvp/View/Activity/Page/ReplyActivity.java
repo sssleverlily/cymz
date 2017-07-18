@@ -4,20 +4,19 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IReplyPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.ReplyPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.SlidingActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IReplyActivity;
 
-public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
+public class ReplyActivity extends SlidingActivity implements IReplyActivity {
 
     private final static String TAG = "ReplyActivityTest";
     private RecyclerView recyclerView;
@@ -38,6 +37,7 @@ public class ReplyActivity extends AppCompatActivity implements IReplyActivity {
         presenter.setRecycler();
         presenter.showData(true);
     }
+
 
     private void findWidgets(){
         recyclerView = (RecyclerView) findViewById(R.id.reply_recycler);

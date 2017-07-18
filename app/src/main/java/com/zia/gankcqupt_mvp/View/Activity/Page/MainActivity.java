@@ -3,35 +3,21 @@ package com.zia.gankcqupt_mvp.View.Activity.Page;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
-
 import com.zia.gankcqupt_mvp.Adapter.PagerAdapter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import cn.bingoogolapple.swipebacklayout.BGASwipeBackManager;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
@@ -46,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BGASwipeBackManager.getInstance().init(getApplication());
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         findWidgets();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        }
         setToolBar();
         mainPresenter = new MainPresenter(this);
         mainPresenter.setFloatingBar();

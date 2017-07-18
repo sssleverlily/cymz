@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#f2f2f2"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.ReplyActivity">
 
     <android.support.v7.widget.Toolbar
