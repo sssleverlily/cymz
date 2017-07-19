@@ -46,8 +46,8 @@ public class PublishModel {
                     Log.d(TAG, "title保存失败");
                     e.printStackTrace();
                 } else {
-                    GetTitle getTitle = new GetTitle(context);
-                    getTitle.getTitlesAndShow();
+                    /*GetTitle getTitle = new GetTitle(context);
+                    getTitle.getTitlesAndShow();*/
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

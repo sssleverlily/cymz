@@ -24,8 +24,8 @@ public class SocialPresenter implements ISocialPresenter {
 
     private Context context;
     private ISocialFragment fragment;
-    public static SocialAdapter adapter;
-    public static List<Title> titles = new ArrayList<>();
+    private SocialAdapter adapter;
+    private List<Title> titles = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout = null;
 
 
@@ -41,19 +41,13 @@ public class SocialPresenter implements ISocialPresenter {
         GetTitle getTitle = new GetTitle(context);
         if(swipeRefreshLayout != null)
         getTitle.setRefreshLayout(swipeRefreshLayout);
-        getTitle.getTitlesAndShow();
+        getTitle.getTitlesAndShow(adapter,titles);
         //adapter.refreshData(titles);
     }
 
     @Override
     public void setSwipeLayout(SwipeRefreshLayout layout) {
         swipeRefreshLayout = layout;
-        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getData();
-            }
-        });
     }
 
     @Override

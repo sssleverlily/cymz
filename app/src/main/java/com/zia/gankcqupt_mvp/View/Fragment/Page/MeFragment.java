@@ -39,7 +39,11 @@ public class MeFragment extends Fragment implements IMeFragment {
         findWidgets();
         presenter = new MePresenter(this);
         setClick();
-        presenter.setUser(nickname,sex,head);
+        try {
+            presenter.setUser(nickname,sex,head);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setClick(){

@@ -30,8 +30,10 @@
         <activity android:name=".View.Activity.Page.RecyclerActivity" android:theme="@style/AppTheme.Slide"/>
         <activity android:name=".View.Activity.Page.LoginActivity" />
         <activity android:name=".View.Activity.Page.RegisterActivity" />
-        <activity android:name=".View.Activity.Page.PublishActivity" />
-        <activity android:name=".View.Activity.Page.ReplyActivity"  android:theme="@style/AppTheme.Slide"></activity>
+        <activity android:name=".View.Activity.Page.PublishActivity" android:theme="@style/AppTheme.Slide"/>
+        <activity
+            android:name=".View.Activity.Page.ReplyActivity"
+            android:theme="@style/AppTheme.Slide" />
     </application>
 
 </manifest>

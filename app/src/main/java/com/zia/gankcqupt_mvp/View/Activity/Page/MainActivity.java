@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        findWidgets();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         }
+        setContentView(R.layout.activity_main);
+        findWidgets();
         setToolBar();
         mainPresenter = new MainPresenter(this);
         mainPresenter.setFloatingBar();

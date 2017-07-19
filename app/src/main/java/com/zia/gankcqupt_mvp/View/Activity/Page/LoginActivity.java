@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!getUsername().isEmpty() || !getPassword().isEmpty())
                 presenter.login(getUsername(),getPassword());
             }
         });

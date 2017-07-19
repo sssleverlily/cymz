@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     android:orientation="vertical"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.PublishActivity">
 
@@ -30,7 +31,8 @@
             android:id="@+id/publish_content"
             android:hint="有什么想说的？"
             android:textSize="20dp"
-            android:padding="3dp"
+            android:padding="5dp"
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_weight="8"
@@ -40,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:padding="5dp">
             <ImageView
                 android:id="@+id/publish_image1"

@@ -122,7 +122,7 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
     }
 
     @Override
-    public void setUser(TextView nick, TextView sex, final ImageView img) {
+    public void setUser(TextView nick, TextView sex, final ImageView img) throws Exception {
         this.nick = nick;
         final AVUser avUser = AVUser.getCurrentUser();
         if (avUser != null) {

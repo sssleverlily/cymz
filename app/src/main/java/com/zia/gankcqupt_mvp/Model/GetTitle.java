@@ -10,6 +10,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
+import com.zia.gankcqupt_mvp.Adapter.SocialAdapter;
 import com.zia.gankcqupt_mvp.Bean.Title;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SocialPresenter;
 import com.zia.gankcqupt_mvp.Util.UserUtil;
@@ -53,8 +54,8 @@ public class GetTitle {
     /**
      * 获取Title集合并刷新adapter显示在recycler里
      */
-    public void getTitlesAndShow() {
-        SocialPresenter.titles.clear();
+    public void getTitlesAndShow(final SocialAdapter adapter, final List<Title> titles) {
+        titles.clear();
         Observable
                 .create(new ObservableOnSubscribe<Title>() {
                     @Override
@@ -91,25 +92,26 @@ public class GetTitle {
 
                     @Override
                     public void onNext(@NonNull Title title) {
-                        SocialPresenter.titles.add(title);
+                        titles.add(title);
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
                     public void onComplete() {
-                        Collections.sort(SocialPresenter.titles, new Comparator<Title>() {
+                        Collections.sort(titles, new Comparator<Title>() {
                             @Override
                             public int compare(Title title, Title t1) {
                                 return t1.getTime().compareTo(title.getTime());
                             }
                         });
-                        Log.d(TAG,SocialPresenter.titles.toString());
+                        Log.d(TAG,titles.toString());
+                        adapter.refreshData(titles);
                         if(refreshLayout != null) refreshLayout.setRefreshing(false);
-                        SocialPresenter.adapter.refreshData(SocialPresenter.titles);
+
                     }
                 });
     }

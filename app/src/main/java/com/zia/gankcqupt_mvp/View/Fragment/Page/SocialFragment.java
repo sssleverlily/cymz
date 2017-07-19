@@ -34,7 +34,12 @@ public class SocialFragment extends Fragment implements ISocialFragment {
         findWidgets();
         presenter.setRecycler(recyclerView);
         presenter.setSwipeLayout(swipeRefreshLayout);
-        //presenter.getData();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.getData();
+            }
+        });
     }
 
     private void findWidgets() {

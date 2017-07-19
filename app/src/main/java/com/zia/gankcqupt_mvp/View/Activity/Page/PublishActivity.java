@@ -13,9 +13,10 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IPublishPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.PublishPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.SlidingActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IPublishActivity;
 
-public class PublishActivity extends AppCompatActivity implements IPublishActivity {
+public class PublishActivity extends SlidingActivity implements IPublishActivity {
 
     private Toolbar toolbar;
     private IPublishPresenter presenter;
