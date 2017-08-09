@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
@@ -107,6 +108,8 @@ public class RegisterPresenter implements IRegisterPresenter {
                                         }
                                     });
                                 }
+                                //保存installation到服务器
+
                                 activity.getActivity().finish();
                             }
                         });
