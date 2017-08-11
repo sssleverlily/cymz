@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.IdRes;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,14 +18,14 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRegisterPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RegisterPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRegisterActivity;
 
 public class RegisterActivity extends AppCompatActivity implements IRegisterActivity {
 
-    private EditText user,psw,nickname;
+    private TextInputLayout user,psw,nickname;
     private TextView register;
     private ImageView header;
-    private RadioGroup group;
     private IRegisterPresenter presenter;
     private ProgressDialog dialog;
     private static final int GET_PHOTO_DISK = 1;
@@ -39,19 +40,6 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     }
 
     private void setClick() {
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                switch (i){
-                    case R.id.register_male:
-                        presenter.setSex("male");
-                        break;
-                    case R.id.register_female:
-                        presenter.setSex("female");
-                        break;
-                }
-            }
-        });
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,38 +50,41 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearError();
                 presenter.register(getUsername(),getPassword(),getNickname());
             }
         });
     }
 
     private void findWidgets(){
-        user = (EditText)findViewById(R.id.register_username);
-        psw = (EditText)findViewById(R.id.register_password);
+        user = (TextInputLayout)findViewById(R.id.register_username);
+        psw = (TextInputLayout)findViewById(R.id.register_password);
         register = (TextView)findViewById(R.id.register_register);
         header = (ImageView)findViewById(R.id.register_imageView);
-        group = (RadioGroup)findViewById(R.id.register_group);
-        nickname = (EditText)findViewById(R.id.register_nickname);
+        nickname = (TextInputLayout)findViewById(R.id.register_nickname);
     }
 
     @Override
     public String getUsername() {
-        return user.getText().toString();
+        if(user.getEditText() == null) return "";
+        return user.getEditText().getText().toString();
     }
 
     @Override
     public String getPassword() {
-        return psw.getText().toString();
+        if(psw.getEditText() == null) return "";
+        return psw.getEditText().getText().toString();
     }
 
     @Override
     public String getNickname() {
-        return nickname.getText().toString();
+        if(nickname.getEditText() == null) return "";
+        return nickname.getEditText().getText().toString();
     }
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override
@@ -116,6 +107,33 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
     public void hideDialog() {
         if(dialog == null) return;
         dialog.hide();
+    }
+
+    @Override
+    public void setUsernameError() {
+        user.setError("该用户名被占用");
+    }
+
+    @Override
+    public void setPasswordError() {
+        psw.setError("密码格式为6-15位");
+    }
+
+    @Override
+    public void setUsernameFormatError() {
+        user.setError("用户名不能为空");
+    }
+
+    @Override
+    public void setNicknameFormatError() {
+        nickname.setError("昵称不能为空");
+    }
+
+    @Override
+    public void clearError() {
+        user.setErrorEnabled(false);
+        psw.setErrorEnabled(false);
+        nickname.setErrorEnabled(false);
     }
 
     @Override

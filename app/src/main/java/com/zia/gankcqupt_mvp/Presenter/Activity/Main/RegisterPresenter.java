@@ -43,7 +43,6 @@ public class RegisterPresenter implements IRegisterPresenter {
 
 
     private IRegisterActivity activity;
-    private String sex;
     private String imagePath;
     private static final String TAG = "RegisterPresenterTest";
 
@@ -53,14 +52,14 @@ public class RegisterPresenter implements IRegisterPresenter {
 
 
     @Override
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    @Override
     public void register(String username,String password,String nickname) {
-        if (username.isEmpty() || password.isEmpty() || nickname.isEmpty()) {
-            activity.toast("把信息填完整哟..");
+        if(nickname.isEmpty()){
+            activity.setNicknameFormatError();
+        }
+        else if (username.isEmpty()) {
+            activity.setUsernameFormatError();
+        }else if(password.isEmpty()){
+            activity.setPasswordError();
         }
         else
         {
@@ -68,7 +67,6 @@ public class RegisterPresenter implements IRegisterPresenter {
             final AVUser user = new AVUser();
             user.setUsername(activity.getUsername());
             user.setPassword(activity.getPassword());
-            user.put("sex", sex);
             user.signUpInBackground(new SignUpCallback() {//先注册
                 @Override
                 public void done(AVException e) {
@@ -78,8 +76,8 @@ public class RegisterPresenter implements IRegisterPresenter {
                         activity.getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                activity.toast("用户名被占用");
                                 activity.hideDialog();
+                                activity.setUsernameError();
                             }
                         });
                     } else {
@@ -96,7 +94,6 @@ public class RegisterPresenter implements IRegisterPresenter {
                             @Override
                             public void done(AVException e) {
                                 if (e != null) {
-                                    Log.d(TAG, "注册有问题");
                                     e.printStackTrace();
                                 } else {
                                     activity.getActivity().runOnUiThread(new Runnable() {

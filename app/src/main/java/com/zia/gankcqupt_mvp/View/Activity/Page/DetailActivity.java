@@ -15,6 +15,7 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.DetailPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 
 public class DetailActivity extends AppCompatActivity implements IDetailActivity {
@@ -40,7 +41,6 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
         detailPresenter.setData();
         detailPresenter.showPic();
         setClick();
-
     }
 
     private void setClick(){
@@ -102,7 +102,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override

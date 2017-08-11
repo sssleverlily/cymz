@@ -9,7 +9,6 @@ import android.widget.ImageView;
  */
 
 public interface IRegisterPresenter {
-    void setSex(String sex);
     void register(String username,String password,String nickname);
     void setImage(ImageView image,Intent data);
     Bitmap changeImage(ImageView image, Intent data);

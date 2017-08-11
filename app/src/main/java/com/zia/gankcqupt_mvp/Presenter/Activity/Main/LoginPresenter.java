@@ -64,8 +64,8 @@ public class LoginPresenter implements ILoginPresenter {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            activity.setPasswordError();
                             activity.hideDialog();
-                            activity.toast("用户或密码错误");
                         }
                     });
                 }

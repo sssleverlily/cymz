@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
+import com.zia.gankcqupt_mvp.Presenter.Activity.Main.DetailPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 

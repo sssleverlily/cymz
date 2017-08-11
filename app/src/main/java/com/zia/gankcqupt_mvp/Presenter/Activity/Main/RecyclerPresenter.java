@@ -30,7 +30,8 @@ import java.util.List;
 public class RecyclerPresenter implements IRecyclerPresenter {
 
     private IRecyclerActivity activity;
-    private RecyclerAdapter adapter;
+    public static RecyclerAdapter adapter;
+    public static boolean isFavorateList = false;
     private List<Student> newlist = new ArrayList<Student>();
     private boolean ISFOUR = true;
 
@@ -51,9 +52,11 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     public void setToolbar(Toolbar toolbar) {
         if (activity.getFlag().equals("favorite")){
             toolbar.setTitle("我的收藏");
+            isFavorateList = true;
         }
         else {
             toolbar.setTitle("看妹子");
+            isFavorateList = false;
         }
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
     }

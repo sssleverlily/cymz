@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="40dp"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity">
@@ -18,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#6fd2e1"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -29,114 +28,66 @@
                 android:gravity="center_horizontal"
                 android:text="重邮妹子心悦会员"
                 android:textColor="#195963"
-                android:textSize="25dp" />
+                android:textSize="23dp" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/register_imageView"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="15dp"
-                android:src="@mipmap/icon1_camara" />
+                android:elevation="3dp"
+                android:layout_margin="20dp">
 
-            <LinearLayout
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/register_imageView"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@mipmap/icon1_camara"
+                    android:layout_margin="10dp"/>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="账号"
-                    android:textColor="#195963"
-                    android:textSize="25dp" />
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
-                    android:id="@+id/register_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="(不超过16位)"
-                    android:maxLength="16" />
-            </LinearLayout>
+                    android:hint="昵称"
+                    android:textColor="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="密码"
-                    android:textColor="#195963"
-                    android:textSize="25dp" />
+                android:inputType="text"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
-                    android:id="@+id/register_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:hint="用户名"
+                    android:textColor="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/register_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="昵称"
-                    android:textColor="#195963"
-                    android:textSize="25dp" />
+                android:inputType="textPassword"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
-                    android:id="@+id/register_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="性别"
-                    android:textColor="#195963"
-                    android:textSize="25dp" />
-
-                <RadioGroup
-                    android:id="@+id/register_group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <RadioButton
-                        android:id="@+id/register_male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="20dp"
-                        android:hint="♂"
-                        android:textColorHint="#195963"
-                        android:textSize="35dp" />
-
-                    <RadioButton
-                        android:id="@+id/register_female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="♀"
-                        android:textColorHint="#195963"
-                        android:textSize="35dp" />
-                </RadioGroup>
-            </LinearLayout>
+                    android:hint="密码"
+                    android:minEms="6"
+                    android:maxEms="15"
+                    android:textColor="@color/colorAccent" />
+            </android.support.design.widget.TextInputLayout>
 
 
             <TextView
@@ -144,8 +95,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_margin="20dp"
                 android:text="注册"
-                android:textColor="#195963"
+                android:textColor="@color/colorAccent"
                 android:textSize="20dp" />
 
 

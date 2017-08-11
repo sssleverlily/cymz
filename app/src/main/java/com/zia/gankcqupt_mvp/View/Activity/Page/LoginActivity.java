@@ -2,6 +2,7 @@ package com.zia.gankcqupt_mvp.View.Activity.Page;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +13,13 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.ILoginPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.LoginPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 
 public class LoginActivity extends AppCompatActivity implements ILoginActivity {
 
     private TextView skip,register,login;
-    private EditText user,psw;
+    private TextInputLayout user,psw;
     private ILoginPresenter presenter;
     private ProgressDialog dialog;
 
@@ -46,7 +48,15 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!getUsername().isEmpty() || !getPassword().isEmpty())
+                clearError();
+                if(getUsername().isEmpty()){
+                    setUsernameFormatError();
+                    return;
+                }
+                if(getPassword().isEmpty()){
+                    setPasswordError();
+                    return;
+                }
                 presenter.login(getUsername(),getPassword());
             }
         });
@@ -56,18 +66,20 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         skip = (TextView)findViewById(R.id.login_skip);
         register = (TextView)findViewById(R.id.login_register);
         login = (TextView)findViewById(R.id.login_login);
-        user = (EditText)findViewById(R.id.login_username);
-        psw = (EditText)findViewById(R.id.login_password);
+        user = (TextInputLayout) findViewById(R.id.login_username);
+        psw = (TextInputLayout) findViewById(R.id.login_password);
     }
 
     @Override
     public String getUsername() {
-        return user.getText().toString();
+        if(user.getEditText() == null) return "";
+        return user.getEditText().getText().toString();
     }
 
     @Override
     public String getPassword() {
-        return psw.getText().toString();
+        if(psw.getEditText() == null) return "";
+        return psw.getEditText().getText().toString();
     }
 
     @Override
@@ -89,8 +101,28 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
 
+    @Override
+    public void setUsernameError() {
+        user.setError("用户名不能为空");
+    }
+
+    @Override
+    public void setPasswordError() {
+        psw.setError("密码错误");
+    }
+
+    @Override
+    public void setUsernameFormatError() {
+        user.setError("用户名不能为空");
+    }
+
+    @Override
+    public void clearError() {
+        user.setErrorEnabled(false);
+        psw.setErrorEnabled(false);
+    }
 }

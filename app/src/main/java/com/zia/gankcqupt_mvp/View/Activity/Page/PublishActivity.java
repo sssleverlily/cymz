@@ -14,6 +14,7 @@ import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IPublishPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.PublishPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.SlidingActivity;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IPublishActivity;
 
 public class PublishActivity extends SlidingActivity implements IPublishActivity {
@@ -63,7 +64,7 @@ public class PublishActivity extends SlidingActivity implements IPublishActivity
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override

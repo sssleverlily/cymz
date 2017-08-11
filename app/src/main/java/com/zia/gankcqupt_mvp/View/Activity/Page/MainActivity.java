@@ -17,6 +17,7 @@ import com.zia.gankcqupt_mvp.Adapter.PagerAdapter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override

@@ -11,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.zia.gankcqupt_mvp.Adapter.RecyclerAdapter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RecyclerPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.SlidingActivity;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRecyclerActivity;
 
 public class RecyclerActivity extends SlidingActivity implements IRecyclerActivity {
@@ -72,7 +74,7 @@ public class RecyclerActivity extends SlidingActivity implements IRecyclerActivi
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override

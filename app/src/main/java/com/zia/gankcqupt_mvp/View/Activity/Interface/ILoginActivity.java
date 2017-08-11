@@ -6,7 +6,7 @@ import android.widget.TextView;
  * Created by zia on 2017/5/28.
  */
 
-public interface ILoginActivity {
+public interface ILoginActivity extends LoginImp {
     String getUsername();
     String getPassword();
     void showDialog();

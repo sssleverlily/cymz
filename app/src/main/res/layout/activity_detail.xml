@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="2dp"/>
                 <Button
                     android:text="下载"
                     android:id="@+id/save"
@@ -115,13 +115,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_margin="1dp"/>
+                    android:layout_margin="2dp"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="end">
 
                 <Button
                     android:text="收藏"
@@ -129,11 +124,9 @@
                     android:background="@drawable/bt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="1dp"/>
+                    android:layout_gravity="right"
+                    android:layout_margin="2dp"/>
             </LinearLayout>
-
-        </LinearLayout>
 
     </FrameLayout>
 

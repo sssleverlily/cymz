@@ -6,7 +6,7 @@ import android.app.Activity;
  * Created by zia on 2017/5/28.
  */
 
-public interface IRegisterActivity {
+public interface IRegisterActivity extends LoginImp {
     String getUsername();
     String getPassword();
     String getNickname();
@@ -14,4 +14,5 @@ public interface IRegisterActivity {
     Activity getActivity();
     void showDialog();
     void hideDialog();
+    void setNicknameFormatError();
 }

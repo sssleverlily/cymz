@@ -14,6 +14,7 @@ import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IReplyPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.ReplyPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.SlidingActivity;
+import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IReplyActivity;
 
 public class ReplyActivity extends SlidingActivity implements IReplyActivity {
@@ -54,7 +55,7 @@ public class ReplyActivity extends SlidingActivity implements IReplyActivity {
 
     @Override
     public void toast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        ToastUtil.showToast(this,msg);
     }
 
     @Override

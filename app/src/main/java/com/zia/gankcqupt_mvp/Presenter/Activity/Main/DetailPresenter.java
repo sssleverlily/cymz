@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
+import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 
 /**
  * Created by zia on 2017/5/19.
@@ -34,6 +36,7 @@ public class DetailPresenter implements IDetailPresenter {
     private static boolean isFour = true;
     private DetailModel model;
     private Student student;
+    public static boolean isFavorate = false;
 
     public DetailPresenter(DetailActivity detailActivity){
         this.activity = detailActivity;
@@ -43,6 +46,9 @@ public class DetailPresenter implements IDetailPresenter {
         student = detailActivity.getStu();
     }
 
+    public void setIsFavorate(boolean isFavorate){
+        this.isFavorate = isFavorate;
+    }
 
     @Override
     public void showPic() {
@@ -56,11 +62,16 @@ public class DetailPresenter implements IDetailPresenter {
     public void clickFavorite() {
         StudentDbHelper helper = new StudentDbHelper(context,"cymz.db",null,1);
         SQLiteDatabase database = helper.getWritableDatabase();
-        for (Student temp : MainPresenter.favorites) {
+        for (int i=0;i<MainPresenter.favorites.size();i++) {
+            Student temp = MainPresenter.favorites.get(i);
             if (temp.getStudentId().equals(student.getStudentId())) {
-                Log.d(TAG,"在收藏数据库中找到该学生，删除");
+                Log.d(TAG,"在收藏数据库中找到该学生，删除"+student.getStudentId());
                 database.delete("Favorite","studentid = ?",new String[]{student.getStudentId()});
-                MainPresenter.favorites.remove(student);
+                if(MainPresenter.favorites != null ){//判断是否在收藏列表
+                    MainPresenter.favorites.remove(i);
+                    if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
+                        RecyclerPresenter.adapter.reFresh(MainPresenter.favorites,isFour);
+                }
                 activity.setButtonColor(Color.BLACK);
                 toast("取消收藏成功");
                 return;
@@ -69,12 +80,16 @@ public class DetailPresenter implements IDetailPresenter {
         Log.d(TAG,"未在收藏数据库中找到该学生，添加");
         long f = database.insert("Favorite",null, StudentUtil.student2values(student));
         if(f != (long)-1){
-            MainPresenter.favorites.add(student);
+            if(MainPresenter.favorites != null){
+                MainPresenter.favorites.add(student);
+                if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
+                    RecyclerPresenter.adapter.reFresh(MainPresenter.favorites,isFour);
+            }
             activity.setButtonColor(Color.RED);
             toast("收藏成功!");
         }
         else{
-            toast("收藏失败...");
+            toast("数据库出了点问题..收藏失败...");
         }
 
     }
