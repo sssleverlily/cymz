@@ -10,23 +10,16 @@
 #### 详细照片api数据来源换成了自己的服务器，稳定性更好，应该不会再挂掉了。
 
 
-readme更新日期 2017/7/16
+#### 有重大更新会发送通知下载，不用再自己更新数据库了
+
+
+readme更新日期 2017/8/9
 
 
 <img src="https://github.com/Zzzia/Files/blob/master/gifs/cymz.gif"/>
 
-### v1.0  [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz.apk)
 
-```
-将之前的版本按mvp设计模式重新制作了一次
-原来有的功能都有，这次更新了如下功能：
-1.完美实现更新数据库功能，大部分更新时发生的问题可以通过设置的逻辑代码修复。
-2.进度监听，一切耗时操作都有进度监听了。
-3.不再使用LitePal，使用原生数据库，经过部分优化，理论上效率更高
-3.收藏按钮变色
-```
-
-### onLine [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz_online.apk)
+### 下载 [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz_online.apk)
 
 ```
 社区版，可以发布帖子或者跟帖
