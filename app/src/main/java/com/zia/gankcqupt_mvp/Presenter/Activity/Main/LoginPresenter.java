@@ -6,9 +6,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
 import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.ILoginPresenter;
+import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
@@ -40,8 +43,14 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void gotoRegisterPage() {
         Log.d(TAG,"gotoRegisterPage");
+        CardView view = (CardView)activity.findViewById(R.id.login_card);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,view,"register_card");
         Intent intent = new Intent(activity, RegisterActivity.class);
-        activity.startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            activity.startActivity(intent,optionsCompat.toBundle());
+        }else{
+            activity.startActivity(intent);
+        }
     }
 
     @Override

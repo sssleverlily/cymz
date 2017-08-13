@@ -36,7 +36,6 @@ public class DetailPresenter implements IDetailPresenter {
     private static boolean isFour = true;
     private DetailModel model;
     private Student student;
-    public static boolean isFavorate = false;
 
     public DetailPresenter(DetailActivity detailActivity){
         this.activity = detailActivity;
@@ -44,10 +43,6 @@ public class DetailPresenter implements IDetailPresenter {
         isFour = detailActivity.getIsFour();
         model = new DetailModel(detailActivity);
         student = detailActivity.getStu();
-    }
-
-    public void setIsFavorate(boolean isFavorate){
-        this.isFavorate = isFavorate;
     }
 
     @Override

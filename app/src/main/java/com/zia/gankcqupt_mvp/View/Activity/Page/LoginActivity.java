@@ -19,7 +19,7 @@ import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 public class LoginActivity extends AppCompatActivity implements ILoginActivity {
 
     private TextView skip,register,login;
-    private TextInputLayout user,psw;
+    public static TextInputLayout user,psw;
     private ILoginPresenter presenter;
     private ProgressDialog dialog;
 

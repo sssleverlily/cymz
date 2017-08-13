@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRegisterPresenter;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRegisterActivity;
+import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 
 import java.io.File;
@@ -52,7 +54,7 @@ public class RegisterPresenter implements IRegisterPresenter {
 
 
     @Override
-    public void register(String username,String password,String nickname) {
+    public void register(final String username, final String password, String nickname) {
         if(nickname.isEmpty()){
             activity.setNicknameFormatError();
         }
@@ -106,8 +108,15 @@ public class RegisterPresenter implements IRegisterPresenter {
                                     });
                                 }
                                 //保存installation到服务器
-
-                                activity.getActivity().finish();
+                                if(LoginActivity.user != null && LoginActivity.psw != null){
+                                    LoginActivity.user.getEditText().setText(username);
+                                    LoginActivity.psw.getEditText().setText(password);
+                                }
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    activity.getActivity().finishAfterTransition();
+                                }else{
+                                    activity.getActivity().finish();
+                                }
                             }
                         });
                     }
