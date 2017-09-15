@@ -95,7 +95,7 @@ public class SortFragment extends Fragment {
         setButton(gdyszmtl,"广电与数字媒体类");
         setButton(txyxxl,"通信与信息类");
         setButton(button_cmGirl,"传媒艺术学院");
-        setButton(button_allGirl,"2016全部妹子");
+        setButton(button_allGirl,"2017全部妹子");
         setButton(button_faxue,"网络空间安全与信息法学院");
         setButton(button_foreign,"外国语学院");
         setButton(button_wanggong,"网络工程");

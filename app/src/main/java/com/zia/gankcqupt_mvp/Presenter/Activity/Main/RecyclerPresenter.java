@@ -100,9 +100,9 @@ public class RecyclerPresenter implements IRecyclerPresenter {
             @Override
             public void run() {
                 String value = activity.getFlag();
-                if(value.equals("2016全部妹子")){
+                if(value.equals("2017全部妹子")){
                     for (Student temp : MainPresenter.students) {
-                        if (temp.getSex().equals("女")) {
+                        if (temp.getSex().equals("女") && temp.getYear().equals("2017")) {
                             newlist.add(temp);
                         }
                     }

@@ -3,12 +3,18 @@ package com.zia.gankcqupt_mvp.View.Activity.Page;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -32,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         presenter = new RegisterPresenter(this);

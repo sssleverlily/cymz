@@ -23,13 +23,15 @@
             android:padding="20dp">
 
             <TextView
+                android:id="@+id/register_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_horizontal"
                 android:text="重邮妹子心悦会员"
                 android:textColor="#195963"
-                android:textSize="23dp" />
+                android:textSize="23dp"
+                android:transitionName="card_title"/>
 
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
