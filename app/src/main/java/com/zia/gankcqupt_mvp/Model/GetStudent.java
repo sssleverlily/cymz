@@ -109,6 +109,10 @@ public class GetStudent {
                         e.onNext(student);
                         MainPresenter.students.add(student);
                     }while (cursor.moveToNext());
+                    if(MainPresenter.students.size() <= 20000){
+                        database.delete("Student",null,null);
+                        getFromDB(dialog);
+                    }
                 }
                 else {
                     InputStream is;File file;
@@ -116,6 +120,7 @@ public class GetStudent {
                     file = new File(context.getApplicationContext().getDatabasePath("cymz.db").getAbsolutePath());
                     Log.d("fileTest","targetFile: "+file.getPath());
                     copyFile(is,file);
+                    e.onComplete();
                     getFromDB(dialog);
                 }
                 cursor.close();

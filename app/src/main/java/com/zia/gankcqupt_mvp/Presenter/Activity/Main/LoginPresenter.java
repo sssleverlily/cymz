@@ -100,10 +100,10 @@ public class LoginPresenter implements ILoginPresenter {
                     }
                     Log.d(TAG, "nickname:" + avUser.getString("nickname"));
                     Log.d(TAG, "sex:" + avUser.getString("sex"));
-                    StudentDbHelper helper = new StudentDbHelper(activity, "cymz.db", null, 1);
-                    SQLiteDatabase database = helper.getWritableDatabase();
-                    Log.d(TAG, values.toString());
-                    database.insert("LocalData", null, values);
+//                    StudentDbHelper helper = new StudentDbHelper(activity, "cymz.db", null, 1);
+//                    SQLiteDatabase database = helper.getWritableDatabase();
+//                    Log.d(TAG, values.toString());
+//                    database.insert("LocalData", null, values);
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

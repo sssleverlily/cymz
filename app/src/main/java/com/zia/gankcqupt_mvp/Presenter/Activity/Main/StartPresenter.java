@@ -33,11 +33,12 @@ public class StartPresenter implements IStartPresenter {
 
     @Override
     public void gotoPage() {
-        AVUser user = AVUser.getCurrentUser();
-        if(user != null){
-            gotoMainPage();
-        }
-        else gotoLoginPage();
+//        AVUser user = AVUser.getCurrentUser();
+//        if(user != null){
+//            gotoMainPage();
+//        }
+//        else gotoLoginPage();
+        gotoMainPage();
     }
 
     @Override

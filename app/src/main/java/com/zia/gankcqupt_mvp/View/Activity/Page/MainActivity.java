@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void showDialog() {
-        if(dialog == null) dialog = new ProgressDialog(this);
+//        if(dialog == null)
+        dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setTitle("正在从数据库获取数据...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
