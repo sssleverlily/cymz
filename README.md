@@ -13,13 +13,16 @@
 #### 有重大更新会发送通知下载，不用再自己更新数据库了
 
 
-readme更新日期 2017/8/9
+readme更新日期 2017/9/15
+
+
+#### 替换了2017级新生信息数据库，可以查看新生信息，照片目前不能爬，日后在服务器上修复
 
 
 <img src="https://github.com/Zzzia/Files/blob/master/gifs/cymz.gif"/>
 
 
-### 下载 [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz_online.apk)
+### 下载 [apk](https://github.com/Zzzia/cymz/blob/master/app/release/cymz.apk)
 
 ```
 社区版，可以发布帖子或者跟帖
