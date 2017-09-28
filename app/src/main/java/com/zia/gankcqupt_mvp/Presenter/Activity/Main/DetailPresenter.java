@@ -6,23 +6,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.Toast;
 
+import com.avos.avoscloud.AVUser;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.DetailModel;
 import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
+import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 
 /**
  * Created by zia on 2017/5/19.
@@ -47,7 +45,7 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void showPic() {
-        model.setPic(activity.getImageView(),isFour,student.studentId);
+        model.setPic(activity.getImageView(),isFour,student.studentid);
     }
 
     /**
@@ -59,9 +57,9 @@ public class DetailPresenter implements IDetailPresenter {
         SQLiteDatabase database = helper.getWritableDatabase();
         for (int i=0;i<MainPresenter.favorites.size();i++) {
             Student temp = MainPresenter.favorites.get(i);
-            if (temp.getStudentId().equals(student.getStudentId())) {
-                Log.d(TAG,"在收藏数据库中找到该学生，删除"+student.getStudentId());
-                database.delete("Favorite","studentid = ?",new String[]{student.getStudentId()});
+            if (temp.getStudentid().equals(student.getStudentid())) {
+                Log.d(TAG,"在收藏数据库中找到该学生，删除"+student.getStudentid());
+                database.delete("Favorite","studentid = ?",new String[]{student.getStudentid()});
                 if(MainPresenter.favorites != null ){//判断是否在收藏列表
                     MainPresenter.favorites.remove(i);
                     if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
@@ -69,6 +67,7 @@ public class DetailPresenter implements IDetailPresenter {
                 }
                 activity.setButtonColor(Color.BLACK);
                 toast("取消收藏成功");
+                UserDataUtil.pushFavorites();
                 return;
             }
         }
@@ -76,12 +75,17 @@ public class DetailPresenter implements IDetailPresenter {
         long f = database.insert("Favorite",null, StudentUtil.student2values(student));
         if(f != (long)-1){
             if(MainPresenter.favorites != null){
-                MainPresenter.favorites.add(student);
+                StudentUtil.addStudentToFavorites(student);
                 if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
                     RecyclerPresenter.adapter.reFresh(MainPresenter.favorites,isFour);
             }
             activity.setButtonColor(Color.RED);
-            toast("收藏成功!");
+            if(AVUser.getCurrentUser() == null){
+                toast("收藏成功!\n登录即可保存在云端");
+            }else{
+                toast("收藏成功!");
+            }
+            UserDataUtil.pushFavorites();
         }
         else{
             toast("数据库出了点问题..收藏失败...");
@@ -92,6 +96,11 @@ public class DetailPresenter implements IDetailPresenter {
     @Override
     public void changeCard() {
         isFour = !isFour;
+        if(isFour){
+            activity.getCardButton().setText("一卡通");
+        }else{
+            activity.getCardButton().setText("四六级");
+        }
         showPic();
     }
 
@@ -102,13 +111,13 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void setData() {
-        activity.setData(student.getName(),student.getStudentId(),student.getMajor(),student.getClassId(),student.getYear());
+        activity.setData(student.getName(),student.getStudentid(),student.getMajor(),student.getClassid(),student.getYear());
     }
 
     @Override
     public void setFavoriteColor() {
         for (Student temp : MainPresenter.favorites) {
-            if (temp.getStudentId().equals(student.getStudentId())) {
+            if (temp.getStudentid().equals(student.getStudentid())) {
                 activity.setButtonColor(Color.RED);
                 return;
             }

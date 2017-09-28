@@ -13,5 +13,5 @@ public interface IRecyclerActivity {
     String getFlag();
     void toast(String msg);
     Activity getActivity();
-
+    SwipeRefreshLayout getSwipeFreshLayout();
 }

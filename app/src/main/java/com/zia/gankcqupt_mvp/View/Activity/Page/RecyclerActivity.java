@@ -82,4 +82,9 @@ public class RecyclerActivity extends SlidingActivity implements IRecyclerActivi
         return this;
     }
 
+    @Override
+    public SwipeRefreshLayout getSwipeFreshLayout() {
+        return swipeRefreshLayout;
+    }
+
 }

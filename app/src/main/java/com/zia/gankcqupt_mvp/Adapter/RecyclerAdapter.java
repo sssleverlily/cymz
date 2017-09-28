@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
-import com.zia.gankcqupt_mvp.Presenter.Activity.Main.DetailPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.API;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
 import java.util.ArrayList;
@@ -75,11 +75,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         holder.tv_college.setText(student.getCollege());
         String url;
         if(ISFOUR){
-            url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+student.getStudentId()+".jpg";
-            //url = "http://139.199.176.72/cet/"+student.getStudentId()+".jpg";
+            url = API.getInstance(context).getCET(student.studentid);
         }else{
-            url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + student.getStudentId();
-            //url = "http://139.199.176.72/ykt/"+student.getStudentId()+".jpg";
+            url = API.getInstance(context).getYKT(student.studentid);
         }
         Glide.with(context).load(url).error(R.mipmap.error_icon).into(holder.imageView);
     }

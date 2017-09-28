@@ -69,6 +69,17 @@
                 android:layout_height="1dp"
                 android:background="#BFBFBF"/>
             <Button
+                android:text="更换线路"
+                android:textColor="#728ea3"
+                android:id="@+id/third_changeRoot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#BFBFBF"/>
+            <Button
                 android:text="下载所有图片"
                 android:textColor="#728ea3"
                 android:id="@+id/third_downLoad"

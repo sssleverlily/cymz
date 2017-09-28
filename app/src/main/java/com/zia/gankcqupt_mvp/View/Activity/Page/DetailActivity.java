@@ -29,9 +29,6 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        }
         setContentView(R.layout.activity_detail);
         findWidgets();
         ViewCompat.setTransitionName(imageView, ELEMENT);//切入动画效果
@@ -108,5 +105,10 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     @Override
     public void setButtonColor(int color) {
         favorite.setTextColor(color);
+    }
+
+    @Override
+    public Button getCardButton() {
+        return card;
     }
 }

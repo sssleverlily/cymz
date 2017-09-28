@@ -13,17 +13,26 @@
 #### 有重大更新会发送通知下载，不用再自己更新数据库了
 
 
-readme更新日期 2017/8/9
+readme更新日期 2017/9/28
 
 
 <img src="https://github.com/Zzzia/Files/blob/master/gifs/cymz.gif"/>
 
 
-### 下载 [apk](https://github.com/Zzzia/Files/blob/master/apks/cymz_online.apk)
+### 下载 [apk](https://github.com/Zzzia/cymz/blob/master/app/release/cymz.apk)
 
 ```
 社区版，可以发布帖子或者跟帖
 原来有的功能都有。
 快来注册账号水贴升级吧
 还相当不完善，但可以正常使用
+```
+
+```
+更新内容：
+1.更新了数据库
+2.可以登录之后保存收藏数据到云端
+3.可以切换线路，稳定和速度自己控制
+4.一卡通切换时更改文字
+5.其他的一些细节优化
 ```

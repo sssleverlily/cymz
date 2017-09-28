@@ -45,7 +45,7 @@ public class SearchPresenter implements ISearchPresenter {
         if(JudgeNumber(text)){
             //数字
             for (Student student : MainPresenter.students) {
-                if (student.getStudentId().contains(text)) {
+                if (student.getStudentid().contains(text)) {
                     list.add(student);
                 }
             }

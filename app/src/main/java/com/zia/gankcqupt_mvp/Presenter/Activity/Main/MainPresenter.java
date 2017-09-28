@@ -28,6 +28,7 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.PublishActivity;
@@ -37,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -127,13 +129,14 @@ public class MainPresenter implements IMainPresenter {
     }
 
     /**
-     * 获取学生数据，储存到MainPresenter里
+     * 获取数据，储存到MainPresenter里
      */
     @Override
     public void getData() {
         activity.showDialog();
         GetStudent getStudent = new GetStudent(activity.getActivity());
         getStudent.getFromDB(activity.getDialog());
+        UserDataUtil.pullFavorites(null);
     }
 
     @Override

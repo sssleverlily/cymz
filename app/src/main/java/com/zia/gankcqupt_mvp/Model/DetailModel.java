@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
-import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.API;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,12 +34,10 @@ public class DetailModel {
 
     public void setPic(ImageView imageView,boolean isFour,String studentId){
         if(isFour) {
-            //url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+studentId+".jpg";
-            url = "http://139.199.176.72/cet/"+studentId+".jpg";
+            url = API.getInstance(context).getCET(studentId);
         }
         else{
-            //url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + studentId;
-            url = "http://139.199.176.72/ykt/"+studentId+".jpg";
+            url = API.getInstance(context).getYKT(studentId);
         }
         Glide.with(context).load(url).into(imageView);
     }
@@ -51,10 +49,10 @@ public class DetailModel {
                 try {
                     String url;
                     if(isFour) {
-                        url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/"+student.getStudentId()+".jpg";
+                        url = API.getInstance(context).getCET(student.studentid);
                     }
                     else{
-                        url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + student.getStudentId();
+                        url = API.getInstance(context).getYKT(student.studentid);
                     }
                     URL imgUrl = new URL(url);
                     HttpURLConnection urlConnection = (HttpURLConnection) imgUrl.openConnection();
@@ -67,7 +65,12 @@ public class DetailModel {
                     if (!appDir.exists()) {
                         appDir.mkdir();
                     }
-                    String fileName = student.getName() + ".jpg";
+                    String fileName;
+                    if(isFour){
+                        fileName = student.getName() + "_cet" + ".jpg";
+                    }else{
+                        fileName = student.getName() + "_ykt" + ".jpg";
+                    }
                     File file = new File(appDir, fileName);
                     FileOutputStream fos = new FileOutputStream(file);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);

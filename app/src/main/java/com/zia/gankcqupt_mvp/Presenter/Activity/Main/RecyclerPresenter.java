@@ -15,6 +15,7 @@ import com.zia.gankcqupt_mvp.Adapter.RecyclerOnClickListener;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
@@ -67,9 +68,29 @@ public class RecyclerPresenter implements IRecyclerPresenter {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Collections.shuffle(newlist);
-                adapter.reFresh(newlist,ISFOUR);
-                swipeLayout.setRefreshing(false);
+                if(activity.getFlag().equals("favorite")){
+                    refreshByCloud();
+                }else{
+                    Collections.shuffle(newlist);
+                    adapter.reFresh(newlist,ISFOUR);
+                    swipeLayout.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    private void refreshByCloud(){
+        UserDataUtil.pullFavorites(new UserDataUtil.PullListener() {
+            @Override
+            public void onPulled() {
+                activity.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.reFresh(MainPresenter.favorites,ISFOUR);
+                        if(activity.getSwipeFreshLayout() != null)
+                            activity.getSwipeFreshLayout().setRefreshing(false);
+                    }
+                });
             }
         });
     }
@@ -79,6 +100,9 @@ public class RecyclerPresenter implements IRecyclerPresenter {
         recycler.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         adapter = new RecyclerAdapter(activity.getActivity());
         recycler.setAdapter(adapter);
+        if(MainPresenter.favorites.size() == 0){
+            refreshByCloud();
+        }
     }
 
     @Override

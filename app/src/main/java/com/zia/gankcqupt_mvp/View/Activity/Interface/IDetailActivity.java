@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.View.Activity.Interface;
 
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
@@ -15,4 +16,5 @@ public interface IDetailActivity {
     ImageView getImageView();
     void toast(String msg);
     void setButtonColor(int color);
+    Button getCardButton();
 }

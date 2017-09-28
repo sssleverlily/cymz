@@ -16,4 +16,5 @@ public interface IMePresenter {
     void loginOut();
     void showUserPop(View view);
     void setUser(TextView nick, TextView sex, ImageView img) throws Exception;
+    void changeRoot();
 }

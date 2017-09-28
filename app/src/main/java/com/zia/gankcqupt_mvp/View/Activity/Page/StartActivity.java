@@ -26,7 +26,7 @@ public class StartActivity extends AppCompatActivity {
         AVOSCloud.initialize(StartActivity.this,"xKvysVojCOylmIQtqEVGaYQ3-gzGzoHsz","qRgNqRCPJt9rRsqkftCzvOS1");
         //PushService.setDefaultPushCallback(this, StartActivity.class);
         iStartPresenter = new StartPresenter(StartActivity.this);
-        iStartPresenter.gotoPage();//presenter内判断是否登录过
+        iStartPresenter.gotoMainPage();//presenter内判断是否登录过
     }
 
 }

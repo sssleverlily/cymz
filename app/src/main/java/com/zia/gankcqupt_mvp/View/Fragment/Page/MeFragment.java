@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MeFragment extends Fragment implements IMeFragment {
 
     private View view;
-    private Button upData,size,downLoad,favorite,out;
+    private Button upData,size,downLoad,favorite,out,changeRoot;
     private TextView tv,nickname,sex;
     private ImageView head;
     private LinearLayout userLayout;
@@ -82,6 +82,12 @@ public class MeFragment extends Fragment implements IMeFragment {
             public void onClick(View view) {
                 presenter.showUserPop(view);}
         });
+        changeRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.changeRoot();
+            }
+        });
     }
 
     private void findWidgets(){
@@ -95,6 +101,7 @@ public class MeFragment extends Fragment implements IMeFragment {
         nickname = (TextView)view.findViewById(R.id.third_nickname);
         sex = (TextView)view.findViewById(R.id.third_sex);
         userLayout = (LinearLayout)view.findViewById(R.id.third_userLayout);
+        changeRoot = (Button)view.findViewById(R.id.third_changeRoot);
     }
 
     @Nullable

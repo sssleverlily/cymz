@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Util.HttpUtil;
+import com.zia.gankcqupt_mvp.Util.StudentUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -33,7 +34,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -61,22 +61,21 @@ public class GetStudent {
      * 获取数据库中收藏列表
      */
     public void getFavorite(){
-        MainPresenter.favorites.clear();
         Cursor cursor = database.query("Favorite",null,null,null,null,null,null);
         if(cursor.moveToFirst()){
             do{
                 Student student = new Student();
                 student.setName(cursor.getString(cursor.getColumnIndex("name")));
-                student.setClassId(cursor.getString(cursor.getColumnIndex("classid")));
+                student.setClassid(cursor.getString(cursor.getColumnIndex("classid")));
                 student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
-                student.setAtSchool(cursor.getString(cursor.getColumnIndex("atschool")));
-                student.setClassNum(cursor.getString(cursor.getColumnIndex("classnum")));
+                student.setAtschool(cursor.getString(cursor.getColumnIndex("atschool")));
+                student.setClassnum(cursor.getString(cursor.getColumnIndex("classnum")));
                 student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
                 student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
                 student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                student.setStudentId(cursor.getString(cursor.getColumnIndex("studentid")));
+                student.setStudentid(cursor.getString(cursor.getColumnIndex("studentid")));
                 student.setYear(cursor.getString(cursor.getColumnIndex("year")));
-                MainPresenter.favorites.add(student);
+                StudentUtil.addStudentToFavorites(student);
                 Log.d(TAG,student.getName());
             }while (cursor.moveToNext());
         }
@@ -97,14 +96,14 @@ public class GetStudent {
                     do{
                         Student student = new Student();
                         student.setName(cursor.getString(cursor.getColumnIndex("name")));
-                        student.setClassId(cursor.getString(cursor.getColumnIndex("classid")));
+                        student.setClassid(cursor.getString(cursor.getColumnIndex("classid")));
                         student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
-                        student.setAtSchool(cursor.getString(cursor.getColumnIndex("atschool")));
-                        student.setClassNum(cursor.getString(cursor.getColumnIndex("classnum")));
+                        student.setAtschool(cursor.getString(cursor.getColumnIndex("atschool")));
+                        student.setClassnum(cursor.getString(cursor.getColumnIndex("classnum")));
                         student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
                         student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
                         student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                        student.setStudentId(cursor.getString(cursor.getColumnIndex("studentid")));
+                        student.setStudentid(cursor.getString(cursor.getColumnIndex("studentid")));
                         student.setYear(cursor.getString(cursor.getColumnIndex("year")));
                         e.onNext(student);
                         MainPresenter.students.add(student);
@@ -223,16 +222,16 @@ public class GetStudent {
                     Matcher matcher2 = pattern2.matcher(tbody);
                     while (matcher2.find()){
                         Student student = new Student();
-                        student.setClassNum(matcher2.group(1));
-                        student.setStudentId(matcher2.group(2));
+                        student.setClassnum(matcher2.group(1));
+                        student.setStudentid(matcher2.group(2));
                         student.setName(matcher2.group(3));
                         student.setSex(matcher2.group(4));
-                        student.setClassId(matcher2.group(5));
+                        student.setClassid(matcher2.group(5));
                         student.setZyh(matcher2.group(6));
                         student.setMajor(matcher2.group(7));
                         student.setCollege(matcher2.group(8));
                         student.setYear(matcher2.group(9));
-                        student.setAtSchool(matcher2.group(10));
+                        student.setAtschool(matcher2.group(10));
                         count++;
                         Log.d(TAG,count+" : "+student.getName());
                         studentList.add(student);

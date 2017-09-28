@@ -1,15 +1,9 @@
 package com.zia.gankcqupt_mvp.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -70,7 +64,7 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.Holder>  {
                 context.startActivity(intent);
             }
         });
-        holder.number.setText(student.getStudentId());
+        holder.number.setText(student.getStudentid());
         holder.college.setText(student.getCollege());
         holder.name.setText(student.getName());
     }

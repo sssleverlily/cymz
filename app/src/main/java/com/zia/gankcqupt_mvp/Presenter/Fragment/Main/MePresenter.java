@@ -1,24 +1,28 @@
 package com.zia.gankcqupt_mvp.Presenter.Fragment.Main;
 
-import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
+import com.zia.gankcqupt_mvp.Bean.Students;
 import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
@@ -26,20 +30,32 @@ import com.zia.gankcqupt_mvp.Model.SaveStudent;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IMePresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.API;
+import com.zia.gankcqupt_mvp.Util.FileUtil;
+import com.zia.gankcqupt_mvp.Util.Service;
+import com.zia.gankcqupt_mvp.Util.SharedPreferencesUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IMeFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by zia on 2017/5/18.
@@ -49,8 +65,9 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
 
     private IMeFragment fragment;
     public static String nickname = null, headUrl = null;
-    private final static String TAG = "ThirdPresenterTest";
+    private final static String TAG = "MePresenterTest";
     private TextView nick;
+    private String root = "congm";
 
     public MePresenter(MeFragment meFragment) {
         this.fragment = meFragment;
@@ -64,7 +81,7 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
 
     @Override
     public void downLoad() {
-        fragment.toast("我的博客里有下载方法");
+        fragment.toast("暂不公开");
     }
 
     /**
@@ -79,15 +96,14 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
             intent.putExtra("flag", "favorite");
             fragment.activity().startActivity(intent);
         } else {
-            fragment.toast("还没有收藏哟..");
+            fragment.toast("还没有收藏哟..\n或许你可以登录查看收藏");
         }
     }
 
     @Override
     public void upData() {
-        new AlertDialog.Builder(fragment.activity()).setTitle("警告").setMessage("更新数据库将耗时3-10分钟，约使用3m流量。\n\n请保证网络良好，内网外入没有问题。\n\n" +
-                "若进度条很久没动，说明网络有问题，可以直接杀掉后台，再次启动程序恢复原始数据\n\n" +
-                "不会丢失收藏数据，但有几率更新失败导致程序无法使用，可以卸载后重新安装！")
+        new AlertDialog.Builder(fragment.activity()).setTitle("警告").setMessage("更新最新数据库将耗时3-10分钟，约使用3m流量。\n\n" +
+                "不会丢失收藏数据，但有几率更新失败导致程序无法使用，可以重新更新即可！")
                 .setPositiveButton("我想好了", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -95,6 +111,24 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
                     }
                 })
                 .setNegativeButton("再想想", null).show();
+    }
+
+    private void upDataFromJson(){
+        final ProgressDialog dialog = new ProgressDialog(fragment.activity());
+        dialog.setCancelable(false);
+        dialog.setTitle("正在从服务器上获取数据...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.show();
+        dialog.setProgress(0);
+        dialog.setMessage("正在下载，耐心等待..");
+        DownloadManager downloadManager = (DownloadManager) fragment.activity().getSystemService(Context.DOWNLOAD_SERVICE);
+
+        String url = FileUtil.getSdCardUrl("cymz.db");
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(API.getInstance(fragment.activity()).getDatabase()));
+        //检查网络状态
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setDestinationInExternalPublicDir("重邮妹子","cymz.db");
+
     }
 
     @Override
@@ -130,25 +164,72 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
             nickname = avUser.getString("nickname");
             nick.setText(nickname);
             sex.setText("状态：已登录");
-            Observable.create(new ObservableOnSubscribe<AVFile>() {
+            new Thread(new Runnable() {
                 @Override
-                public void subscribe(@NonNull ObservableEmitter<AVFile> e) throws Exception {
-                    if(avUser.getAVFile("headImage") != null)
-                    e.onNext(AVFile.withObjectId(avUser.getAVFile("headImage").getObjectId()));
-                }
-            })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<AVFile>() {
-                        @Override
-                        public void accept(@NonNull AVFile avFile) throws Exception {
-                            if (avFile.getUrl() != null) {
-                                headUrl = avFile.getThumbnailUrl(true, 150, 150);
-                                Glide.with(fragment.activity()).load(headUrl).into(img);
-                            }
+                public void run() {
+                    if(avUser.getAVFile("headImage") != null){
+                        try {
+                            final AVFile file = AVFile.withObjectId(avUser.getAVFile("headImage").getObjectId());
+                            fragment.activity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (file.getUrl() != null) {
+                                        headUrl = file.getThumbnailUrl(true, 150, 150);
+                                        Glide.with(fragment.activity()).load(headUrl).into(img);
+                                    }
+                                }
+                            });
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
-                    });
+                    }
+                }
+            }).start();
         }
+    }
+
+    /**
+     * 更换线路策略
+     */
+    @Override
+    public void changeRoot() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(fragment.activity());
+        builder.setTitle("选择线路");
+        final String[] roots = {"congm  (默认,速度快,但有时候无法使用)","zzzia  (自家服务器,稳定,四六级图片查看慢)"};
+        int checkedItem;
+        if(SharedPreferencesUtil.getRoot(fragment.activity()).equals("congm")){
+            checkedItem = 0;
+        }else{
+            checkedItem = 1;
+        }
+        builder.setSingleChoiceItems(roots, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(i == 0){
+                    root = "congm";
+                }
+                if(i == 1){
+                    root = "zzzia";
+                }
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                API.getInstance(fragment.activity()).changeRoot(root);
+                Log.d(TAG,"更换线路"+root);
+                fragment.toast("更换线路"+root);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
     }
 
     /**

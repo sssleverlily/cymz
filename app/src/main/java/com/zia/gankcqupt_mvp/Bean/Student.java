@@ -7,39 +7,39 @@ import java.io.Serializable;
  */
 
 public class Student implements Serializable {
-    public String classNum;
-    public String studentId;
+    public String classnum;
+    public String studentid;
     public String name;
     public String sex;
-    public String classId;
+    public String classid;
     public String zyh;
     public String major;
     public String college;
     public String year;
-    public String atSchool;
+    public String atschool;
 
-    public String getAtSchool() {
-        return atSchool;
+    public String getAtschool() {
+        return atschool;
     }
 
-    public void setAtSchool(String atSchool) {
-        this.atSchool = atSchool;
+    public void setAtschool(String atschool) {
+        this.atschool = atschool;
     }
 
-    public String getClassId() {
-        return classId;
+    public String getClassid() {
+        return classid;
     }
 
-    public void setClassId(String classId) {
-        this.classId = classId;
+    public void setClassid(String classid) {
+        this.classid = classid;
     }
 
-    public String getClassNum() {
-        return classNum;
+    public String getClassnum() {
+        return classnum;
     }
 
-    public void setClassNum(String classNum) {
-        this.classNum = classNum;
+    public void setClassnum(String classnum) {
+        this.classnum = classnum;
     }
 
     public String getCollege() {
@@ -74,12 +74,12 @@ public class Student implements Serializable {
         this.sex = sex;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getStudentid() {
+        return studentid;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setStudentid(String studentid) {
+        this.studentid = studentid;
     }
 
     public String getYear() {
