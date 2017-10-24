@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.API;
+import com.zia.gankcqupt_mvp.Util.LogUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
     private List<Student> list = new ArrayList<>();
     public static boolean ISFOUR = false;
     private Context context;
+    private static int itemWidth = 0;
 
     public RecyclerAdapter(Context context){
         this.context = context;
@@ -49,12 +52,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item,parent,false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item,parent,false);
+        //测量并矫正宽高
+        if (itemWidth == 0){
+            ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    itemWidth = view.getWidth();
+                    LogUtil.e("favorite_adapter_item","itemWidth: "+view.getWidth());
+                    LogUtil.e("favorite_adapter_item","itemHeight: "+view.getHeight());
+                }
+            });
+        }
         return new Holder(view);
     }
 
     @Override
     public void onBindViewHolder(final Holder holder, int position) {
+        if (itemWidth != 0){
+            ViewGroup.LayoutParams params = holder.imageView.getLayoutParams();
+            params.width = itemWidth;
+            params.height = itemWidth * 640 / 480;
+            holder.imageView.setLayoutParams(params);
+        }
         final Student student = list.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

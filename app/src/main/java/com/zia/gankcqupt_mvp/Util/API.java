@@ -33,11 +33,11 @@ public class API {
     public String getCET(String id){
         if(root.equals("congm")){
             String url = "http://172.22.80.212.cqupt.congm.in/PHOTO0906CET/" + id + ".jpg";
-            Log.d(TAG,url);
+            LogUtil.d(TAG,url);
             return url;
         }else{
             String url = "http://139.199.176.72/cet/"+id+".jpg";
-            Log.d(TAG,url);
+            LogUtil.d(TAG,url);
             return url;
         }
     }
@@ -45,11 +45,11 @@ public class API {
     public String getYKT(String id){
         if(root.equals("congm")){
             String url = "http://jwzx.cqupt.congm.in/showstuPic.php?xh=" + id;
-            Log.d(TAG,url);
+            LogUtil.d(TAG,url);
             return url;
         }else{
             String url = "http://139.199.176.72/ykt/" + id + ".jpg";
-            Log.d(TAG,url);
+            LogUtil.d(TAG,url);
             return url;
         }
     }

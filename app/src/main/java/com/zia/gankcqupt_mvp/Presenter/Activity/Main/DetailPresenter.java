@@ -17,6 +17,8 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.DetailModel;
 import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
+import com.zia.gankcqupt_mvp.Util.Code;
+import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
@@ -62,7 +64,7 @@ public class DetailPresenter implements IDetailPresenter {
                 database.delete("Favorite","studentid = ?",new String[]{student.getStudentid()});
                 if(MainPresenter.favorites != null ){//判断是否在收藏列表
                     MainPresenter.favorites.remove(i);
-                    if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
+                    if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavoriteList)
                         RecyclerPresenter.adapter.reFresh(MainPresenter.favorites,isFour);
                 }
                 activity.setButtonColor(Color.BLACK);
@@ -76,7 +78,7 @@ public class DetailPresenter implements IDetailPresenter {
         if(f != (long)-1){
             if(MainPresenter.favorites != null){
                 StudentUtil.addStudentToFavorites(student);
-                if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavorateList)
+                if(RecyclerPresenter.adapter != null && RecyclerPresenter.isFavoriteList)
                     RecyclerPresenter.adapter.reFresh(MainPresenter.favorites,isFour);
             }
             activity.setButtonColor(Color.RED);
@@ -106,6 +108,8 @@ public class DetailPresenter implements IDetailPresenter {
 
     @Override
     public void downLoad() {
+        //请求权限
+        if (!PermissionsUtil.hasDiskPermission(activity.getActivity(), Code.DISK)) return;
         model.savePic(student,isFour);
     }
 

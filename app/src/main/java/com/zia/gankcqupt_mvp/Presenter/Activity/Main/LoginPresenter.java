@@ -21,6 +21,7 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
+import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.ILoginPresenter;
 import com.zia.gankcqupt_mvp.R;
@@ -101,11 +102,17 @@ public class LoginPresenter implements ILoginPresenter {
                     }
                     Log.d(TAG, "nickname:" + avUser.getString("nickname"));
                     Log.d(TAG, "sex:" + avUser.getString("sex"));
-                    activity.runOnUiThread(new Runnable() {
+                    //拉取服务器的收藏
+                    UserDataUtil.pullFavorites(new UserDataUtil.PullListener() {
                         @Override
-                        public void run() {
-                            activity.hideDialog();
-                            gotoMainPage();
+                        public void onPulled() {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    activity.hideDialog();
+                                    gotoMainPage();
+                                }
+                            });
                         }
                     });
                 }

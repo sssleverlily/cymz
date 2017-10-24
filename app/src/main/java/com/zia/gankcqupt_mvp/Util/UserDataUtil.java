@@ -21,6 +21,9 @@ import java.util.List;
  * Created by zia on 2017/9/28.
  */
 
+/**
+ * 用户信息云端推送拉取工具
+ */
 public class UserDataUtil {
 
     private final static String TAG = "UserDataUtil";

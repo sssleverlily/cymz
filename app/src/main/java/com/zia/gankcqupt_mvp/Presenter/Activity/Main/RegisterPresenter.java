@@ -22,6 +22,8 @@ import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRegisterPresenter;
+import com.zia.gankcqupt_mvp.Util.Code;
+import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRegisterActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
@@ -127,7 +129,8 @@ public class RegisterPresenter implements IRegisterPresenter {
 
     @Override
     public void setImage(final ImageView image, Intent data) {
-        //final ContentResolver resolver = context.getContentResolver();
+        //请求权限
+        if (!PermissionsUtil.hasDiskPermission(activity.getActivity(), Code.DISK)) return;
         if (data != null) {
             final Uri originalUri = data.getData();
             String[] proj = {MediaStore.Images.Media.DATA};

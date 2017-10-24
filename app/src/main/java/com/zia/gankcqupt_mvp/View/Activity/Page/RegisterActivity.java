@@ -3,8 +3,10 @@ package com.zia.gankcqupt_mvp.View.Activity.Page;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewCompat;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRegisterPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.RegisterPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.Code;
 import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRegisterActivity;
 
@@ -152,6 +155,22 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
                 break;
             case 200:
                 presenter.changeImage(header,data);
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Code.DISK:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ //同意权限申请
+                    toast("申请权限成功！");
+                }else { //拒绝权限申请
+                    toast("没有获取到权限哦..");
+                }
+                break;
+            default:
                 break;
         }
     }

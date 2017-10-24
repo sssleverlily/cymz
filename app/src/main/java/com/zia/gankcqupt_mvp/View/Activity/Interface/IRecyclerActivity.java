@@ -14,4 +14,5 @@ public interface IRecyclerActivity {
     void toast(String msg);
     Activity getActivity();
     SwipeRefreshLayout getSwipeFreshLayout();
+    RecyclerView getRecyclerView();
 }

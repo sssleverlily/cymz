@@ -1,23 +1,17 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Adapter.RecyclerAdapter;
-import com.zia.gankcqupt_mvp.Adapter.RecyclerOnClickListener;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRecyclerActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 
 import java.util.ArrayList;
@@ -32,9 +26,10 @@ public class RecyclerPresenter implements IRecyclerPresenter {
 
     private IRecyclerActivity activity;
     public static RecyclerAdapter adapter;
-    public static boolean isFavorateList = false;
-    private List<Student> newlist = new ArrayList<Student>();
+    public static boolean isFavoriteList = false;
+    private List<Student> newList = new ArrayList<Student>();
     private boolean ISFOUR = true;
+    private StaggeredGridLayoutManager manager;
 
     public RecyclerPresenter(RecyclerActivity recyclerActivity){
         this.activity = recyclerActivity;
@@ -53,11 +48,11 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     public void setToolbar(Toolbar toolbar) {
         if (activity.getFlag().equals("favorite")){
             toolbar.setTitle("我的收藏");
-            isFavorateList = true;
+            isFavoriteList = true;
         }
         else {
             toolbar.setTitle("看妹子");
-            isFavorateList = false;
+            isFavoriteList = false;
         }
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
     }
@@ -71,9 +66,12 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                 if(activity.getFlag().equals("favorite")){
                     refreshByCloud();
                 }else{
-                    Collections.shuffle(newlist);
-                    adapter.reFresh(newlist,ISFOUR);
+                    Collections.shuffle(newList);
+                    adapter.reFresh(newList,ISFOUR);
                     swipeLayout.setRefreshing(false);
+                    //重置，防止继续下载图片
+                    adapter.notifyDataSetChanged();
+                    activity.getRecyclerView().scrollToPosition(0);
                 }
             }
         });
@@ -97,7 +95,9 @@ public class RecyclerPresenter implements IRecyclerPresenter {
 
     @Override
     public void setRecycler(RecyclerView recycler) {
-        recycler.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+//        manager.invalidateSpanAssignments();//防止第一行到顶部有空白区域
+        recycler.setLayoutManager(manager);
         adapter = new RecyclerAdapter(activity.getActivity());
         recycler.setAdapter(adapter);
         if(MainPresenter.favorites.size() == 0){
@@ -108,18 +108,18 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     @Override
     public void changeCard() {
         ISFOUR = !ISFOUR;
-        adapter.reFresh(newlist,ISFOUR);
+        adapter.reFresh(newList,ISFOUR);
     }
 
     @Override
     public void reSort() {
-        Collections.shuffle(newlist);
-        adapter.reFresh(newlist,ISFOUR);
+        Collections.shuffle(newList);
+        adapter.reFresh(newList,ISFOUR);
     }
 
     @Override
     public void showStudent() {
-        newlist.clear();
+        newList.clear();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -127,19 +127,19 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                 if(value.equals("2017全部妹子")){
                     for (Student temp : MainPresenter.students) {
                         if (temp.getSex().equals("女") && temp.getYear().equals("2017")) {
-                            newlist.add(temp);
+                            newList.add(temp);
                         }
                     }
                 }
                 //如果是加载收藏，执行这个
                 else if(value.equals("favorite")){
-                    newlist = MainPresenter.favorites;
+                    newList = MainPresenter.favorites;
                 }
                 //传入字符串是学院
                 else if(value.charAt(value.length()-1) == '院') {
                     for (Student temp : MainPresenter.students) {
                         if (temp.getSex().equals("女") && temp.getCollege().equals(value)) {
-                            newlist.add(temp);
+                            newList.add(temp);
                         }
                     }
                 }
@@ -147,17 +147,17 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                 else{
                     for (Student temp : MainPresenter.students) {
                         if (temp.getSex().equals("女") && temp.getMajor().equals(value)) {
-                            newlist.add(temp);
+                            newList.add(temp);
                         }
                     }
                 }
                 //倒序排列
-                newlist = reSort(newlist);
+                newList = reSort(newList);
                 activity.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.reFresh(newlist,ISFOUR);
-                        activity.toast("捕获妹子： " + newlist.size() + "个");
+                        adapter.reFresh(newList,ISFOUR);
+                        activity.toast("捕获妹子： " + newList.size() + "个");
                     }
                 });
             }
