@@ -28,6 +28,6 @@ public class SharedPreferencesUtil {
      * @return string
      */
     public static String getRoot(Context context){
-        return getSharedPreferences(context).getString("root","congm");
+        return getSharedPreferences(context).getString("root","zzzia");
     }
 }

@@ -109,12 +109,14 @@ public class LoginPresenter implements ILoginPresenter {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    activity.hideDialog();
-                                    gotoMainPage();
+//                                    activity.hideDialog();
+//                                    gotoMainPage();
                                 }
                             });
                         }
                     });
+                    activity.hideDialog();
+                    gotoMainPage();
                 }
             }
         });
