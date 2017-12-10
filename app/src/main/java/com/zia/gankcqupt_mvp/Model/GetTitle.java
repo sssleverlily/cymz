@@ -1,26 +1,19 @@
 package com.zia.gankcqupt_mvp.Model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.FindCallback;
 import com.zia.gankcqupt_mvp.Adapter.SocialAdapter;
 import com.zia.gankcqupt_mvp.Bean.Title;
-import com.zia.gankcqupt_mvp.Presenter.Fragment.Main.SocialPresenter;
-import com.zia.gankcqupt_mvp.Util.UserUtil;
+import com.zia.gankcqupt_mvp.Util.UserInfo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,8 +23,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -65,10 +56,10 @@ public class GetTitle {
                         for (AVObject o: titleList) {
                             final Title title = new Title();
                             title.setUserId(o.getString("userId"));
-                            UserUtil userUtil = new UserUtil(title.getUserId());
-                            Log.d(TAG,userUtil.getNickname());
-                            title.setAuthor(userUtil.getNickname());
-                            title.setHeadUrl(userUtil.getThumbnailUrl(100,100));
+                            UserInfo userInfo = new UserInfo(title.getUserId());
+                            Log.d(TAG, userInfo.getNickname());
+                            title.setAuthor(userInfo.getNickname());
+                            title.setHeadUrl(userInfo.getThumbnailUrl(100,100));
                             title.setContent(o.getString("content"));
                             DateFormat dateFormat = new SimpleDateFormat("MM/dd  hh:mm");
                             title.setTime(dateFormat.format(o.getUpdatedAt()));

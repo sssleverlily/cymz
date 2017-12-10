@@ -3,22 +3,36 @@ package com.zia.gankcqupt_mvp.View.Activity.Page;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
+
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.SaveCallback;
+import com.zhihu.matisse.Matisse;
 import com.zia.gankcqupt_mvp.Adapter.PagerAdapter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.Code;
 import com.zia.gankcqupt_mvp.Util.ToastUtil;
+import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
+
+import java.util.List;
+
+import static com.zia.gankcqupt_mvp.Util.Code.REQUEST_CODE_CHOOSE;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
 
@@ -131,6 +145,36 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
                 break;
             case 2:
                     mainPresenter.updataImage(data);
+                break;
+            case REQUEST_CODE_CHOOSE:
+                if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+                    List<Uri> mSelected = Matisse.obtainResult(data);
+                    Log.d("MainActivityMatisse", "mSelected: " + mSelected);
+                    UserDataUtil.changAvatar(mSelected.get(0),MainActivity.this, new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if (e == null){
+                                ToastUtil.showToast(MainActivity.this,"更新头像成功");
+                            }else e.printStackTrace();
+                        }
+                    });
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Code.DISK:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ //同意权限申请
+                    toast("申请权限成功！");
+                }else { //拒绝权限申请
+                    toast("没有获取到权限哦..");
+                }
+                break;
+            default:
                 break;
         }
     }

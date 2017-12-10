@@ -14,13 +14,13 @@ import java.util.List;
  * Created by zia on 17-7-13.
  */
 
-public class UserUtil {
+public class UserInfo {
 
-    private static final String TAG = "UserUtilTest";
+    private static final String TAG = "UserInfoTest";
 
     private AVUser user = null;
 
-    public UserUtil(String userId) throws AVException {
+    public UserInfo(String userId) throws AVException {
         AVQuery<AVObject> query = new AVQuery<>("_User");
         user = (AVUser) query.get(userId);
         if(user == null) Log.e(TAG,"user not find!");

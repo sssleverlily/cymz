@@ -1,8 +1,12 @@
 package com.zia.gankcqupt_mvp.Util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
@@ -15,6 +19,7 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
 
 import org.json.JSONException;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -105,5 +110,19 @@ public class UserDataUtil {
                     pullListener.onPulled();
             }
         });
+    }
+
+    public static void changAvatar(Uri uri, Activity activity, SaveCallback saveCallback){
+        if (AVUser.getCurrentUser() == null) return;
+        if (!PermissionsUtil.hasDiskPermission(activity, Code.DISK)) return;
+        try {
+            String path = UriUtil.getRealPathFromUri(activity,uri);
+            LogUtil.e(TAG,path);
+            final AVFile image = AVFile.withAbsoluteLocalPath(AVUser.getCurrentUser().getUsername(),path);
+            AVUser.getCurrentUser().put("headImage",image);
+            AVUser.getCurrentUser().saveInBackground(saveCallback);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

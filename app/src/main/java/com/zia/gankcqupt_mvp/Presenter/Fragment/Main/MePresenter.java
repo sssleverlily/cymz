@@ -5,8 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -21,8 +21,10 @@ import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zia.gankcqupt_mvp.Bean.Student;
-import com.zia.gankcqupt_mvp.Bean.Students;
 import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
@@ -32,30 +34,14 @@ import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IMePresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.API;
 import com.zia.gankcqupt_mvp.Util.FileUtil;
-import com.zia.gankcqupt_mvp.Util.Service;
 import com.zia.gankcqupt_mvp.Util.SharedPreferencesUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IMeFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import static com.zia.gankcqupt_mvp.Util.Code.REQUEST_CODE_CHOOSE;
 
 /**
  * Created by zia on 2017/5/18.
@@ -295,8 +281,19 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
                 break;
 
             case R.id.user_pop_changeImage:
-                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                fragment.activity().startActivityForResult(intent,1);
+//                Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                fragment.activity().startActivityForResult(intent,1);
+                if(AVUser.getCurrentUser() == null){
+                    fragment.toast("请先登录..");
+                    break;
+                }
+                Matisse.from(fragment.activity())
+                        .choose(MimeType.allOf())
+                        .countable(true)
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new GlideEngine())
+                        .forResult(REQUEST_CODE_CHOOSE);
                 break;
 
             case R.id.user_pop_changeName:

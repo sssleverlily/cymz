@@ -10,4 +10,5 @@ package com.zia.gankcqupt_mvp.Util;
 public class Code {
     public final static int DISK = 10;
     public final static int CAMERA = 20;
+    public final static int REQUEST_CODE_CHOOSE = 100;
 }
