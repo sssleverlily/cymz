@@ -11,7 +11,6 @@ import java.util.List;
  */
 
 public interface IMainPresenter {
-    void setFloatingBar();
     void setPager();
     void getData();
     void getRawImage(Intent data);

@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.SaveCallback;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private Toolbar toolbar;
-    private FloatingActionButton floatingActionButton;
     private IMainPresenter mainPresenter;
     private ProgressDialog dialog;
     private final static String TAG = "MainActivityTest";
@@ -54,17 +52,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         findWidgets();
         setToolBar();
         mainPresenter = new MainPresenter(this);
-        mainPresenter.setFloatingBar();
         mainPresenter.setPager();
         if(mainPresenter.getStudentList().size() == 0)
         mainPresenter.getData();
     }
 
     private void findWidgets(){
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
-        toolbar = (Toolbar)findViewById(R.id.mToolbar);
-        floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingBar);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+        toolbar = findViewById(R.id.mToolbar);
     }
 
     @Override
@@ -85,11 +81,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public PagerAdapter getPagerAdapter() {
         return new PagerAdapter(getSupportFragmentManager());
-    }
-
-    @Override
-    public FloatingActionButton getFloatingBar() {
-        return floatingActionButton;
     }
 
     @Override

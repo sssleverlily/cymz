@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.zia.gankcqupt_mvp.View.Fragment.Page.SearchFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.SortFragment;
-import com.zia.gankcqupt_mvp.View.Fragment.Page.SocialFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
 
 /**
@@ -15,7 +14,7 @@ import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private String[] mTitles = new String[]{"查询","分类","社交","更多"};
+    private String[] mTitles = new String[]{"查询", "分类", "更多"};
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -28,9 +27,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
         }else if(position == 1){
             return new SortFragment();
         }else if(position == 2){
-            return new SocialFragment();
-        }
-        else if(position == 3){
             return new MeFragment();
         }
         return new Fragment();

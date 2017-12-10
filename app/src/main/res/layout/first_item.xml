@@ -1,42 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:id="@+id/first_layout">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/first_name"
-            android:paddingLeft="10dp"
-            android:text="jzl"
-            android:textSize="20dp"
-            android:textColor="#728ea3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/first_id"
-            android:text="2016211541"
-            android:textSize="15dp"
-            android:textColor="#728ea3"
-            android:paddingLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <TextView
-        android:id="@+id/first_college"
-        android:text="计算机"
-        android:textSize="25dp"
-        android:textColor="#728ea3"
-        android:paddingLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#728ea3"/>
+    android:layout_margin="5dp"
+    android:transitionName="card_info"
+    android:id="@+id/first_layout"
+    android:background="?android:attr/selectableItemBackground"
+    android:foreground="?android:attr/selectableItemBackground">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/detail_layout_name"
+            android:transitionName="info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名：" />
+
+            <TextView
+                android:id="@+id/first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="凌霄" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_layout_class"
+            android:transitionName="info_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/detail_layout_name"
+            android:layout_marginEnd="70dp"
+            android:layout_marginRight="70dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="班级：" />
+
+            <TextView
+                android:id="@+id/first_classId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04121688" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_layout_id"
+            android:transitionName="info_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/detail_layout_name"
+            android:layout_alignStart="@id/detail_layout_name"
+            android:layout_below="@id/detail_layout_name"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学号：" />
+
+            <TextView
+                android:id="@+id/first_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016211111" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_layout_major"
+            android:transitionName="info_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/detail_layout_class"
+            android:layout_alignStart="@id/detail_layout_class"
+            android:layout_alignTop="@id/detail_layout_id"
+            android:layout_below="@id/detail_layout_class"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="专业：" />
+
+            <TextView
+                android:id="@+id/first_college"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="计算机" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

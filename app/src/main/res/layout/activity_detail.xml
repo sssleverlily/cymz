@@ -4,131 +4,183 @@
     android:id="@+id/activity_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="6dp"
-    android:paddingLeft="6dp"
     android:background="#f2f2f2"
-    android:paddingRight="6dp"
-    android:paddingTop="6dp"
+    android:orientation="vertical"
     tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity">
-    <ImageView
-        android:id="@+id/detail_image"
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        />
-    <FrameLayout
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="25dp">
+
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/detail_layout_card"
+        android:transitionName="card_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <RelativeLayout
+            android:id="@+id/detail_layout_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
             <LinearLayout
+                android:id="@+id/detail_layout_name"
+                android:transitionName="info_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名：" />
+
                 <TextView
                     android:id="@+id/detail_name"
-                    android:text="凌霄"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/detail_id"
-                    android:text="123456789"
-                    android:paddingLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="凌霄" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/detail_layout_class"
+                android:transitionName="info_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/detail_layout_name"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="班级："
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="班级：" />
+
                 <TextView
                     android:id="@+id/detail_classId"
-                    android:paddingLeft="15dp"
-                    android:text="04121688"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="04121688" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/detail_layout_id"
+                android:transitionName="info_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_alignLeft="@id/detail_layout_name"
+                android:layout_alignStart="@id/detail_layout_name"
+                android:layout_below="@id/detail_layout_name"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="入学年份："
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="学号：" />
+
                 <TextView
-                    android:id="@+id/detail_year"
-                    android:text="2016"
-                    android:paddingLeft="10dp"
+                    android:id="@+id/detail_id"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="2016211111" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/detail_layout_major"
+                android:transitionName="info_major"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:layout_alignLeft="@id/detail_layout_class"
+                android:layout_alignStart="@id/detail_layout_class"
+                android:layout_alignTop="@id/detail_layout_id"
+                android:layout_below="@id/detail_layout_class"
+
+                android:orientation="horizontal">
+
                 <TextView
-                    android:text="专业："
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="专业：" />
+
                 <TextView
                     android:id="@+id/detail_major"
-                    android:text="计算机"
-                    android:paddingLeft="15dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="计算机" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="end">
-            <LinearLayout
+            android:id="@+id/detail_layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end">
-                <Button
-                    android:text="一卡通"
-                    android:id="@+id/card"
-                    android:background="@drawable/bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_margin="2dp"/>
-                <Button
-                    android:text="下载"
-                    android:id="@+id/save"
-                    android:background="@drawable/bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_margin="2dp"/>
-            </LinearLayout>
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt"
+                android:text="一卡通" />
 
-                <Button
-                    android:text="收藏"
-                    android:id="@+id/favorite"
-                    android:background="@drawable/bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_margin="2dp"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt"
+                android:text="下载" />
 
-    </FrameLayout>
+            <Button
+                android:id="@+id/favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt"
+                android:text="收藏" />
+
+            <Button
+                android:id="@+id/detail_button_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bt"
+                android:text="返回" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

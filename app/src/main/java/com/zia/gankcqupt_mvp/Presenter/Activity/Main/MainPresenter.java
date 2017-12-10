@@ -1,22 +1,16 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
@@ -31,14 +25,12 @@ import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.PublishActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -81,39 +73,6 @@ public class MainPresenter implements IMainPresenter {
                     e.printStackTrace();
                     Log.d(TAG,"installationId保存到服务器失败");
                 }
-            }
-        });
-    }
-
-    @Override
-    public void setFloatingBar() {
-        activity.getFloatingBar().setVisibility(View.INVISIBLE);
-        activity.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(position == 2){
-                    activity.getFloatingBar().setVisibility(View.VISIBLE);
-                }
-                else{
-                    activity.getFloatingBar().setVisibility(View.INVISIBLE);
-                }
-            }
-            @Override
-            public void onPageSelected(int position) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-        activity.getFloatingBar().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(AVUser.getCurrentUser() == null){
-                    activity.toast("请先登录！");
-                    return;
-                }
-                Intent intent = new Intent(activity.getActivity(), PublishActivity.class);
-                activity.getActivity().startActivity(intent);
             }
         });
     }

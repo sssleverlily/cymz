@@ -7,10 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +29,15 @@ import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 
 public class DetailActivity extends AppCompatActivity implements IDetailActivity {
 
-    private TextView name,year,classId,id,major;
+    private TextView name, classId, id, major;
     private ImageView imageView;
-    private Button save,favorite,card;
+    private Button save, favorite, card, back;
+    private CardView cardLayout;
+    private RelativeLayout infoLayout;
+    private LinearLayout buttonsLayout;
     private IDetailPresenter detailPresenter;
     public static final String ELEMENT = "Element";
+    private boolean isInfoLayout = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +72,93 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
                 detailPresenter.changeCard();
             }
         });
+        cardLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchLayout();
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchLayout();
+            }
+        });
     }
 
     private void findWidgets(){
-        major = (TextView) findViewById(R.id.detail_major);
-        id = (TextView) findViewById(R.id.detail_id);
-        classId = (TextView) findViewById(R.id.detail_classId);
-        year = (TextView) findViewById(R.id.detail_year);
-        name = (TextView) findViewById(R.id.detail_name);
-        save = (Button) findViewById(R.id.save);
-        favorite = (Button) findViewById(R.id.favorite);
-        card = (Button)findViewById(R.id.card);
-        imageView = (ImageView) findViewById(R.id.detail_image);
+        major = findViewById(R.id.detail_major);
+        id = findViewById(R.id.detail_id);
+        classId = findViewById(R.id.detail_classId);
+        name = findViewById(R.id.detail_name);
+        save = findViewById(R.id.save);
+        favorite = findViewById(R.id.favorite);
+        card = findViewById(R.id.card);
+        imageView = findViewById(R.id.detail_image);
+        cardLayout = findViewById(R.id.detail_layout_card);
+        infoLayout = findViewById(R.id.detail_layout_info);
+        buttonsLayout = findViewById(R.id.detail_layout_buttons);
+        back = findViewById(R.id.detail_button_back);
+    }
+
+    private void switchLayout() {
+        AlphaAnimation fadeIn = new AlphaAnimation(0f, 1f);
+        fadeIn.setDuration(500);
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (isInfoLayout) {
+                    infoLayout.setVisibility(View.VISIBLE);
+                    buttonsLayout.setVisibility(View.GONE);
+                } else {
+                    infoLayout.setVisibility(View.GONE);
+                    buttonsLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        AlphaAnimation fadeOut = new AlphaAnimation(1f, 0f);
+        fadeOut.setDuration(500);
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (isInfoLayout) {
+                    infoLayout.setVisibility(View.VISIBLE);
+                    buttonsLayout.setVisibility(View.GONE);
+                } else {
+                    infoLayout.setVisibility(View.GONE);
+                    buttonsLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        if (isInfoLayout) {
+            infoLayout.startAnimation(fadeOut);
+            buttonsLayout.startAnimation(fadeIn);
+            isInfoLayout = false;
+        } else {
+            infoLayout.startAnimation(fadeIn);
+            buttonsLayout.startAnimation(fadeOut);
+            isInfoLayout = true;
+        }
     }
 
     @Override
@@ -93,7 +177,6 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
         this.id.setText(id);
         this.major.setText(major);
         this.classId.setText(classId);
-        this.year.setText(year);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Util.API;
+import com.zia.gankcqupt_mvp.Util.GlideUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +40,7 @@ public class DetailModel {
         else{
             url = API.getInstance(context).getYKT(studentId);
         }
-        Glide.with(context).load(url).into(imageView);
+        GlideUtil.INSTANCE.load(context, imageView, url);
     }
 
     public void savePic(final Student student, final boolean isFour){

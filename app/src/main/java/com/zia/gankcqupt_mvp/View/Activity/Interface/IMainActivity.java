@@ -18,7 +18,6 @@ public interface IMainActivity {
     Toolbar getToolBar();
     TabLayout getTablayout();
     PagerAdapter getPagerAdapter();
-    FloatingActionButton getFloatingBar();
     void toast(String msg);
     void setToolBar();
     void showDialog();

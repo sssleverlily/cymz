@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.API;
+import com.zia.gankcqupt_mvp.Util.GlideUtil;
 import com.zia.gankcqupt_mvp.Util.LogUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
@@ -101,7 +102,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
         }else{
             url = API.getInstance(context).getYKT(student.studentid);
         }
-        Glide.with(context).load(url).error(R.mipmap.error_icon).into(holder.imageView);
+        GlideUtil.INSTANCE.loadthumbnail(context, holder.imageView, url);
     }
 
     @Override
