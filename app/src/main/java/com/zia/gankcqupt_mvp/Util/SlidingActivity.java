@@ -7,7 +7,9 @@ package com.zia.gankcqupt_mvp.Util;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public abstract class SlidingActivity extends AppCompatActivity {
+import com.zia.gankcqupt_mvp.View.Activity.BaseActivity;
+
+public abstract class SlidingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

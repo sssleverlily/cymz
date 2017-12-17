@@ -32,9 +32,9 @@ public class SearchPresenter implements ISearchPresenter {
     private FirstAdapter adapter;
     private List<Student> list = new ArrayList<>();
 
-    public SearchPresenter(SearchFragment searchFragment){
+    public SearchPresenter(IFirstFragment searchFragment) {
         this.firstFragment = searchFragment;
-        context = searchFragment.getContext();
+        context = searchFragment.getActivity();
     }
 
 

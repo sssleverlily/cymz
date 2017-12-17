@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
@@ -25,9 +26,7 @@ import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zia.gankcqupt_mvp.Bean.Student;
-import com.zia.gankcqupt_mvp.Model.GetProgress;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
-import com.zia.gankcqupt_mvp.Model.OnAllStudentGet;
 import com.zia.gankcqupt_mvp.Model.SaveStudent;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.IMePresenter;
@@ -39,8 +38,10 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IMeFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
+
 import java.io.FileNotFoundException;
 import java.util.List;
+
 import static com.zia.gankcqupt_mvp.Util.Code.REQUEST_CODE_CHOOSE;
 
 /**
@@ -55,7 +56,7 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
     private TextView nick;
     private String root = "congm";
 
-    public MePresenter(MeFragment meFragment) {
+    public MePresenter(IMeFragment meFragment) {
         this.fragment = meFragment;
     }
 
@@ -232,7 +233,7 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
         dialog.setMessage("耐心等待..");
         //执行model的获取学生方法
         GetStudent getStudent = new GetStudent(fragment.activity());
-        getStudent.GetFromCQUPT(new OnAllStudentGet() {
+        getStudent.GetFromCQUPT(new GetStudent.OnAllStudentGet() {
             @Override
             public void onFinish(List<Student> studentList) {
                 //从网络中获取后保存到数据库里
@@ -252,7 +253,7 @@ public class MePresenter implements IMePresenter,PopupMenu.OnMenuItemClickListen
                 fragment.toast("失败了...");
             }
             //设置进度条
-        }, new GetProgress() {
+        }, new GetStudent.GetProgress() {
             @Override
             public void status(final int percentage) {
                 fragment.activity().runOnUiThread(new Runnable() {

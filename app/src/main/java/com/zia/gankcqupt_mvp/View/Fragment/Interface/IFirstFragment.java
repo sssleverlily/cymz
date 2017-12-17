@@ -1,5 +1,6 @@
 package com.zia.gankcqupt_mvp.View.Fragment.Interface;
 
+import android.app.Activity;
 import android.widget.EditText;
 
 /**
@@ -9,4 +10,5 @@ import android.widget.EditText;
 public interface IFirstFragment {
     EditText getEdit();
 
+    Activity getActivity();
 }

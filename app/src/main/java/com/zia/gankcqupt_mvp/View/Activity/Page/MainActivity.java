@@ -1,18 +1,15 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Window;
@@ -27,13 +24,14 @@ import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.Code;
 import com.zia.gankcqupt_mvp.Util.ToastUtil;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
+import com.zia.gankcqupt_mvp.View.Activity.BaseActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 
 import java.util.List;
 
 import static com.zia.gankcqupt_mvp.Util.Code.REQUEST_CODE_CHOOSE;
 
-public class MainActivity extends AppCompatActivity implements IMainActivity {
+public class MainActivity extends BaseActivity implements IMainActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -45,9 +43,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        }
         setContentView(R.layout.activity_main);
         findWidgets();
         setToolBar();
@@ -57,7 +52,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         mainPresenter.getData();
     }
 
-    private void findWidgets(){
+    @Override
+    protected void findWidgets() {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.mToolbar);
@@ -81,11 +77,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     @Override
     public PagerAdapter getPagerAdapter() {
         return new PagerAdapter(getSupportFragmentManager());
-    }
-
-    @Override
-    public void toast(String msg) {
-        ToastUtil.showToast(this,msg);
     }
 
     @Override
@@ -113,11 +104,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
     public void hideDialog() {
         if (dialog == null) return;
         dialog.hide();
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity;
 
 /**
  * Created by zia on 2017/5/19.
@@ -37,12 +36,12 @@ public class DetailPresenter implements IDetailPresenter {
     private DetailModel model;
     private Student student;
 
-    public DetailPresenter(DetailActivity detailActivity){
-        this.activity = detailActivity;
-        context = detailActivity;
-        isFour = detailActivity.getIsFour();
-        model = new DetailModel(detailActivity);
-        student = detailActivity.getStu();
+    public DetailPresenter(IDetailActivity iDetailActivity) {
+        this.activity = iDetailActivity;
+        context = iDetailActivity.getActivity();
+        isFour = iDetailActivity.getIsFour();
+        model = new DetailModel(context);
+        student = iDetailActivity.getStu();
     }
 
     @Override

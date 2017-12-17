@@ -57,6 +57,16 @@ public class GetStudent {
         database = helper.getWritableDatabase();
     }
 
+    public interface GetProgress {
+        void status(int percentage);
+    }
+
+    public interface OnAllStudentGet {
+        void onFinish(List<Student> studentList);
+
+        void onError();
+    }
+
     /**
      * 获取数据库中收藏列表
      */

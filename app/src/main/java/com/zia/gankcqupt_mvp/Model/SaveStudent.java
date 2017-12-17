@@ -2,7 +2,6 @@ package com.zia.gankcqupt_mvp.Model;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -12,12 +11,9 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;

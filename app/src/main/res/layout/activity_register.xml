@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:elevation="1dp"
         app:cardCornerRadius="8dp"
         android:transitionName="register_card">
 
@@ -28,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:gravity="center_horizontal"
-                android:text="重邮妹子心悦会员"
+                android:text="注册"
                 android:textColor="#195963"
                 android:textSize="23dp"
                 android:transitionName="card_title"/>
@@ -67,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:transitionName="register_username"
                 android:textColorHint="@color/colorAccent">
 
                 <EditText
@@ -81,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:transitionName="register_password"
                 android:textColorHint="@color/colorAccent">
 
                 <EditText

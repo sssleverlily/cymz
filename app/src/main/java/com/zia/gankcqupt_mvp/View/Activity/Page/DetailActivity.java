@@ -1,15 +1,11 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -17,17 +13,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IDetailPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.DetailPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.Code;
-import com.zia.gankcqupt_mvp.Util.ToastUtil;
+import com.zia.gankcqupt_mvp.View.Activity.BaseActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IDetailActivity;
 
-public class DetailActivity extends AppCompatActivity implements IDetailActivity {
+public class DetailActivity extends BaseActivity implements IDetailActivity {
 
     private TextView name, classId, id, major;
     private ImageView imageView;
@@ -86,7 +81,8 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
         });
     }
 
-    private void findWidgets(){
+    @Override
+    protected void findWidgets() {
         major = findViewById(R.id.detail_major);
         id = findViewById(R.id.detail_id);
         classId = findViewById(R.id.detail_classId);
@@ -185,11 +181,6 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     }
 
     @Override
-    public void toast(String msg) {
-        ToastUtil.showToast(this,msg);
-    }
-
-    @Override
     public void setButtonColor(int color) {
         favorite.setTextColor(color);
     }
@@ -197,11 +188,6 @@ public class DetailActivity extends AppCompatActivity implements IDetailActivity
     @Override
     public Button getCardButton() {
         return card;
-    }
-
-    @Override
-    public Activity getActivity() {
-        return this;
     }
 
     @Override

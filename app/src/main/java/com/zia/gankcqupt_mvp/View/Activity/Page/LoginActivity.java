@@ -1,37 +1,45 @@
 package com.zia.gankcqupt_mvp.View.Activity.Page;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.ILoginPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.LoginPresenter;
 import com.zia.gankcqupt_mvp.R;
-import com.zia.gankcqupt_mvp.Util.ToastUtil;
+import com.zia.gankcqupt_mvp.View.Activity.BaseActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 
-public class LoginActivity extends AppCompatActivity implements ILoginActivity {
+public class LoginActivity extends BaseActivity implements ILoginActivity {
 
     private TextView skip,register,login;
     public static TextInputLayout user,psw;
     private ILoginPresenter presenter;
     private ProgressDialog dialog;
+    public final static String card_transitionName = "register_card";
+    public final static String username_transitionName = "register_username";
+    public final static String password_transitionName = "register_password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         presenter = new LoginPresenter(this);
         findWidgets();
         setClick();
+    }
+
+    @Override
+    protected void findWidgets() {
+        skip = findViewById(R.id.login_skip);
+        register = findViewById(R.id.login_register);
+        login = findViewById(R.id.login_login);
+        user = findViewById(R.id.login_username);
+        psw = findViewById(R.id.login_password);
     }
 
     private void setClick() {
@@ -64,13 +72,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         });
     }
 
-    private void findWidgets() {
-        skip = (TextView)findViewById(R.id.login_skip);
-        register = (TextView)findViewById(R.id.login_register);
-        login = (TextView)findViewById(R.id.login_login);
-        user = (TextInputLayout) findViewById(R.id.login_username);
-        psw = (TextInputLayout) findViewById(R.id.login_password);
-    }
 
     @Override
     public String getUsername() {
@@ -100,12 +101,6 @@ public class LoginActivity extends AppCompatActivity implements ILoginActivity {
         if(dialog == null) return;
         dialog.hide();
     }
-
-    @Override
-    public void toast(String msg) {
-        ToastUtil.showToast(this,msg);
-    }
-
 
     @Override
     public void setUsernameError() {

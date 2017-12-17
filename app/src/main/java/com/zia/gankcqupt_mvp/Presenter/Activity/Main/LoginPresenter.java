@@ -1,38 +1,25 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.LogInCallback;
-import com.zia.gankcqupt_mvp.Model.GetStudent;
-import com.zia.gankcqupt_mvp.Model.StudentDbHelper;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.ILoginPresenter;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterImp;
 
 /**
  * Created by zia on 2017/5/28.
@@ -42,31 +29,33 @@ public class LoginPresenter implements ILoginPresenter {
 
 
     private static final String TAG = "LoginPresenterTest";
-    private LoginActivity activity;
+    private ILoginActivity activity;
 
-    public LoginPresenter(LoginActivity activity) {
+    public LoginPresenter(ILoginActivity activity) {
         this.activity = activity;
     }
 
     @Override
     public void gotoRegisterPage() {
         Log.d(TAG, "gotoRegisterPage");
-        Intent intent = new Intent(activity, RegisterActivity.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            View card = activity.findViewById(R.id.login_card);
-            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, card, card.getTransitionName());
-            activity.startActivity(intent, optionsCompat.toBundle());
-        } else {
-            activity.startActivity(intent);
-        }
+        Intent intent = new Intent(activity.getActivity(), RegisterImp.class);
+        View card = activity.getActivity().findViewById(R.id.login_card);
+        TextInputLayout usernameInput = activity.getActivity().findViewById(R.id.login_username);
+        TextInputLayout passwordInput = activity.getActivity().findViewById(R.id.login_password);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity.getActivity(),
+                new Pair<>(card, LoginActivity.card_transitionName)
+                , new Pair<View, String>(usernameInput, LoginActivity.username_transitionName)
+                , new Pair<View, String>(passwordInput, LoginActivity.password_transitionName)
+        );
+        ActivityCompat.startActivity(activity.getActivity(), intent, options.toBundle());
     }
 
     @Override
     public void gotoMainPage() {
         Log.d(TAG, "gotoMainPage");
-        Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivity(intent);
-        activity.finish();
+        Intent intent = new Intent(activity.getActivity(), MainActivity.class);
+        activity.getActivity().startActivity(intent);
+        activity.getActivity().finish();
     }
 
     @Override
@@ -78,7 +67,7 @@ public class LoginPresenter implements ILoginPresenter {
                 if (e != null) {
                     e.printStackTrace();
                     Log.d(TAG, "登录有问题");
-                    activity.runOnUiThread(new Runnable() {
+                    activity.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             activity.setPasswordError();
@@ -106,13 +95,13 @@ public class LoginPresenter implements ILoginPresenter {
                     UserDataUtil.pullFavorites(new UserDataUtil.PullListener() {
                         @Override
                         public void onPulled() {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+//                            activity.getActivity().runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
 //                                    activity.hideDialog();
 //                                    gotoMainPage();
-                                }
-                            });
+//                                }
+//                            });
                         }
                     });
                     activity.hideDialog();

@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Util.API;
 import com.zia.gankcqupt_mvp.Util.GlideUtil;

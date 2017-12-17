@@ -1,7 +1,5 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Interface;
 
-import android.widget.Button;
-
 /**
  * Created by zia on 2017/5/19.
  */

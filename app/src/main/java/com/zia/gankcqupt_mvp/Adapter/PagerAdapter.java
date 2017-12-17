@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.SearchFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.SortFragment;
-import com.zia.gankcqupt_mvp.View.Fragment.Page.MeFragment;
 
 /**
  * Created by zia on 2017/5/18.

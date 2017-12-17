@@ -8,8 +8,6 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 
-import java.util.List;
-
 /**
  * Created by zia on 17-7-13.
  */

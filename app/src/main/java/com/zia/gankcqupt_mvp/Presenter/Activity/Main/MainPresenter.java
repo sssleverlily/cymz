@@ -9,12 +9,10 @@ import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
@@ -45,36 +43,8 @@ public class MainPresenter implements IMainPresenter {
     public static List<Student> students = new ArrayList<>();
     public static List<Student> favorites = new ArrayList<>();
 
-
-    public MainPresenter(MainActivity mainActivity){
+    public MainPresenter(IMainActivity mainActivity) {
         this.activity = mainActivity;
-        AVInstallation.getCurrentInstallation().saveInBackground(new SaveCallback() {
-            public void done(AVException e) {
-                if (e == null) {
-                    // 保存成功
-                    String installationId = AVInstallation.getCurrentInstallation().getInstallationId();
-                    // 关联  installationId 到用户表等操作……
-                    Log.d(TAG,"保存到服务器--->installationId:  "+ installationId);
-                    if(AVUser.getCurrentUser() != null){
-                        AVUser.getCurrentUser().put("installationId",installationId);
-                        AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(AVException e) {
-                                if(e == null){
-                                    Log.d(TAG,"installationId上传用户信息成功");
-                                }else{
-                                    Log.d(TAG,"installationId上传用户信息失败");
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    // 保存失败，输出错误信息
-                    e.printStackTrace();
-                    Log.d(TAG,"installationId保存到服务器失败");
-                }
-            }
-        });
     }
 
     @Override

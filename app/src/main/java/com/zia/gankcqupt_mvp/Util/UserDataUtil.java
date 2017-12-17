@@ -1,7 +1,6 @@
 package com.zia.gankcqupt_mvp.Util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -15,7 +14,6 @@ import com.avos.avoscloud.SaveCallback;
 import com.google.gson.Gson;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
-import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
 
 import org.json.JSONException;
 

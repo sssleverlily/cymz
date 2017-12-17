@@ -14,7 +14,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.R;
 import com.zia.gankcqupt_mvp.Util.API;
@@ -39,6 +38,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Holder
 
     public RecyclerAdapter(Context context){
         this.context = context;
+    }
+
+    public interface RecyclerOnClickListener {
+        void onClick(Student student);
     }
 
     public void reFresh(List<Student> list,boolean isfour){

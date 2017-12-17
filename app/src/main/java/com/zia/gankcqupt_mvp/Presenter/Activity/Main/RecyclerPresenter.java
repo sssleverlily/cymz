@@ -16,6 +16,7 @@ import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -27,21 +28,22 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     private IRecyclerActivity activity;
     public static RecyclerAdapter adapter;
     public static boolean isFavoriteList = false;
-    private List<Student> newList = new ArrayList<Student>();
+    private List<Student> newList = new ArrayList<>();
     private boolean ISFOUR = true;
     private StaggeredGridLayoutManager manager;
 
-    public RecyclerPresenter(RecyclerActivity recyclerActivity){
+    public RecyclerPresenter(IRecyclerActivity recyclerActivity) {
         this.activity = recyclerActivity;
     }
 
     //倒序排列方法
-    private List<Student> reSort(List<Student> avObjectList){
-        int i;List<Student> list = new ArrayList<>();
-        for(i=avObjectList.size()-1;i>=0;i--){
-            list.add(avObjectList.get(i));
-        }
-        return list;
+    private void reSort(List<Student> avObjectList) {
+        Collections.sort(avObjectList, new Comparator<Student>() {
+            @Override
+            public int compare(Student student, Student t1) {
+                return Integer.parseInt(t1.getYear()) - Integer.parseInt(student.getYear());
+            }
+        });
     }
 
     @Override
@@ -152,7 +154,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                     }
                 }
                 //倒序排列
-                newList = reSort(newList);
+                reSort(newList);
                 activity.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

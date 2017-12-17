@@ -1,9 +1,5 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,11 +9,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.SignUpCallback;
@@ -26,18 +20,11 @@ import com.zia.gankcqupt_mvp.Util.Code;
 import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRegisterActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by zia on 2017/5/28.
@@ -50,7 +37,7 @@ public class RegisterPresenter implements IRegisterPresenter {
     private String imagePath;
     private static final String TAG = "RegisterPresenterTest";
 
-    public RegisterPresenter(RegisterActivity activity) {
+    public RegisterPresenter(IRegisterActivity activity) {
         this.activity = activity;
     }
 

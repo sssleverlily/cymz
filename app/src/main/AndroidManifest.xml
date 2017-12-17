@@ -39,7 +39,7 @@
         <activity android:name=".View.Activity.Page.DetailActivity"/>
         <activity android:name=".View.Activity.Page.RecyclerActivity" android:theme="@style/AppTheme.Slide"/>
         <activity android:name=".View.Activity.Page.LoginActivity" />
-        <activity android:name=".View.Activity.Page.RegisterActivity" />
+        <activity android:name=".View.Activity.Page.RegisterImp" />
     </application>
 
 </manifest>

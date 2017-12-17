@@ -27,7 +27,7 @@ import java.util.List;
 public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.Holder>  {
 
     private List<Student> list = new ArrayList<>();
-    private RecyclerOnClickListener listener;
+    private RecyclerAdapter.RecyclerOnClickListener listener;
     private Context context;
     private static final String TAG = "FirstAdapterTest";
 
@@ -35,7 +35,7 @@ public class FirstAdapter extends RecyclerView.Adapter<FirstAdapter.Holder>  {
         this.context = context;
     }
 
-    public void setListener(RecyclerOnClickListener listener){
+    public void setListener(RecyclerAdapter.RecyclerOnClickListener listener) {
         this.listener = listener;
     }
 
