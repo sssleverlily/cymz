@@ -20,6 +20,8 @@ import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Model.GetStudent;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IMainPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.Code;
+import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IMainActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
@@ -64,7 +66,11 @@ public class MainPresenter implements IMainPresenter {
     public void getData() {
         activity.showDialog();
         GetStudent getStudent = new GetStudent(activity.getActivity());
-        getStudent.getFromDB(activity.getDialog());
+        try {
+            getStudent.getFromDB(activity.getDialog());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         UserDataUtil.pullFavorites(null);
     }
 
@@ -132,10 +138,10 @@ public class MainPresenter implements IMainPresenter {
                     }
                 });
             }
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }finally{
-            if(null != foutput){
+        } finally {
+            if (null != foutput) {
                 try {
                     foutput.close();
                 } catch (IOException e) {

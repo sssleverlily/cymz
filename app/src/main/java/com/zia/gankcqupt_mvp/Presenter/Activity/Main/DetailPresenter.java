@@ -39,9 +39,16 @@ public class DetailPresenter implements IDetailPresenter {
     public DetailPresenter(IDetailActivity iDetailActivity) {
         this.activity = iDetailActivity;
         context = iDetailActivity.getActivity();
-        isFour = iDetailActivity.getIsFour();
-        model = new DetailModel(context);
         student = iDetailActivity.getStu();
+        Log.e(TAG, student.toString());
+        model = new DetailModel(context);
+        //2017级新生设置为false
+        isFour = Integer.parseInt(student.getYear()) < 2017;
+        if (isFour) {
+            activity.getCardButton().setText("四六级");
+        } else {
+            activity.getCardButton().setText("一卡通");
+        }
     }
 
     @Override
@@ -98,9 +105,9 @@ public class DetailPresenter implements IDetailPresenter {
     public void changeCard() {
         isFour = !isFour;
         if(isFour){
-            activity.getCardButton().setText("一卡通");
-        }else{
             activity.getCardButton().setText("四六级");
+        }else{
+            activity.getCardButton().setText("一卡通");
         }
         showPic();
     }

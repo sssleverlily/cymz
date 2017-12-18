@@ -18,6 +18,11 @@ public class Student implements Serializable {
     public String year;
     public String atschool;
 
+    @Override
+    public String toString() {
+        return name + " \n" + studentid;
+    }
+
     public String getAtschool() {
         return atschool;
     }

@@ -29,7 +29,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
     public static RecyclerAdapter adapter;
     public static boolean isFavoriteList = false;
     private List<Student> newList = new ArrayList<>();
-    private boolean ISFOUR = true;
+    private boolean ISFOUR = false;
     private StaggeredGridLayoutManager manager;
 
     public RecyclerPresenter(IRecyclerActivity recyclerActivity) {

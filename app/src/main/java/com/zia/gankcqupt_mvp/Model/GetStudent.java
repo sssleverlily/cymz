@@ -9,7 +9,9 @@ import android.widget.Toast;
 
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
+import com.zia.gankcqupt_mvp.Util.Code;
 import com.zia.gankcqupt_mvp.Util.HttpUtil;
+import com.zia.gankcqupt_mvp.Util.PermissionsUtil;
 import com.zia.gankcqupt_mvp.Util.StudentUtil;
 
 import java.io.BufferedInputStream;
@@ -51,9 +53,9 @@ public class GetStudent {
     private static int p = 0;//进度
     private SQLiteDatabase database;
 
-    public GetStudent(Context context){
+    public GetStudent(Context context) {
         this.context = context;
-        StudentDbHelper helper = new StudentDbHelper(context,"cymz.db",null,1);
+        StudentDbHelper helper = new StudentDbHelper(context, "cymz.db", null, 1);
         database = helper.getWritableDatabase();
     }
 
@@ -70,10 +72,10 @@ public class GetStudent {
     /**
      * 获取数据库中收藏列表
      */
-    public void getFavorite(){
-        Cursor cursor = database.query("Favorite",null,null,null,null,null,null);
-        if(cursor.moveToFirst()){
-            do{
+    public void getFavorite() {
+        Cursor cursor = database.query("Favorite", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
                 Student student = new Student();
                 student.setName(cursor.getString(cursor.getColumnIndex("name")));
                 student.setClassid(cursor.getString(cursor.getColumnIndex("classid")));
@@ -86,52 +88,56 @@ public class GetStudent {
                 student.setStudentid(cursor.getString(cursor.getColumnIndex("studentid")));
                 student.setYear(cursor.getString(cursor.getColumnIndex("year")));
                 StudentUtil.addStudentToFavorites(student);
-                Log.d(TAG,student.getName());
-            }while (cursor.moveToNext());
+                Log.d(TAG, student.getName());
+            } while (cursor.moveToNext());
         }
         cursor.close();
     }
 
     /**
      * 从数据库中获取数据
+     *
      * @param dialog 进度条
      */
-    public void getFromDB(final ProgressDialog dialog){//final OnAllStudentGet onAllStudentGet, final GetProgress setprogress
-        i=0;p=0;MainPresenter.students.clear();
+    public void getFromDB(final ProgressDialog dialog) throws IOException {//final OnAllStudentGet onAllStudentGet, final GetProgress setprogress
+        i = 0;
+        p = 0;
+        MainPresenter.students.clear();
+        Cursor cursor = database.query("Student", null, null, null, null, null, null);
+        //数据库没有内容，则先复制
+        if (!cursor.moveToFirst()) {
+            InputStream is;
+            File file;
+            is = context.getApplicationContext().getAssets().open("cymz.db");
+            file = new File(context.getApplicationContext().getDatabasePath("cymz.db").getAbsolutePath());
+            Log.d("fileTest", "targetFile: " + file.getPath());
+            copyFile(is, file);
+        }
+        cursor.close();
         Observable.create(new ObservableOnSubscribe<Student>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Student> e) throws Exception {
-                Cursor cursor = database.query("Student",null,null,null,null,null,null);
-                if(cursor.moveToFirst()){
-                    do{
-                        Student student = new Student();
-                        student.setName(cursor.getString(cursor.getColumnIndex("name")));
-                        student.setClassid(cursor.getString(cursor.getColumnIndex("classid")));
-                        student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
-                        student.setAtschool(cursor.getString(cursor.getColumnIndex("atschool")));
-                        student.setClassnum(cursor.getString(cursor.getColumnIndex("classnum")));
-                        student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
-                        student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
-                        student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
-                        student.setStudentid(cursor.getString(cursor.getColumnIndex("studentid")));
-                        student.setYear(cursor.getString(cursor.getColumnIndex("year")));
-                        e.onNext(student);
-                        MainPresenter.students.add(student);
-                    }while (cursor.moveToNext());
-                    if(MainPresenter.students.size() <= 20000){
-                        database.delete("Student",null,null);
-                        getFromDB(dialog);
-                    }
+                Cursor cursor = database.query("Student", null, null, null, null, null, null);
+                Log.e(TAG, "getFromDB");
+                if (!cursor.moveToFirst()) {
+                    e.onError(new Throwable("cursor.moveToFirst()不存在"));
+                    return;
                 }
-                else {
-                    InputStream is;File file;
-                    is = context.getApplicationContext().getAssets().open("cymz.db");
-                    file = new File(context.getApplicationContext().getDatabasePath("cymz.db").getAbsolutePath());
-                    Log.d("fileTest","targetFile: "+file.getPath());
-                    copyFile(is,file);
-                    e.onComplete();
-                    getFromDB(dialog);
-                }
+                do {
+                    Student student = new Student();
+                    student.setName(cursor.getString(cursor.getColumnIndex("name")));
+                    student.setClassid(cursor.getString(cursor.getColumnIndex("classid")));
+                    student.setZyh(cursor.getString(cursor.getColumnIndex("zyh")));
+                    student.setAtschool(cursor.getString(cursor.getColumnIndex("atschool")));
+                    student.setClassnum(cursor.getString(cursor.getColumnIndex("classnum")));
+                    student.setCollege(cursor.getString(cursor.getColumnIndex("college")));
+                    student.setMajor(cursor.getString(cursor.getColumnIndex("major")));
+                    student.setSex(cursor.getString(cursor.getColumnIndex("sex")));
+                    student.setStudentid(cursor.getString(cursor.getColumnIndex("studentid")));
+                    student.setYear(cursor.getString(cursor.getColumnIndex("year")));
+                    e.onNext(student);
+                    MainPresenter.students.add(student);
+                } while (cursor.moveToNext());
                 cursor.close();
                 e.onComplete();
             }
@@ -147,21 +153,24 @@ public class GetStudent {
                     @Override
                     public void onNext(@NonNull Student student) {
                         i++;
-                        if(p != (int)((float) i / 19000f * 100)){
-                            p = (int)((float) i / 19000f * 100);
-                            dialog.setProgress(p);
+                        if (p != (int) ((float) i / 19000f * 100)) {
+                            p = (int) ((float) i / 19000f * 100);
+                            if (dialog != null && dialog.isShowing())
+                                dialog.setProgress(p);
                         }
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        dialog.hide();
+                        if (dialog != null && dialog.isShowing())
+                            dialog.dismiss();
                         Toast.makeText(context, "有点小问题...", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onComplete() {
-                        dialog.hide();
+                        if (dialog != null && dialog.isShowing())
+                            dialog.dismiss();
                         Toast.makeText(context, "加载完成！", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -170,41 +179,45 @@ public class GetStudent {
 
     /**
      * 从内网外入中获取数据
+     *
      * @param onAllStudentGet
      * @param getProgress
      */
-    public void GetFromCQUPT(final OnAllStudentGet onAllStudentGet, final GetProgress getProgress){
+    public void GetFromCQUPT(final OnAllStudentGet onAllStudentGet, final GetProgress getProgress) {
         HttpUtil.sendOkHttpRequest("http://jwzx.cqupt.congm.in/jwzxtmp/pubBjsearch.php?action=bjStu", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "网络有问题？", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 List<String> classList = new ArrayList<String>();
                 List<Student> studentList = new ArrayList<Student>();
-                i = 0;p = 0;int count = 0;
+                i = 0;
+                p = 0;
+                int count = 0;
                 //开始解析班级
                 String classIDregex = "(?<=bj=).*?(?=')";
                 Pattern pattern = Pattern.compile(classIDregex);
                 Matcher matcher = pattern.matcher(response.body().string());
-                while (matcher.find()){
-                    if(matcher.group() != null){
+                while (matcher.find()) {
+                    if (matcher.group() != null) {
                         classList.add("http://jwzx.cqupt.congm.in/jwzxtmp/showBjStu.php?bj=" + matcher.group());
-                        Log.d(TAG,matcher.group());
+                        Log.d(TAG, matcher.group());
                     }
                 }
                 getProgress.status(0);
                 //解析完毕，获取所有班级地址
-                Log.d(TAG,"解析完毕，已获取所有班级地址，接下来解析每一个班级...");
+                Log.d(TAG, "解析完毕，已获取所有班级地址，接下来解析每一个班级...");
                 int size = classList.size();//乘3是为了这部分为整个进度条的1/3
                 HttpURLConnection connection = null;
                 for (String u : classList) {
                     i++;//当数字改变时才刷新进度，节省内存
-                    if(p !=(int)((float) i /(float)size*100)){
-                        p =(int)((float) i /(float)size*100);
-                        Log.d(TAG,"当前进度： " +p );
+                    if (p != (int) ((float) i / (float) size * 100)) {
+                        p = (int) ((float) i / (float) size * 100);
+                        Log.d(TAG, "当前进度： " + p);
                         getProgress.status(p);
                     }
                     URL url = new URL(u);
@@ -224,13 +237,13 @@ public class GetStudent {
                     Pattern patterntbody = Pattern.compile("<tbody>[\\s\\S]*?</tbody>");
                     Matcher matcher1 = patterntbody.matcher(res.toString());
                     String tbody = "";
-                    while (matcher1.find()){
+                    while (matcher1.find()) {
                         tbody += matcher1.group();
                     }
                     Log.d(TAG, "获取tbody: " + tbody);
                     Pattern pattern2 = Pattern.compile("<tr><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td><td>(.*?)</td></tr>");
                     Matcher matcher2 = pattern2.matcher(tbody);
-                    while (matcher2.find()){
+                    while (matcher2.find()) {
                         Student student = new Student();
                         student.setClassnum(matcher2.group(1));
                         student.setStudentid(matcher2.group(2));
@@ -243,7 +256,7 @@ public class GetStudent {
                         student.setYear(matcher2.group(9));
                         student.setAtschool(matcher2.group(10));
                         count++;
-                        Log.d(TAG,count+" : "+student.getName());
+                        Log.d(TAG, count + " : " + student.getName());
                         studentList.add(student);
                     }
                     in.close();
@@ -257,20 +270,21 @@ public class GetStudent {
 
     /**
      * 复制数据库的方法
+     *
      * @param is
      * @param targetFile
      * @throws IOException
      */
-    private void copyFile(InputStream is,File targetFile) throws IOException{
+    private void copyFile(InputStream is, File targetFile) throws IOException {
         // 新建文件输入流并对它进行缓冲
-        BufferedInputStream inBuff=new BufferedInputStream(is);
+        BufferedInputStream inBuff = new BufferedInputStream(is);
         // 新建文件输出流并对它进行缓冲
         FileOutputStream output = new FileOutputStream(targetFile);
-        BufferedOutputStream outBuff=new BufferedOutputStream(output);
+        BufferedOutputStream outBuff = new BufferedOutputStream(output);
         // 缓冲数组
         byte[] b = new byte[1024 * 5];
         int len;
-        while ((len =inBuff.read(b)) != -1) {
+        while ((len = inBuff.read(b)) != -1) {
             outBuff.write(b, 0, len);
         }
         // 刷新此缓冲的输出流

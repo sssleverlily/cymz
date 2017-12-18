@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements IMainActivity {
         setToolBar();
         mainPresenter = new MainPresenter(this);
         mainPresenter.setPager();
-        if(mainPresenter.getStudentList().size() == 0)
         mainPresenter.getData();
     }
 
@@ -90,14 +89,14 @@ public class MainActivity extends BaseActivity implements IMainActivity {
 
     @Override
     public void showDialog() {
-//        if(dialog == null)
-        dialog = new ProgressDialog(this);
+        if (dialog == null)
+            dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setTitle("正在从数据库获取数据...");
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.show();
         dialog.setProgress(0);
-        dialog.setMessage("耐心等待..");
+//        dialog.setMessage("耐心等待..");
+        if (!dialog.isShowing()) dialog.show();
     }
 
     @Override
