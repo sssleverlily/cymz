@@ -10,6 +10,7 @@ import com.zia.gankcqupt_mvp.Adapter.RecyclerAdapter;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Interface.IRecyclerPresenter;
 import com.zia.gankcqupt_mvp.R;
+import com.zia.gankcqupt_mvp.Util.SortUtil;
 import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.IRecyclerActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.RecyclerActivity;
@@ -34,16 +35,6 @@ public class RecyclerPresenter implements IRecyclerPresenter {
 
     public RecyclerPresenter(IRecyclerActivity recyclerActivity) {
         this.activity = recyclerActivity;
-    }
-
-    //倒序排列方法
-    private void reSort(List<Student> avObjectList) {
-        Collections.sort(avObjectList, new Comparator<Student>() {
-            @Override
-            public int compare(Student student, Student t1) {
-                return Integer.parseInt(t1.getYear()) - Integer.parseInt(student.getYear());
-            }
-        });
     }
 
     @Override
@@ -154,7 +145,7 @@ public class RecyclerPresenter implements IRecyclerPresenter {
                     }
                 }
                 //倒序排列
-                reSort(newList);
+                SortUtil.reSortByYear(newList);
                 activity.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

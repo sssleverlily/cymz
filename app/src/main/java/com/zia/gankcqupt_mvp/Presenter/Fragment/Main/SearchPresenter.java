@@ -12,6 +12,7 @@ import com.zia.gankcqupt_mvp.Adapter.FirstAdapter;
 import com.zia.gankcqupt_mvp.Bean.Student;
 import com.zia.gankcqupt_mvp.Presenter.Activity.Main.MainPresenter;
 import com.zia.gankcqupt_mvp.Presenter.Fragment.Interface.ISearchPresenter;
+import com.zia.gankcqupt_mvp.Util.SortUtil;
 import com.zia.gankcqupt_mvp.View.Fragment.Interface.IFirstFragment;
 import com.zia.gankcqupt_mvp.View.Fragment.Page.SearchFragment;
 
@@ -57,6 +58,7 @@ public class SearchPresenter implements ISearchPresenter {
                 }
             }
         }
+        SortUtil.reSortByYear(list);
         adapter.reFresh(list);
     }
 

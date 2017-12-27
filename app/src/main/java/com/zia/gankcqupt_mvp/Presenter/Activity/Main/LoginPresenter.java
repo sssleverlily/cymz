@@ -1,7 +1,9 @@
 package com.zia.gankcqupt_mvp.Presenter.Activity.Main;
 
+import android.app.ActivityOptions;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -19,7 +21,7 @@ import com.zia.gankcqupt_mvp.Util.UserDataUtil;
 import com.zia.gankcqupt_mvp.View.Activity.Interface.ILoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.LoginActivity;
 import com.zia.gankcqupt_mvp.View.Activity.Page.MainActivity;
-import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterImp;
+import com.zia.gankcqupt_mvp.View.Activity.Page.RegisterActivity;
 
 /**
  * Created by zia on 2017/5/28.
@@ -38,7 +40,7 @@ public class LoginPresenter implements ILoginPresenter {
     @Override
     public void gotoRegisterPage() {
         Log.d(TAG, "gotoRegisterPage");
-        Intent intent = new Intent(activity.getActivity(), RegisterImp.class);
+        Intent intent = new Intent(activity.getActivity(), RegisterActivity.class);
         View card = activity.getActivity().findViewById(R.id.login_card);
         TextInputLayout usernameInput = activity.getActivity().findViewById(R.id.login_username);
         TextInputLayout passwordInput = activity.getActivity().findViewById(R.id.login_password);
@@ -54,7 +56,11 @@ public class LoginPresenter implements ILoginPresenter {
     public void gotoMainPage() {
         Log.d(TAG, "gotoMainPage");
         Intent intent = new Intent(activity.getActivity(), MainActivity.class);
-        activity.getActivity().startActivity(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getActivity().startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity.getActivity()).toBundle());
+        } else {
+            activity.getActivity().startActivity(intent);
+        }
         activity.getActivity().finish();
     }
 

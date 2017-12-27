@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.Window;
 
@@ -43,7 +45,10 @@ public class MainActivity extends BaseActivity implements IMainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().setEnterTransition(new Explode().setDuration(1000));
         setContentView(R.layout.activity_main);
+
         findWidgets();
         setToolBar();
         mainPresenter = new MainPresenter(this);
@@ -120,18 +125,18 @@ public class MainActivity extends BaseActivity implements IMainActivity {
                 }
                 break;
             case 2:
-                    mainPresenter.updataImage(data);
+                mainPresenter.updataImage(data);
                 break;
             case REQUEST_CODE_CHOOSE:
                 if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
                     List<Uri> mSelected = Matisse.obtainResult(data);
                     Log.d("MainActivityMatisse", "mSelected: " + mSelected);
-                    UserDataUtil.changAvatar(mSelected.get(0),MainActivity.this, new SaveCallback() {
+                    UserDataUtil.changAvatar(mSelected.get(0), MainActivity.this, new SaveCallback() {
                         @Override
                         public void done(AVException e) {
-                            if (e == null){
-                                ToastUtil.showToast(MainActivity.this,"更新头像成功");
-                            }else e.printStackTrace();
+                            if (e == null) {
+                                ToastUtil.showToast(MainActivity.this, "更新头像成功");
+                            } else e.printStackTrace();
                         }
                     });
                 }
@@ -144,9 +149,9 @@ public class MainActivity extends BaseActivity implements IMainActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Code.DISK:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){ //同意权限申请
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) { //同意权限申请
                     toast("申请权限成功！");
-                }else { //拒绝权限申请
+                } else { //拒绝权限申请
                     toast("没有获取到权限哦..");
                 }
                 break;

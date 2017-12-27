@@ -1,6 +1,8 @@
 # 重邮妹子
 不要查我水表QAQ
 
+#### 讲道理如果教务在线的学生名单html格式没变，这个版本可以一直用下去。
+
 
 #### 内置数据库，直接加载，学生名单有更新时也可以自行更新数据库。
 
@@ -9,18 +11,18 @@
 
 
 
-readme更新日期 2017/12/18
+readme更新日期 2017/12/27
 
 
 <img src="https://github.com/Zzzia/Files/blob/master/gifs/cymz.gif"/>
 
 
-### 下载 [apk](https://github.com/Zzzia/cymz/blob/master/app/release/cymz.apk)
+### 下载 [apk](http://qiniu.zzzia.net/cymz.apk)
 
 ```
 更新内容：
-1.完全删除社区板块
-2.修复了一些可能导致不能使用的bug
-3.改了点ui
-4.api放出来了，不玩了不玩了，维护不动了
+1.修复了共享元素闪屏问题
+2.修复排序问题
+3.更改gradle，珍爱生命，远离预览版
+4.更换apk文件地址
 ```
