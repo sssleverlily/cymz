@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#f2f2f2"
     android:orientation="vertical"
-    tools:context="com.zia.gankcqupt_mvp.View.Activity.Page.DetailActivity">
+    tools:context="com.zia.gankcqupt_mvp.view.Activity.Page.DetailActivity">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

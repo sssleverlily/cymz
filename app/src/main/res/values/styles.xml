@@ -33,4 +33,10 @@
         <item name="android:activityCloseExitAnimation">@anim/anim_slide_out</item>
     </style>
 
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light">
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
 </resources>
